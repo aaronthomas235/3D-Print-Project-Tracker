@@ -1,0 +1,73 @@
+# User-specific files
+.idea/
+.vscode/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Dd]ist/
+[Dd]eploy/
+[Dd]ebug/
+[Dd]ebug64/
+[Dd]ebug_x86/
+[Dd]ebug_x64/
+[Dd]ebug_wasm/
+bin/
+obj/
+Properties/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.tmp
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows Installer output
+*.exe
+*.dll
+
+# Microsoft Azure Web App Publish
+Publish/
+
+# Resharper
+.idea/
+
+# Rider
+.idea/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# JetBrains Rider
+.idea/
+
+# File-based project files
+# Tye files
+.tye/
+
+# User-specific Visual Studio files
+.vs2019/
+.vs2017/
+
+# Exclude IIS Express config files
+/IISExpress/
+
+# Azure DevOps local build files
+.vsts/
+
+# Local build output directories
+/.vs/
