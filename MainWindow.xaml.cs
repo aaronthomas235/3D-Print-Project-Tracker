@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using _3DPrintProjectTracker;
 
 namespace _3DPrintProjectTracker
 {
@@ -23,11 +24,6 @@ namespace _3DPrintProjectTracker
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void NewDataBaseButton_Click(object sender, RoutedEventArgs e)
-        {
-            Console.WriteLine("Test");
         }
     }
 }

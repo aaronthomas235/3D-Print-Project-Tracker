@@ -71,3 +71,6 @@ Publish/
 
 # Local build output directories
 /.vs/
+
+/bin
+/obj
