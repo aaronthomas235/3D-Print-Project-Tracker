@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace _3DPrintProjectTracker
 {
@@ -17,6 +18,19 @@ namespace _3DPrintProjectTracker
                 OnPropertyChanged(nameof(IsChecked));
             }
         }
+
+        private bool _isExpanded;
+        public bool IsExpanded
+        {
+            get => _isExpanded;
+            set
+            {
+                _isExpanded = value;
+                OnPropertyChanged(nameof(IsExpanded));
+            }
+        }
+
+        public ObservableCollection<ExpanderItemViewModel> Children { get; set; } = new();
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName) =>

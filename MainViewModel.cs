@@ -56,20 +56,43 @@ public partial class MainViewModel : INotifyPropertyChanged
             projectsFilePath = folderBrowser.SelectedPath;
         }
 
-        string[] projectDirectories = fileManagementService.GetProjectDirectories(projectsFilePath);
-
         ExpanderItems.Clear();
-        foreach (string projectDirectory in projectDirectories)
-        {
-            string projectDirectoryName = Path.GetFileName(projectDirectory);
+        ExpanderItemViewModel projectDirectoryTree = BuildProjectDirectoryTree(projectsFilePath);
+        projectDirectoryTree.IsExpanded = true;
+        ExpanderItems.Add(projectDirectoryTree);
+    }
 
-            ExpanderItems.Add(new ExpanderItemViewModel
+    private ExpanderItemViewModel BuildProjectDirectoryTree(string ProjectFilePath)
+    {
+        string projectName = Path.GetFileName(ProjectFilePath);
+        string[] subDirectories = fileManagementService.GetProjectDirectories(ProjectFilePath);
+        string[] directoryFiles = fileManagementService.GetProjectFiles(ProjectFilePath);
+
+
+        ExpanderItemViewModel projectDirectoryTree = new ExpanderItemViewModel
+        {
+            Title = projectName,
+            Description = ProjectFilePath,
+            IsChecked = false
+        };
+
+        foreach(string subDirectory in subDirectories)
+        {
+            projectDirectoryTree.Children.Add(BuildProjectDirectoryTree(subDirectory));
+        }
+
+        foreach (string directoryFile in directoryFiles)
+        {
+            string directoryFileName = Path .GetFileName(directoryFile);
+            projectDirectoryTree.Children.Add(new ExpanderItemViewModel
             {
-                Title = projectDirectoryName,
-                Description = $"{projectDirectory}",
-                IsChecked = false
+                Title = directoryFileName,
+                Description = directoryFile,
+                IsChecked = false,
             });
         }
+
+        return projectDirectoryTree;
     }
 
     private void Save()
