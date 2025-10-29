@@ -1,12 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.Intrinsics.Arm;
 using System.Runtime.Versioning;
-using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 
@@ -33,6 +31,17 @@ public partial class MainViewModel : INotifyPropertyChanged
         }
     }
 
+    private ExpanderItemViewModel _clickedExpanderItem;
+    public ExpanderItemViewModel ClickedExpanderItem
+    {
+        get => _clickedExpanderItem;
+        set
+        {
+            _clickedExpanderItem = value;
+            OnPropertyChanged(nameof(ClickedExpanderItem));
+        }
+    }
+
     public MainViewModel(InterfaceFileManagementService interfaceFileManagementService)
     {
         fileManagementService = interfaceFileManagementService;
@@ -42,7 +51,7 @@ public partial class MainViewModel : INotifyPropertyChanged
     }
 
     [SupportedOSPlatform("windows")]
-    void OpenProjectsFolder()
+    private void OpenProjectsFolder()
     {
         string projectsFilePath = null;
 
@@ -69,26 +78,28 @@ public partial class MainViewModel : INotifyPropertyChanged
         string[] directoryFiles = fileManagementService.GetProjectFiles(ProjectFilePath);
 
 
-        ExpanderItemViewModel projectDirectoryTree = new ExpanderItemViewModel
+        ExpanderItemViewModel projectDirectoryTree = new ExpanderItemViewModel(this)
         {
             Title = projectName,
             Description = ProjectFilePath,
-            IsChecked = false
+            IsChecked = false,
+            IsProjectFile = false,
         };
 
-        foreach(string subDirectory in subDirectories)
+        foreach (string subDirectory in subDirectories)
         {
             projectDirectoryTree.Children.Add(BuildProjectDirectoryTree(subDirectory));
         }
 
         foreach (string directoryFile in directoryFiles)
         {
-            string directoryFileName = Path .GetFileName(directoryFile);
-            projectDirectoryTree.Children.Add(new ExpanderItemViewModel
+            string directoryFileName = Path.GetFileName(directoryFile);
+            projectDirectoryTree.Children.Add(new ExpanderItemViewModel(this)
             {
                 Title = directoryFileName,
                 Description = directoryFile,
                 IsChecked = false,
+                IsProjectFile = true,
             });
         }
 
@@ -97,10 +108,10 @@ public partial class MainViewModel : INotifyPropertyChanged
 
     private void Save()
     {
-        // your save logic
+        // save logic
     }
 
-    public event PropertyChangedEventHandler? PropertyChanged;
+    public event PropertyChangedEventHandler PropertyChanged;
 
     protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
     {

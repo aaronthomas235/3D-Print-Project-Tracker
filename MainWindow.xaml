@@ -3,13 +3,77 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:_3DPrintProjectTracker"
+        xmlns:local="clr-namespace:_3DPrintProjectTracker" xmlns:sys="clr-namespace:System;assembly=System.Runtime" d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
         mc:Ignorable="d"
-        Title="My 3D Print Project Tracker" Height="495" Width="500"
+        Title="My 3D Print Project Tracker"
         Icon="/3D_Print_Project_Tracker.png"
+        SizeToContent="Width"
         >
+    <Window.Resources>
+        <sys:Double x:Key="WindowSize">550</sys:Double>
+        <!-- Colors -->
+        <SolidColorBrush x:Key="MenuBarBrush" Color="#E6F4EA"/>
+        <SolidColorBrush x:Key="LeftPanelBorderBrush" Color="#000000"/>
+        <SolidColorBrush x:Key="CenterBorderBrush" Color="#1E90FF"/>
+        <SolidColorBrush x:Key="RightBorderBrush" Color="#FF6B6B"/>
+        <SolidColorBrush x:Key="PanelHeaderBrush" Color="#333333"/>
+        <Style TargetType="Menu" x:Key="TopMenuStyle">
+            <Setter Property="Background" Value="{StaticResource MenuBarBrush}"/>
+            <Setter Property="BorderBrush" Value="#C8E6D8"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="6,2"/>
+        </Style>
+
+        <Style TargetType="TreeView" x:Key="PartsTreeStyle">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+
+        <Style TargetType="Button" x:Key="LinkLikeButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="2"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Foreground" Value="#1B1B1B"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+
+        <DataTemplate x:Key="PartTreeItemTemplate">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <CheckBox IsChecked="{Binding IsChecked}" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                <Button Content="{Binding Title}" Command="{Binding ShowPartDetailsCommand}" Style="{StaticResource LinkLikeButton}"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <Style TargetType="Label" x:Key="SectionHeader">
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="{StaticResource PanelHeaderBrush}"/>
+            <Setter Property="Margin" Value="10,8,10,4"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style TargetType="Border" x:Key="PanelBorderCommon">
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+        </Style>
+    </Window.Resources>
+
+    <Window.Width>
+        <Binding Source="{StaticResource WindowSize}" />
+    </Window.Width>
+    <Window.Height>
+        <Binding Source="{StaticResource WindowSize}" />
+    </Window.Height>
+
     <DockPanel>
-        <Menu x:Name="ContextMenu" DockPanel.Dock="Top">
+        <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
                 <MenuItem x:Name="OpenProjectsFolderButton" Header="_Open" Command="{Binding OpenProjectsFolderCommand}" Cursor="Hand"/>
                 <MenuItem x:Name="SaveButton" Header="_Save" Cursor="Hand"/>
@@ -18,34 +82,89 @@
                 <MenuItem Header="_Theme"/>
             </MenuItem>
         </Menu>
-        <Grid HorizontalAlignment="Left">
+
+        <Grid Margin="8" Grid.IsSharedSizeScope="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="LeftRightPanels"/>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="LeftRightPanels"/>
+            </Grid.ColumnDefinitions>
+
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
+                <!-- Title Section -->
+                <RowDefinition Height="Auto"/>
+                <!-- Main Section -->
+                <RowDefinition Height="*"/>
+                <!-- Additional Details Section -->
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Label Content="Projects and Parts Viewer" Grid.Row="0" FontWeight="Bold" FontSize="16" />
-            <Border BorderBrush="Black" BorderThickness="2" Margin="10" Grid.Row="1">
-                <ScrollViewer VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Left" Grid.Row="1">
-                    <StackPanel Margin="10" HorizontalAlignment="Left">
-                        <TreeView ItemsSource="{Binding ExpanderItems}" BorderThickness="0" Background="Transparent" Padding="0" Margin="0">
-                            <TreeView.ItemContainerStyle>
-                                <Style TargetType="TreeViewItem">
-                                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
-                                </Style>
-                            </TreeView.ItemContainerStyle>
-                            <TreeView.ItemTemplate>
-                                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <CheckBox IsChecked="{Binding IsChecked}" Margin="0,0,5,0"/>
-                                        <TextBlock Text="{Binding Title}" />
-                                    </StackPanel>
-                                </HierarchicalDataTemplate>
-                            </TreeView.ItemTemplate>
-                        </TreeView>
+
+            <Label Grid.Column="0" Grid.Row="0" Content="Projects and Parts Viewer" Style="{StaticResource SectionHeader}"/>
+            <Border Grid.Column="0" Grid.Row="1" BorderBrush="{StaticResource LeftPanelBorderBrush}" BorderThickness="2" Style="{StaticResource PanelBorderCommon}">
+                <DockPanel>
+                    <TreeView x:Name="ProjectViewTree" ItemsSource="{Binding ExpanderItems}" BorderThickness="0" Background="Transparent" Padding="0" Margin="0" MinWidth="220" MaxHeight="500">
+                        <TreeView.ItemContainerStyle>
+                            <Style TargetType="TreeViewItem">
+                                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                            </Style>
+                        </TreeView.ItemContainerStyle>
+
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <CheckBox IsChecked="{Binding IsChecked}" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                    <Button Content="{Binding Title}" Command="{Binding ShowPartDetailsCommand}" BorderThickness="0" Padding="2" Cursor="Hand" Foreground="#1B1B1B"
+                                            HorizontalAlignment="Left" Background="Transparent" FocusVisualStyle="{x:Null}">
+                                        <Button.Style>
+                                            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="Button">
+                                                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                </StackPanel>
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
+                </DockPanel>
+            </Border>
+
+            <Label Grid.Column="1" Grid.Row="0" Content="Details" Style="{StaticResource SectionHeader}"/>
+            <Border Grid.Column="1" Grid.Row="1" BorderBrush="{StaticResource CenterBorderBrush}" BorderThickness="2" Style="{StaticResource PanelBorderCommon}">
+                <Grid x:Name="DetailsGrid" MinWidth="220" MaxHeight="500">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <UniformGrid Grid.Row="1" Columns="2" Rows="2" Margin="0,4,0,8" HorizontalAlignment="Left" DataContext="{Binding ClickedExpanderItem}">
+                        <TextBlock Text="Name: " FontWeight="Bold" />
+                        <TextBlock Text="{Binding Title}" />
+                    </UniformGrid>
+
+                    <StackPanel Grid.Row="2" Orientation="Vertical" Margin="0,6,0,0" HorizontalAlignment="Stretch">
+                        <Button Content="Open" Command="{Binding OpenSelectedPartCommand}" Padding="8,4" Margin="0" Cursor="Hand" HorizontalAlignment="Stretch"/>
                     </StackPanel>
-                </ScrollViewer>
+                </Grid>
+            </Border>
+
+            <Label Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Content="Additional Details" Style="{StaticResource SectionHeader}"/>
+            <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" BorderBrush="{StaticResource RightBorderBrush}" BorderThickness="2" Style="{StaticResource PanelBorderCommon}">
+                <DockPanel>
+                    <StackPanel Margin="0,10,0,0">
+                        <TextBlock Text="— Placeholder widget 1" Foreground="#444" Margin="0,4,0,0"/>
+                        <TextBlock Text="— Placeholder widget 2" Foreground="#444" Margin="0,4,0,0"/>
+                    </StackPanel>
+                </DockPanel>
             </Border>
         </Grid>
     </DockPanel>
-
 </Window>
