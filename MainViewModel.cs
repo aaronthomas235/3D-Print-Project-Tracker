@@ -16,6 +16,7 @@ public partial class MainViewModel : INotifyPropertyChanged
     public ObservableCollection<ExpanderItemViewModel> ExpanderItems { get; set; }
     public ICommand OpenProjectsFolderCommand { get; }
     public ICommand SaveCommand { get; }
+    public ICommand OpenSelectedPartCommand { get; }
 
     private bool _isOption1Checked;
     public bool IsOption1Checked
@@ -48,6 +49,7 @@ public partial class MainViewModel : INotifyPropertyChanged
         ExpanderItems = new ObservableCollection<ExpanderItemViewModel>();
         OpenProjectsFolderCommand = new RelayCommand(OpenProjectsFolder);
         SaveCommand = new RelayCommand(Save);
+        OpenSelectedPartCommand = new RelayCommand<string>(OpenProjectPartFile);
     }
 
     [SupportedOSPlatform("windows")]
@@ -110,6 +112,13 @@ public partial class MainViewModel : INotifyPropertyChanged
     {
         // save logic
     }
+
+    private void OpenProjectPartFile(object descriptionParameter)
+    {
+        string partFilePath = descriptionParameter as string;
+        System.Windows.MessageBox.Show($"Opening {partFilePath}");
+    }
+
 
     public event PropertyChangedEventHandler PropertyChanged;
 

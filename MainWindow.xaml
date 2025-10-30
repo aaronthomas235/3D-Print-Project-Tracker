@@ -136,7 +136,7 @@
 
             <Label Grid.Column="1" Grid.Row="0" Content="Details" Style="{StaticResource SectionHeader}"/>
             <Border Grid.Column="1" Grid.Row="1" BorderBrush="{StaticResource CenterBorderBrush}" BorderThickness="2" Style="{StaticResource PanelBorderCommon}">
-                <Grid x:Name="DetailsGrid" MinWidth="220" MaxHeight="500">
+                <Grid x:Name="DetailsGrid" MinWidth="220" MaxHeight="500" DataContext="{Binding ClickedExpanderItem}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -145,13 +145,13 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <UniformGrid Grid.Row="1" Columns="2" Rows="2" Margin="0,4,0,8" HorizontalAlignment="Left" DataContext="{Binding ClickedExpanderItem}">
+                    <UniformGrid Grid.Row="1" Columns="2" Rows="2" Margin="0,4,0,8" HorizontalAlignment="Left">
                         <TextBlock Text="Name: " FontWeight="Bold" />
                         <TextBlock Text="{Binding Title}" />
                     </UniformGrid>
 
                     <StackPanel Grid.Row="2" Orientation="Vertical" Margin="0,6,0,0" HorizontalAlignment="Stretch">
-                        <Button Content="Open" Command="{Binding OpenSelectedPartCommand}" Padding="8,4" Margin="0" Cursor="Hand" HorizontalAlignment="Stretch"/>
+                        <Button Content="Open" Command="{Binding DataContext.OpenSelectedPartCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding Description}" Padding="8,4" Margin="0" Cursor="Hand" HorizontalAlignment="Stretch"/>
                     </StackPanel>
                 </Grid>
             </Border>
