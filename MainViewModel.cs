@@ -18,28 +18,18 @@ public partial class MainViewModel : INotifyPropertyChanged
     public ICommand SaveCommand { get; }
     public ICommand OpenSelectedPartCommand { get; }
 
-    private bool _isOption1Checked;
-    public bool IsOption1Checked
-    {
-        get => _isOption1Checked;
-        set
-        {
-            if (_isOption1Checked != value)
-            {
-                _isOption1Checked = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
     private ExpanderItemViewModel _clickedExpanderItem;
     public ExpanderItemViewModel ClickedExpanderItem
     {
         get => _clickedExpanderItem;
         set
         {
-            _clickedExpanderItem = value;
-            OnPropertyChanged(nameof(ClickedExpanderItem));
+            if (_clickedExpanderItem != value)
+            {
+                _clickedExpanderItem = value;
+                OnPropertyChanged();
+                (OpenSelectedPartCommand as RelayCommand<string>)?.NotifyCanExecuteChanged();
+            }
         }
     }
 
@@ -49,7 +39,7 @@ public partial class MainViewModel : INotifyPropertyChanged
         ExpanderItems = new ObservableCollection<ExpanderItemViewModel>();
         OpenProjectsFolderCommand = new RelayCommand(OpenProjectsFolder);
         SaveCommand = new RelayCommand(Save);
-        OpenSelectedPartCommand = new RelayCommand<string>(OpenProjectPartFile);
+        OpenSelectedPartCommand = new RelayCommand<string>(OpenProjectPartFile, CanOpenFileInSlicer);
     }
 
     [SupportedOSPlatform("windows")]
@@ -117,6 +107,15 @@ public partial class MainViewModel : INotifyPropertyChanged
     {
         string partFilePath = descriptionParameter as string;
         System.Windows.MessageBox.Show($"Opening {partFilePath}");
+    }
+
+    private bool CanOpenFileInSlicer(string descriptionParameter)
+    {
+        if (ClickedExpanderItem != null && ClickedExpanderItem.IsProjectFile)
+        {
+            return true;
+        }
+        return false;
     }
 
 
