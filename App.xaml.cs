@@ -5,6 +5,9 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using _3DPrintProjectTracker.Interfaces;
+using _3DPrintProjectTracker.Services;
+using _3DPrintProjectTracker.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace _3DPrintProjectTracker
@@ -14,20 +17,25 @@ namespace _3DPrintProjectTracker
     /// </summary>
     public partial class App : Application
     {
-        private IServiceProvider serviceProvider;
+        private readonly IServiceProvider serviceProvider;
+
+        public App()
+        {
+            ServiceCollection services = new ServiceCollection();
+            services.AddSingleton<IFileManagementService, FileManagementService>();
+            services.AddSingleton<IFolderSelectionService, FolderSelectionService>();
+            services.AddSingleton<MainViewModel>();
+            services.AddTransient<MainWindow>();
+
+            serviceProvider = services.BuildServiceProvider();
+        }
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            base.OnStartup(e);
-
-            ServiceCollection services = new ServiceCollection();
-            services.AddSingleton<InterfaceFileManagementService, FileManagementService>();
-            services.AddSingleton<MainViewModel>();
-            services.AddSingleton<MainWindow>();
-
-            serviceProvider = services.BuildServiceProvider();
             var mainWindow = serviceProvider.GetRequiredService<MainWindow>();
+            mainWindow.DataContext = serviceProvider.GetRequiredService<MainViewModel>();
             mainWindow.Show();
+            base.OnStartup(e);
         }
     }
 }

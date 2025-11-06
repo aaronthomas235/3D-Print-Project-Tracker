@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
 
-namespace _3DPrintProjectTracker
+namespace _3DPrintProjectTracker.ViewModels
 {
     public class ExpanderItemViewModel : INotifyPropertyChanged
     {
