@@ -13,9 +13,9 @@ namespace _3DPrintProjectTracker.Interfaces
         string[] GetProjectDirectories(string ProjectDirectoriesFilePath);
         string[] GetProjectFiles(string ProjectFilesFilePath);
 
-        ExpanderItemViewModel BuildProjectDirectoryTree(string projectPath, MainViewModel parentViewModel);
+        ExpanderItemViewModel BuildProjectDirectoryTree(string projectPath, IExpanderItemHost expanderItemHost);
 
-        Task<ObservableCollection<ExpanderItemViewModel>> LoadProjectsAsync(string projectsRootFolderPath);
+        Task<ObservableCollection<ExpanderItemViewModel>> LoadProjectsAsync(string projectsRootFolderPath, IExpanderItemHost expanderItemHost);
         Task SaveProjectsAsync(string projectsRootFolderPath, ObservableCollection<ExpanderItemViewModel> expanderItems);
     }
 }

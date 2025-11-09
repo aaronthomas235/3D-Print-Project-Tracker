@@ -1,44 +1,41 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using _3DPrintProjectTracker.Interfaces;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Windows.Input;
+using System.Text.Json.Serialization;
 
 namespace _3DPrintProjectTracker.ViewModels
 {
-    public class ExpanderItemViewModel : INotifyPropertyChanged
+    public class ExpanderItemViewModel : ObservableObject, IDisposable
     {
-        private readonly MainViewModel _mainViewModel;
+        private IExpanderItemHost? _expanderItemHost;
 
         private bool _isUpdatingChildren;
+        private bool _isDisposed;
 
-        public string Title { get; set; }
-        public string Description { get; set; }
 
-        private bool? _isChecked;
-        public bool? IsChecked
+        private string _title;
+        public string Title
         {
-            get => _isChecked;
-            set
-            {
-                if (_isChecked != value)
-                {
-                    _isChecked = value;
-                    OnPropertyChanged(nameof(IsChecked));
-                    OnIsCheckedChanged();
-                }
-            }
+            get => _title;
+            set => SetProperty(ref _title, value);
+        }
+        private string _description;
+        public string Description
+        {
+            get => _description;
+            set => SetProperty(ref _description, value);
         }
 
         private bool _isExpanded;
         public bool IsExpanded
         {
             get => _isExpanded;
-            set
-            {
-                _isExpanded = value;
-                OnPropertyChanged(nameof(IsExpanded));
-            }
+            set => SetProperty(ref _isExpanded, value);
         }
 
         private bool _isProjectFile;
@@ -47,50 +44,91 @@ namespace _3DPrintProjectTracker.ViewModels
             get => _isProjectFile;
             set
             {
-                _isProjectFile = value;
-                OnPropertyChanged(nameof(IsProjectFile));
+                if (SetProperty(ref _isProjectFile, value))
+                {
+                    ShowPartDetailsCommand.NotifyCanExecuteChanged();
+                }
             }
         }
 
-        public ObservableCollection<ExpanderItemViewModel> Children { get; set; } = new();
-
-        public ICommand ShowPartDetailsCommand { get; set; }
-
-        public ExpanderItemViewModel(MainViewModel mainViewModel)
+        private bool? _isChecked;
+        public bool? IsChecked
         {
-            _mainViewModel = mainViewModel;
-            ShowPartDetailsCommand = new RelayCommand(ShowPartDetails, () => IsProjectFile);
-
-            Children.CollectionChanged += (sender, eventArgs) =>
+            get => _isChecked;
+            set
             {
-                if (eventArgs.NewItems != null)
+                if (SetProperty(ref _isChecked, value))
                 {
-                    foreach(ExpanderItemViewModel childExpanderItem in eventArgs.NewItems)
-                    {
-                        childExpanderItem.PropertyChanged += Child_PropertyChanged;
-                    }
+                    OnIsCheckedChanged();
                 }
-
-                if (eventArgs.OldItems != null)
-                {
-                    foreach(ExpanderItemViewModel childExpanderItem in eventArgs.OldItems)
-                    {
-                        childExpanderItem.PropertyChanged -= Child_PropertyChanged;
-                    }
-                }
-            };
+            }
         }
 
-        private void Child_PropertyChanged(object sender, PropertyChangedEventArgs eventArgs)
+        [JsonInclude]
+        public ObservableCollection<ExpanderItemViewModel> Children { get; private set; } = new();
+
+        [JsonIgnore]
+        public IRelayCommand ShowPartDetailsCommand { get; private set; }
+
+        public ExpanderItemViewModel()
         {
-            if (_isUpdatingChildren)
+            InitialiseCommonResources(_expanderItemHost);
+        }
+
+        public ExpanderItemViewModel(IExpanderItemHost expanderItemHost)
+        {
+            _expanderItemHost = expanderItemHost ?? throw new ArgumentNullException(nameof(expanderItemHost));
+            InitialiseCommonResources(expanderItemHost);
+        }
+
+        private void InitialiseCommonResources(IExpanderItemHost expanderItemHost)
+        {
+            _expanderItemHost = expanderItemHost;
+
+            ShowPartDetailsCommand = new RelayCommand(
+            execute: ShowPartDetails,
+            canExecute: () => IsProjectFile
+            );
+
+            Children.CollectionChanged += OnChildrenCollectionChanged;
+            foreach(var child in Children)
+            {
+                child.InitialiseCommonResources(expanderItemHost);
+            }
+        }
+
+        public void InitialiseRuntimeResources(IExpanderItemHost expanderItemHost)
+        {
+            InitialiseCommonResources(expanderItemHost);
+        }
+
+        private void OnChildrenCollectionChanged(object sender, NotifyCollectionChangedEventArgs eventArgs)
+        {
+            if (eventArgs.NewItems != null)
+            {
+                foreach (ExpanderItemViewModel child in eventArgs.NewItems)
+                {
+                    child.PropertyChanged += OnChildPropertyChanged;
+                }
+            }
+
+            if (eventArgs.OldItems != null)
+            {
+                foreach (ExpanderItemViewModel child in eventArgs.OldItems)
+                {
+                    child.PropertyChanged -= OnChildPropertyChanged;
+                }
+            }
+        }
+
+        private void OnChildPropertyChanged(object sender, PropertyChangedEventArgs eventArgs)
+        {
+            if (_isUpdatingChildren || eventArgs.PropertyName != nameof(IsChecked))
             {
                 return;
             }
-            if (eventArgs.PropertyName == nameof(IsChecked))
-            {
-                UpdateCheckStateFromChildren();
-            }
+
+            UpdateCheckStateFromChildren();
         }
 
         private void UpdateCheckStateFromChildren()
@@ -100,20 +138,25 @@ namespace _3DPrintProjectTracker.ViewModels
                 return;
             }
 
-            if (Children.All(child => child.IsChecked == true))
-            {
-                _isChecked = true;
-            }
-            else if (Children.All(child => child.IsChecked == false))
-            {
-                _isChecked = false;
-            }
-            else
-            {
-                _isChecked = null;
-            }
+            bool? newCheckState = CalculateCheckStateFromChildren();
 
-            OnPropertyChanged(nameof(IsChecked));
+            if (_isChecked != newCheckState)
+            {
+                SetProperty(ref _isChecked, newCheckState, nameof(IsChecked));
+            }
+        }
+
+        private bool? CalculateCheckStateFromChildren()
+        {
+            if (Children.All(c => c.IsChecked == true))
+            {
+                return true;
+            }
+            if (Children.All(c => c.IsChecked == false))
+            {
+                return false;
+            }
+            return null;
         }
 
         private void OnIsCheckedChanged()
@@ -132,8 +175,10 @@ namespace _3DPrintProjectTracker.ViewModels
                 _isUpdatingChildren = true;
                 try
                 {
-                    foreach (var child in Children)
+                    foreach(var child in Children)
+                    {
                         child.IsChecked = IsChecked;
+                    }
                 }
                 finally
                 {
@@ -144,12 +189,18 @@ namespace _3DPrintProjectTracker.ViewModels
 
         private void ShowPartDetails()
         {
-            _mainViewModel.ClickedExpanderItem = this;
+            _expanderItemHost.OnExpanderItemSelected(this);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
+        public void Dispose()
+        {
+            if (_isDisposed) return;
+            _isDisposed = true;
 
+            foreach (var child in Children)
+                child.PropertyChanged -= OnChildPropertyChanged;
+
+            Children.CollectionChanged -= OnChildrenCollectionChanged;
+        }
+    }
 }

@@ -45,13 +45,13 @@ namespace _3DPrintProjectTracker.Services
             return projectFiles;
         }
 
-        public ExpanderItemViewModel BuildProjectDirectoryTree(string projectPath, MainViewModel parent)
+        public ExpanderItemViewModel BuildProjectDirectoryTree(string projectPath, IExpanderItemHost expanderItemHost)
         {
             string projectName = Path.GetFileName(projectPath);
             var projectDirectories = GetProjectDirectories(projectPath);
             var projectFiles = GetProjectFiles(projectPath);
 
-            var expanderItemNode = new ExpanderItemViewModel(parent)
+            var expanderItemNode = new ExpanderItemViewModel(expanderItemHost)
             {
                 Title = projectName,
                 Description = projectPath,
@@ -61,12 +61,12 @@ namespace _3DPrintProjectTracker.Services
 
             foreach(var directory in projectDirectories)
             {
-                expanderItemNode.Children.Add(BuildProjectDirectoryTree(directory, parent));
+                expanderItemNode.Children.Add(BuildProjectDirectoryTree(directory, expanderItemHost));
             }
 
             foreach(var file in projectFiles)
             {
-                expanderItemNode.Children.Add(new ExpanderItemViewModel(parent)
+                expanderItemNode.Children.Add(new ExpanderItemViewModel(expanderItemHost)
                 {
                     Title = Path.GetFileName(file),
                     Description = file,
@@ -78,9 +78,9 @@ namespace _3DPrintProjectTracker.Services
             return expanderItemNode;
         }
 
-        public async Task<ObservableCollection<ExpanderItemViewModel>> LoadProjectsAsync(string projectRootFolderPath)
+        public async Task<ObservableCollection<ExpanderItemViewModel>> LoadProjectsAsync(string projectRootFolderPath, IExpanderItemHost expanderItemHost)
         {
-            if (!string.IsNullOrWhiteSpace(projectRootFolderPath) || !Directory.Exists(projectRootFolderPath))
+            if (string.IsNullOrWhiteSpace(projectRootFolderPath) || !Directory.Exists(projectRootFolderPath))
             {
                 return new ObservableCollection<ExpanderItemViewModel>();
             }
@@ -91,48 +91,54 @@ namespace _3DPrintProjectTracker.Services
             {
                 return new ObservableCollection<ExpanderItemViewModel>();
             }
-
             try
             {
-                string projectsJson = await File.ReadAllTextAsync(saveFilePath);
-                var deserialisationOptions = new JsonSerializerOptions
+                string json = await File.ReadAllTextAsync(saveFilePath);
+                var options = new JsonSerializerOptions
                 {
                     ReferenceHandler = ReferenceHandler.IgnoreCycles
                 };
-                return JsonSerializer.Deserialize<ObservableCollection<ExpanderItemViewModel>>(projectsJson, deserialisationOptions) ?? new ObservableCollection<ExpanderItemViewModel>();
+                var projects = JsonSerializer.Deserialize<ObservableCollection<ExpanderItemViewModel>>(json, options) ?? new ObservableCollection<ExpanderItemViewModel>();
+                Debug.WriteLine($"Project Child Count: {projects[0].Children.Count}");
+                foreach(var project in projects)
+                {
+                    project.InitialiseRuntimeResources(expanderItemHost);
+                }
+                return projects;
             }
-            catch(Exception exception)
+            catch (Exception ex)
             {
-                Debug.WriteLine($"Failed to load projects: {exception.Message}");
+                Debug.WriteLine($"Failed to load projects: {ex.Message}");
                 return new ObservableCollection<ExpanderItemViewModel>();
             }
         }
 
         public async Task SaveProjectsAsync(string projectsRootFolderPath, ObservableCollection<ExpanderItemViewModel> expanderItems)
         {
-            if (!string.IsNullOrWhiteSpace(projectsRootFolderPath) || expanderItems == null)
-            {
+            if (string.IsNullOrWhiteSpace(projectsRootFolderPath) || expanderItems == null)
                 return;
-            }
 
             try
             {
-                var serialisationOptions = new JsonSerializerOptions
+                Directory.CreateDirectory(projectsRootFolderPath);
+
+                var options = new JsonSerializerOptions
                 {
                     WriteIndented = true,
                     ReferenceHandler = ReferenceHandler.IgnoreCycles
                 };
 
-                string projectsJson = JsonSerializer.Serialize(expanderItems, serialisationOptions);
-                string projectsSaveFilePath = Path.Combine(projectsRootFolderPath, "projectsSaveData.json");
-                await File.WriteAllTextAsync(projectsSaveFilePath, projectsJson);
-                Debug.WriteLine($"Projects successfully saved: {projectsSaveFilePath}");
-            }
-            catch (Exception exception)
-            {
-                Debug.WriteLine($"failed to save projects: {exception.Message}");
-            }
+                string json = JsonSerializer.Serialize(expanderItems, options);
+                string savePath = Path.Combine(projectsRootFolderPath, "projectSaveData.json");
 
+                await File.WriteAllTextAsync(savePath, json);
+                Debug.WriteLine($"Projects successfully saved: {savePath}");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error saving projects: {ex.Message}");
+                throw; // Let ViewModel handle the UI notification
+            }
         }
     }
 }
