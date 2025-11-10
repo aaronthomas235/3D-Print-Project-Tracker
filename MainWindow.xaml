@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:_3DPrintProjectTracker" xmlns:sys="clr-namespace:System;assembly=System.Runtime" d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
+        xmlns:local="clr-namespace:_3DPrintProjectTracker.ViewModels" xmlns:sys="clr-namespace:System;assembly=System.Runtime" d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
         mc:Ignorable="d"
         Title="My 3D Print Project Tracker"
         Icon="/3D_Print_Project_Tracker.png"
@@ -75,8 +75,9 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem x:Name="OpenProjectsFolderButton" Header="_Open" Command="{Binding OpenProjectsFolderCommand}" Cursor="Hand"/>
-                <MenuItem x:Name="SaveButton" Header="_Save" Cursor="Hand"/>
+                <MenuItem x:Name="NewProjectTrackerButton" Header="_New" Command="{Binding NewProjectTrackerCommand}" Cursor="Hand"/>
+                <MenuItem x:Name="OpenProjectsFolderButton" Header="_Open" Command="{Binding OpenProjectsFolderCommand}" Cursor="Hand" />
+                <MenuItem x:Name="SaveProjectsButton" Header="_Save" Command="{Binding SaveProjectsCommand}" Cursor="Hand" />
             </MenuItem>
             <MenuItem Header="_Preferences">
                 <MenuItem Header="_Theme"/>
