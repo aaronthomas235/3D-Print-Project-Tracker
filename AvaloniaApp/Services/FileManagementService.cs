@@ -1,5 +1,5 @@
-﻿using _3DPrintProjectTracker.Interfaces;
-using _3DPrintProjectTracker.ViewModels;
+﻿using Core.Interfaces;
+using Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +10,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace _3DPrintProjectTracker.Services
+namespace AvaloniaApp.Services
 {
     public class FileManagementService : IFileManagementService
     {

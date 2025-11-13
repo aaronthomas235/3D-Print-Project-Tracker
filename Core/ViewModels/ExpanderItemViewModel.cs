@@ -1,6 +1,6 @@
-﻿using _3DPrintProjectTracker.Interfaces;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Core.Interfaces;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -8,11 +8,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text.Json.Serialization;
 
-namespace _3DPrintProjectTracker.ViewModels
+namespace Core.ViewModels
 {
     public class ExpanderItemViewModel : ObservableObject, IDisposable
     {
-        private IExpanderItemHost? _expanderItemHost;
+        private IExpanderItemHost _expanderItemHost;
 
         private bool _isUpdatingChildren;
         private bool _isDisposed;

@@ -1,16 +1,13 @@
-﻿using _3DPrintProjectTracker.Interfaces;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Core.Interfaces;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows;
 
-namespace _3DPrintProjectTracker.ViewModels;
+namespace Core.ViewModels;
 
 public partial class MainViewModel : ObservableObject, IExpanderItemHost
 {
@@ -23,8 +20,8 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
     public IAsyncRelayCommand SaveProjectsCommand { get; }
     public IRelayCommand<string> OpenSelectedPartCommand { get; }
 
-    private string _projectsRootFolder;
-    public string ProjectsRootFolder
+    private string? _projectsRootFolder;
+    public string? ProjectsRootFolder
     {
         get => _projectsRootFolder;
         set => SetProperty(ref _projectsRootFolder, value);
@@ -48,7 +45,7 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
         this.fileManagementService = fileManagementService;
         this.folderSelectionService = folderSelectionService;
 
-        NewProjectTrackerCommand = new RelayCommand(CreateNewProjectTracker);
+        NewProjectTrackerCommand = new AsyncRelayCommand(CreateNewProjectTracker);
         OpenProjectsFolderCommand = new AsyncRelayCommand(OpenProjectsFolder);
         SaveProjectsCommand = new AsyncRelayCommand(SaveProjects);
         OpenSelectedPartCommand = new RelayCommand<string>(OpenProjectPartFile, CanOpenFileInSlicer);
@@ -59,9 +56,9 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
         ClickedExpanderItem = item;
     }
 
-    private void CreateNewProjectTracker()
+    private async Task CreateNewProjectTracker()
     {
-        ProjectsRootFolder = folderSelectionService.SelectFolder("Select your projects folder");
+        ProjectsRootFolder = await folderSelectionService.SelectFolderAsync();
         if (string.IsNullOrWhiteSpace(ProjectsRootFolder))
         {
             return;
@@ -82,7 +79,7 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
     {
         if (string.IsNullOrWhiteSpace(ProjectsRootFolder))
         {
-            ProjectsRootFolder = folderSelectionService.SelectFolder("Select your projects folder");
+            ProjectsRootFolder = await folderSelectionService.SelectFolderAsync();
             if (string.IsNullOrWhiteSpace(ProjectsRootFolder))
             {
                 return;
@@ -120,7 +117,7 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
     {
         if (string.IsNullOrWhiteSpace(ProjectsRootFolder))
         {
-            MessageBox.Show("No project folder selected.");
+            Debug.WriteLine("No project folder selected.");
             return;
         }
 
@@ -136,7 +133,7 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Failed to save projects: {ex.Message}");
+            Debug.WriteLine($"Failed to save projects: {ex.Message}");
         }
     }
 
@@ -144,7 +141,7 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
     {
         if (!string.IsNullOrWhiteSpace(partFilePath))
         {
-            System.Windows.MessageBox.Show($"Opening {partFilePath}");
+            Debug.WriteLine($"Opening {partFilePath}");
         }
     }
 
