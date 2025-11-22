@@ -6,20 +6,147 @@
         mc:Ignorable="d"
         x:Class="AvaloniaApp.Views.MainWindow"
         x:DataType="vm:MainViewModel"
+        Background="#FFF"
         Icon="/Assets/3D_Print_Project_Tracker.ico"
         Title="3D Print Project Tracker"
-        Width="800"
-        Height="450">
+        MinWidth="{StaticResource WindowSize}"
+        MinHeight="{StaticResource WindowSize}"
+        Width="{StaticResource WindowSize}"
+        Height="{StaticResource WindowSize}">
 
-    <Design.DataContext>
-        <!-- Design-time only -->
-        <vm:MainViewModel/>
-    </Design.DataContext>
+    <Window.Resources>
+        <x:Double x:Key="WindowSize">550</x:Double>
 
-    <!-- Wrap all runtime content in a container -->
-    <Grid>
-        <TextBlock Text="Hello There"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"/>
-    </Grid>
+        <SolidColorBrush x:Key="MenuBarBrush" Color="#E6F4EA"/>
+        <SolidColorBrush x:Key="LeftPanelBorderBrush" Color="#000000"/>
+        <SolidColorBrush x:Key="CenterBorderBrush" Color="#1E90FF"/>
+        <SolidColorBrush x:Key="RightBorderBrush" Color="#FF6B6B"/>
+        <SolidColorBrush x:Key="PanelHeaderBrush" Color="#333333"/>
+        <!--
+        <TreeDataTemplate x:Key="PartTreeItemTemplate" DataType="vm:ExpanderItemViewModel" ItemsSource="{Binding Children}">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <CheckBox IsChecked="{Binding IsChecked}" Margin="0,0,6,0" />
+                <Button Content="{Binding Title}" Command="{Binding ShowPartDetailsCommand}" Classes="linkBtn"/>
+            </StackPanel>
+        </TreeDataTemplate>
+        -->
+    </Window.Resources>
+
+    <Window.Styles>
+        <Style Selector="Menu.TopMenu">
+            <Setter Property="Background" Value="{StaticResource MenuBarBrush}"/>
+            <Setter Property="BorderBrush" Value="#C8E6D8"/>
+            <Setter Property="BorderThickness" Value="0 0 0 1"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="6,2"/>
+        </Style>
+
+
+        <Style Selector="TreeView.partsTree">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+
+        <Style Selector="Button.linkBtn">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="2"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Foreground" Value="#1B1B1B"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+
+        <Style Selector="Label.sectionHeader">
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="{StaticResource PanelHeaderBrush}"/>
+            <Setter Property="Margin" Value="10,8,10,4"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="Border.panelCommon">
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Background" Value="White"/>
+        </Style>
+    </Window.Styles>
+
+    <DockPanel>
+        <!-- TOP MENU -->
+        <Menu Name="TopMenu" Classes="TopMenu" DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_New" Command="{Binding NewProjectTrackerCommand}" Cursor="Hand"/>
+                <MenuItem Header="_Open" Command="{Binding OpenProjectsFolderCommand}" Cursor="Hand"/>
+                <MenuItem Header="_Save" Command="{Binding SaveProjectsCommand}" Cursor="Hand"/>
+            </MenuItem>
+
+            <MenuItem Header="_Preferences">
+                <MenuItem Header="_Theme"/>
+            </MenuItem>
+        </Menu>
+        
+        <Grid Margin="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="LeftRightPanels"/>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="LeftRightPanels"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Column="0" Grid.Row="0"
+                   Content="Projects and Parts Viewer" Classes="sectionHeader"/>
+
+            <Border Grid.Column="0" Grid.Row="1" BorderBrush="{StaticResource LeftPanelBorderBrush}" 
+                    BorderThickness="2" Classes="panelCommon">
+                
+                <!--<TreeView ItemsSource="{Binding ExpanderItems}" SelectedItem="{Binding ClickedExpanderItem, Mode=TwoWay}"
+                          BorderThickness="0" Background="Transparent" MinWidth="220" MaxHeight="500">
+                    <TreeView.DataTemplates>
+                        <TreeDataTemplate DataType="vm:ExpanderItemViewModel" ItemsSource="{Binding Children}">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="6">
+                                <CheckBox IsChecked="{Binding IsChecked}" />
+                                <Button Content="{Binding Title}" Command="{Binding ShowPartDetailsCommand}" Classes="linkBtn"/>
+                            </StackPanel>
+                        </TreeDataTemplate>
+                    </TreeView.DataTemplates>
+                    <TreeView.ItemContainerTheme>
+                        <Style Selector="TreeViewItem">
+                            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay, FallbackValue=False}" />
+                        </Style>
+                    </TreeView.ItemContainerTheme>
+                </TreeView>-->
+            </Border>
+
+            <Label Grid.Column="1" Grid.Row="0" Content="Details" Classes="sectionHeader"/>
+
+            <Border Grid.Column="1" Grid.Row="1" BorderBrush="{StaticResource CenterBorderBrush}"
+                    BorderThickness="2" Classes="panelCommon">
+
+                <Grid MinWidth="220" MaxHeight="500">
+                    <TextBlock Text="{Binding ClickedExpanderItem.Title}" />
+                    <Button Content="Open File" Command="{Binding OpenSelectedPartCommand}" CommandParameter="{Binding ClickedExpanderItem.Description}" />
+                </Grid>
+            </Border>
+
+            <Label Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Content="Additional Details" Classes="sectionHeader"/>
+
+            <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3"
+                    BorderBrush="{StaticResource RightBorderBrush}" BorderThickness="2"
+                    Classes="panelCommon">
+
+                <StackPanel Margin="0,10,0,0">
+                    <TextBlock Text="— Placeholder widget 1" Foreground="#444"/>
+                    <TextBlock Text="— Placeholder widget 2" Foreground="#444"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </DockPanel>
 </Window>
