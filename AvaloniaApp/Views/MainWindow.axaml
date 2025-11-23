@@ -22,14 +22,13 @@
         <SolidColorBrush x:Key="CenterBorderBrush" Color="#1E90FF"/>
         <SolidColorBrush x:Key="RightBorderBrush" Color="#FF6B6B"/>
         <SolidColorBrush x:Key="PanelHeaderBrush" Color="#333333"/>
-        <!--
+
         <TreeDataTemplate x:Key="PartTreeItemTemplate" DataType="vm:ExpanderItemViewModel" ItemsSource="{Binding Children}">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                 <CheckBox IsChecked="{Binding IsChecked}" Margin="0,0,6,0" />
                 <Button Content="{Binding Title}" Command="{Binding ShowPartDetailsCommand}" Classes="linkBtn"/>
             </StackPanel>
         </TreeDataTemplate>
-        -->
     </Window.Resources>
 
     <Window.Styles>
@@ -106,23 +105,25 @@
 
             <Border Grid.Column="0" Grid.Row="1" BorderBrush="{StaticResource LeftPanelBorderBrush}" 
                     BorderThickness="2" Classes="panelCommon">
-                
-                <!--<TreeView ItemsSource="{Binding ExpanderItems}" SelectedItem="{Binding ClickedExpanderItem, Mode=TwoWay}"
+                <TreeView ItemsSource="{Binding ExpanderItems}" SelectedItem="{Binding ClickedExpanderItem, Mode=TwoWay}"
                           BorderThickness="0" Background="Transparent" MinWidth="220" MaxHeight="500">
                     <TreeView.DataTemplates>
                         <TreeDataTemplate DataType="vm:ExpanderItemViewModel" ItemsSource="{Binding Children}">
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="6">
-                                <CheckBox IsChecked="{Binding IsChecked}" />
-                                <Button Content="{Binding Title}" Command="{Binding ShowPartDetailsCommand}" Classes="linkBtn"/>
-                            </StackPanel>
+                            <TreeViewItem IsExpanded="{Binding IsExpanded, Mode=TwoWay}">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="6">
+                                    <CheckBox IsChecked="{Binding IsChecked}" />
+                                    <Button Content="{Binding Title}" Command="{Binding ShowPartDetailsCommand}" Classes="linkBtn"/>
+                                </StackPanel>
+                            </TreeViewItem>
                         </TreeDataTemplate>
                     </TreeView.DataTemplates>
-                    <TreeView.ItemContainerTheme>
+                    
+                    <!--<TreeView.ItemContainerTheme>
                         <Style Selector="TreeViewItem">
-                            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay, FallbackValue=False}" />
+                            <Setter Property="IsExpanded" Value="{Binding DataContext.IsExpanded, RelativeSource={RelativeSource Self}, Mode=TwoWay, diag:Binding.DisableValidation=True}" />
                         </Style>
-                    </TreeView.ItemContainerTheme>
-                </TreeView>-->
+                    </TreeView.ItemContainerTheme>-->
+                </TreeView>
             </Border>
 
             <Label Grid.Column="1" Grid.Row="0" Content="Details" Classes="sectionHeader"/>
