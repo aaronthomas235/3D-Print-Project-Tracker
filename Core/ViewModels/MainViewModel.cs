@@ -4,6 +4,7 @@ using Core.Interfaces;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,8 +29,8 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
         set => SetProperty(ref _projectsRootFolder, value);
     }
 
-    private ExpanderItemViewModel _clickedExpanderItem;
-    public ExpanderItemViewModel ClickedExpanderItem
+    private ExpanderItemViewModel? _clickedExpanderItem;
+    public ExpanderItemViewModel? ClickedExpanderItem
     {
         get => _clickedExpanderItem;
         set
@@ -71,9 +72,14 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
         }
         ExpanderItems.Clear();
 
-        var projectsTree = fileManagementService.BuildProjectDirectoryTree(ProjectsRootFolder, this);
-        projectsTree.IsExpanded = true;
-        ExpanderItems.Add(projectsTree);
+        var projectsTreeItems = fileManagementService.BuildProjectDirectoryTree(ProjectsRootFolder, this);
+
+        foreach(var projectTreeItem in projectsTreeItems)
+        {
+            CollapseChildren(projectTreeItem);
+            projectTreeItem.IsExpanded = false;
+            ExpanderItems.Add(projectTreeItem);
+        }
     }
 
     private async Task OpenProjectsFolder()
@@ -108,9 +114,14 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
         {
             Debug.WriteLine("No existing project data found. Building a new project tree...");
             Debug.WriteLine($"Projects Folder: {ProjectsRootFolder}");
-            var projectsTree = fileManagementService.BuildProjectDirectoryTree(ProjectsRootFolder, this);
-            projectsTree.IsExpanded = true;
-            ExpanderItems.Add(projectsTree);
+            var projectsTreeItems = fileManagementService.BuildProjectDirectoryTree(ProjectsRootFolder, this);
+
+            foreach (var projectTreeItem in projectsTreeItems)
+            {
+                CollapseChildren(projectTreeItem);
+                projectTreeItem.IsExpanded = false;
+                ExpanderItems.Add(projectTreeItem);
+            }
         }
     }
 
@@ -138,7 +149,16 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
         }
     }
 
-    private void OpenProjectPartFile(string partFilePath)
+    private void CollapseChildren(ExpanderItemViewModel parent)
+    {
+        foreach (var child in parent.Children)
+        {
+            child.IsExpanded = false;
+            CollapseChildren(child);
+        }
+    }
+
+    private void OpenProjectPartFile(string? partFilePath)
     {
         if (!string.IsNullOrWhiteSpace(partFilePath))
         {
@@ -146,7 +166,7 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
         }
     }
 
-    private bool CanOpenFileInSlicer(string descriptionParameter)
+    private bool CanOpenFileInSlicer(string? descriptionParameter)
     {
         if (ClickedExpanderItem != null && ClickedExpanderItem.IsProjectFile)
         {

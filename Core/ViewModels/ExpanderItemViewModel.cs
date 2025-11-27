@@ -12,26 +12,26 @@ namespace Core.ViewModels
 {
     public class ExpanderItemViewModel : ObservableObject, IDisposable
     {
-        private IExpanderItemHost _expanderItemHost;
+        private IExpanderItemHost? _expanderItemHost;
 
         private bool _isUpdatingChildren;
         private bool _isDisposed;
 
 
-        private string _title;
+        private string _title = String.Empty;
         public string Title
         {
             get => _title;
             set => SetProperty(ref _title, value);
         }
-        private string _description;
+        private string _description = String.Empty;
         public string Description
         {
             get => _description;
             set => SetProperty(ref _description, value);
         }
 
-        private bool _isExpanded;
+        private bool _isExpanded = false;
         public bool IsExpanded
         {
             get => _isExpanded;
@@ -68,7 +68,8 @@ namespace Core.ViewModels
         public ObservableCollection<ExpanderItemViewModel> Children { get; private set; } = new();
 
         [JsonIgnore]
-        public IRelayCommand ShowPartDetailsCommand { get; private set; }
+        public IRelayCommand ShowPartDetailsCommand { get; private set; } =   new RelayCommand(() => { /* placeholder */ }, () => false);
+
 
         public ExpanderItemViewModel()
         {
@@ -81,13 +82,13 @@ namespace Core.ViewModels
             InitialiseCommonResources(expanderItemHost);
         }
 
-        private void InitialiseCommonResources(IExpanderItemHost expanderItemHost)
+        private void InitialiseCommonResources(IExpanderItemHost? expanderItemHost)
         {
             _expanderItemHost = expanderItemHost;
 
             ShowPartDetailsCommand = new RelayCommand(
-            execute: ShowPartDetails,
-            canExecute: () => IsProjectFile
+                execute: ShowPartDetails,
+                canExecute: () => IsProjectFile
             );
 
             Children.CollectionChanged += OnChildrenCollectionChanged;
@@ -102,7 +103,7 @@ namespace Core.ViewModels
             InitialiseCommonResources(expanderItemHost);
         }
 
-        private void OnChildrenCollectionChanged(object sender, NotifyCollectionChangedEventArgs eventArgs)
+        private void OnChildrenCollectionChanged(object? sender, NotifyCollectionChangedEventArgs eventArgs)
         {
             if (eventArgs.NewItems != null)
             {
@@ -121,7 +122,7 @@ namespace Core.ViewModels
             }
         }
 
-        private void OnChildPropertyChanged(object sender, PropertyChangedEventArgs eventArgs)
+        private void OnChildPropertyChanged(object? sender, PropertyChangedEventArgs eventArgs)
         {
             if (_isUpdatingChildren || eventArgs.PropertyName != nameof(IsChecked))
             {
@@ -189,7 +190,7 @@ namespace Core.ViewModels
 
         private void ShowPartDetails()
         {
-            _expanderItemHost.OnExpanderItemSelected(this);
+            _expanderItemHost?.OnExpanderItemSelected(this);
         }
 
         public void Dispose()

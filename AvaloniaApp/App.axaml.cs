@@ -31,7 +31,7 @@ namespace AvaloniaApp
                 var mainWindow = new MainWindow();
 
                 // Register Avalonia-specific services
-                services.AddSingleton<IFileManagementService, FileManagementService>();
+                services.AddSingleton<IFileManagementService, Core.Services.FileManagementService>();
                 services.AddSingleton<IFolderSelectionService>(new FolderSelectionService(mainWindow));
 
                 // Build the provider
