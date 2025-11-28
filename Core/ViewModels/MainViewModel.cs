@@ -1,21 +1,20 @@
-﻿using _3DPrintProjectTracker.Interfaces;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Core.Interfaces;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows;
 
-namespace _3DPrintProjectTracker.ViewModels;
+namespace Core.ViewModels;
 
 public partial class MainViewModel : ObservableObject, IExpanderItemHost
 {
     public readonly IFileManagementService fileManagementService;
     public readonly IFolderSelectionService folderSelectionService;
+    
     public ObservableCollection<ExpanderItemViewModel> ExpanderItems { get; } = new();
 
     public IRelayCommand NewProjectTrackerCommand { get; }
@@ -23,15 +22,15 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
     public IAsyncRelayCommand SaveProjectsCommand { get; }
     public IRelayCommand<string> OpenSelectedPartCommand { get; }
 
-    private string _projectsRootFolder;
-    public string ProjectsRootFolder
+    private string? _projectsRootFolder;
+    public string? ProjectsRootFolder
     {
         get => _projectsRootFolder;
         set => SetProperty(ref _projectsRootFolder, value);
     }
 
-    private ExpanderItemViewModel _clickedExpanderItem;
-    public ExpanderItemViewModel ClickedExpanderItem
+    private ExpanderItemViewModel? _clickedExpanderItem;
+    public ExpanderItemViewModel? ClickedExpanderItem
     {
         get => _clickedExpanderItem;
         set
@@ -48,7 +47,7 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
         this.fileManagementService = fileManagementService;
         this.folderSelectionService = folderSelectionService;
 
-        NewProjectTrackerCommand = new RelayCommand(CreateNewProjectTracker);
+        NewProjectTrackerCommand = new AsyncRelayCommand(CreateNewProjectTracker);
         OpenProjectsFolderCommand = new AsyncRelayCommand(OpenProjectsFolder);
         SaveProjectsCommand = new AsyncRelayCommand(SaveProjects);
         OpenSelectedPartCommand = new RelayCommand<string>(OpenProjectPartFile, CanOpenFileInSlicer);
@@ -59,9 +58,9 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
         ClickedExpanderItem = item;
     }
 
-    private void CreateNewProjectTracker()
+    private async Task CreateNewProjectTracker()
     {
-        ProjectsRootFolder = folderSelectionService.SelectFolder("Select your projects folder");
+        ProjectsRootFolder = await folderSelectionService.SelectFolderAsync();
         if (string.IsNullOrWhiteSpace(ProjectsRootFolder))
         {
             return;
@@ -73,16 +72,21 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
         }
         ExpanderItems.Clear();
 
-        var projectsTree = fileManagementService.BuildProjectDirectoryTree(ProjectsRootFolder, this);
-        projectsTree.IsExpanded = true;
-        ExpanderItems.Add(projectsTree);
+        var projectsTreeItems = fileManagementService.BuildProjectDirectoryTree(ProjectsRootFolder, this);
+
+        foreach(var projectTreeItem in projectsTreeItems)
+        {
+            CollapseChildren(projectTreeItem);
+            projectTreeItem.IsExpanded = false;
+            ExpanderItems.Add(projectTreeItem);
+        }
     }
 
     private async Task OpenProjectsFolder()
     {
         if (string.IsNullOrWhiteSpace(ProjectsRootFolder))
         {
-            ProjectsRootFolder = folderSelectionService.SelectFolder("Select your projects folder");
+            ProjectsRootFolder = await folderSelectionService.SelectFolderAsync();
             if (string.IsNullOrWhiteSpace(ProjectsRootFolder))
             {
                 return;
@@ -110,9 +114,14 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
         {
             Debug.WriteLine("No existing project data found. Building a new project tree...");
             Debug.WriteLine($"Projects Folder: {ProjectsRootFolder}");
-            var projectsTree = fileManagementService.BuildProjectDirectoryTree(ProjectsRootFolder, this);
-            projectsTree.IsExpanded = true;
-            ExpanderItems.Add(projectsTree);
+            var projectsTreeItems = fileManagementService.BuildProjectDirectoryTree(ProjectsRootFolder, this);
+
+            foreach (var projectTreeItem in projectsTreeItems)
+            {
+                CollapseChildren(projectTreeItem);
+                projectTreeItem.IsExpanded = false;
+                ExpanderItems.Add(projectTreeItem);
+            }
         }
     }
 
@@ -120,7 +129,7 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
     {
         if (string.IsNullOrWhiteSpace(ProjectsRootFolder))
         {
-            MessageBox.Show("No project folder selected.");
+            Debug.WriteLine("No project folder selected.");
             return;
         }
 
@@ -136,19 +145,28 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Failed to save projects: {ex.Message}");
+            Debug.WriteLine($"Failed to save projects: {ex.Message}");
         }
     }
 
-    private void OpenProjectPartFile(string partFilePath)
+    private void CollapseChildren(ExpanderItemViewModel parent)
+    {
+        foreach (var child in parent.Children)
+        {
+            child.IsExpanded = false;
+            CollapseChildren(child);
+        }
+    }
+
+    private void OpenProjectPartFile(string? partFilePath)
     {
         if (!string.IsNullOrWhiteSpace(partFilePath))
         {
-            System.Windows.MessageBox.Show($"Opening {partFilePath}");
+            Debug.WriteLine($"Opening {partFilePath}");
         }
     }
 
-    private bool CanOpenFileInSlicer(string descriptionParameter)
+    private bool CanOpenFileInSlicer(string? descriptionParameter)
     {
         if (ClickedExpanderItem != null && ClickedExpanderItem.IsProjectFile)
         {

@@ -1,5 +1,5 @@
-﻿using _3DPrintProjectTracker.Interfaces;
-using _3DPrintProjectTracker.ViewModels;
+﻿using Core.Interfaces;
+using Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +10,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace _3DPrintProjectTracker.Services
+namespace Core.Services
 {
     public class FileManagementService : IFileManagementService
     {
@@ -45,11 +45,15 @@ namespace _3DPrintProjectTracker.Services
             return projectFiles;
         }
 
-        public ExpanderItemViewModel BuildProjectDirectoryTree(string projectPath, IExpanderItemHost expanderItemHost)
+        public List<ExpanderItemViewModel> BuildProjectDirectoryTree(string projectPath, IExpanderItemHost expanderItemHost)
         {
-            string projectName = Path.GetFileName(projectPath);
-            var projectDirectories = GetProjectDirectories(projectPath);
-            var projectFiles = GetProjectFiles(projectPath);
+            var items = new List<ExpanderItemViewModel>();
+
+            var directories = GetProjectDirectories(projectPath);
+            var files = GetProjectFiles(projectPath);
+
+            /*string projectName = Path.GetFileName(projectPath);
+            
 
             var expanderItemNode = new ExpanderItemViewModel(expanderItemHost)
             {
@@ -57,16 +61,29 @@ namespace _3DPrintProjectTracker.Services
                 Description = projectPath,
                 IsChecked = false,
                 IsProjectFile = false
-            };
+            };*/
 
-            foreach(var directory in projectDirectories)
+            foreach(var directory in directories)
             {
-                expanderItemNode.Children.Add(BuildProjectDirectoryTree(directory, expanderItemHost));
+                var directoryNode = new ExpanderItemViewModel(expanderItemHost)
+                {
+                    Title = Path.GetFileName(directory),
+                    Description = directory,
+                    IsChecked = false,
+                    IsProjectFile = false
+                };
+
+                var childItems = BuildProjectDirectoryTree(directory, expanderItemHost);
+                foreach(var childItem in childItems)
+                {
+                    directoryNode.Children.Add(childItem);
+                }
+                items.Add(directoryNode);
             }
 
-            foreach(var file in projectFiles)
+            foreach(var file in files)
             {
-                expanderItemNode.Children.Add(new ExpanderItemViewModel(expanderItemHost)
+                items.Add(new ExpanderItemViewModel()
                 {
                     Title = Path.GetFileName(file),
                     Description = file,
@@ -75,7 +92,7 @@ namespace _3DPrintProjectTracker.Services
                 });
             }
 
-            return expanderItemNode;
+            return items;
         }
 
         public async Task<ObservableCollection<ExpanderItemViewModel>> LoadProjectsAsync(string projectRootFolderPath, IExpanderItemHost expanderItemHost)

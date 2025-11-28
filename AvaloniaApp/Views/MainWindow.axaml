@@ -1,0 +1,154 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:vm="using:Core.ViewModels"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		mc:Ignorable="d"
+		x:Class="AvaloniaApp.Views.MainWindow"
+		x:DataType="vm:MainViewModel"
+		Background="#1E1E1E"
+		Icon="/Assets/3D_Print_Project_Tracker.ico"
+		Title="3D Print Project Tracker"
+		MinWidth="{StaticResource WindowSize}"
+		MinHeight="{StaticResource WindowSize}"
+		Width="{StaticResource WindowSize}"
+		Height="{StaticResource WindowSize}">
+
+	<Window.Resources>
+		<x:Double x:Key="WindowSize">550</x:Double>
+		
+		<SolidColorBrush x:Key="MenuBarBrush" Color="#2D2D30"/>
+		<SolidColorBrush x:Key="MenuBarBorderBrush" Color="#444444"/>
+		
+		<SolidColorBrush x:Key="MenuItemBrush" Color="#2D2D30"/>
+		<SolidColorBrush x:Key="MenuItemBorderBrush" Color="#444444"/>
+		<SolidColorBrush x:Key="MenuItemTextBrush" Color="#CCCCCC"/>
+		<SolidColorBrush x:Key="MenuItemPointerOverBrush" Color="#3A3A3D"/>
+		<SolidColorBrush x:Key="MenuItemPointerPressedBackgroundBrush" Color="#007ACC"/>
+		<SolidColorBrush x:Key="MenuItemPointerPressedTextBrush" Color="#FFFFFF"/>
+
+		<SolidColorBrush x:Key="PanelBorderBrush" Color="#444444"/>
+		<SolidColorBrush x:Key="PanelBorderBackgroundBrush" Color="#2D2D30"/>
+		<SolidColorBrush x:Key="NormalTextBrush" Color="#CCCCCC"/>
+	</Window.Resources>
+	
+	<Window.Styles>
+		<Style Selector="Menu.TopMenu">
+			<Setter Property="Background" Value="{StaticResource MenuBarBrush}"/>
+			<Setter Property="BorderBrush" Value="{StaticResource MenuBarBorderBrush}"/>
+			<Setter Property="BorderThickness" Value="0 0 0 1"/>
+			<Setter Property="FontSize" Value="13"/>
+			<Setter Property="Padding" Value="8,4"/>
+		</Style>
+
+		<Style Selector="Menu.TopMenuItem">
+			<Setter Property="Background" Value="{StaticResource MenuItemBrush}"/>
+			<Setter Property="BorderBrush" Value="{StaticResource MenuItemBorderBrush}"/>
+			<Setter Property="Foreground" Value="{StaticResource MenuItemTextBrush}"/>
+			<Setter Property="BorderThickness" Value="0 0 0 1"/>
+			<Setter Property="FontSize" Value="13"/>
+			<Setter Property="FontWeight" Value="SemiBold"/>
+			<Setter Property="Padding" Value="8,4"/>
+			<Setter Property="Cursor" Value="Hand"/>
+		</Style>
+		
+		<Style Selector="Menu.TopMenuItem:pointerover">
+			<Setter Property="Background" Value="{StaticResource MenuItemPointerOverBrush}"/>
+		</Style>
+		
+		<Style Selector="Menu.TopMenuItem:pressed">
+			<Setter Property="Background" Value="{StaticResource MenuItemPointerPressedBackgroundBrush}"/>
+			<Setter Property="Foreground" Value="{StaticResource MenuItemPointerPressedTextBrush}"/>
+		</Style>
+
+		
+		<Style Selector="TreeView CheckBox">
+			<Setter Property="Margin" Value="4"/>
+			<Setter Property="FontSize" Value="13"/>
+		</Style>
+
+		<Style Selector="Button.linkBtn">
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="BorderThickness" Value="0"/>
+			<Setter Property="Padding" Value="2"/>
+			<Setter Property="Cursor" Value="Hand"/>
+			<Setter Property="Foreground" Value="{StaticResource NormalTextBrush}"/>
+			<Setter Property="HorizontalAlignment" Value="Left"/>
+		</Style>
+
+		<Style Selector="Label.sectionHeader">
+			<Setter Property="FontWeight" Value="Bold"/>
+			<Setter Property="FontSize" Value="16"/>
+			<Setter Property="Foreground" Value="{StaticResource NormalTextBrush}"/>
+			<Setter Property="Margin" Value="10,8,10,4"/>
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+		</Style>
+
+		<Style Selector="Border.panelCommon">
+			<Setter Property="CornerRadius" Value="6"/>
+			<Setter Property="Padding" Value="8"/>
+			<Setter Property="Margin" Value="10"/>
+			<Setter Property="Background" Value="{StaticResource PanelBorderBackgroundBrush}"/>
+		</Style>
+	</Window.Styles>
+	
+	<DockPanel>
+		<Menu Name="TopMenu" Classes="TopMenu" DockPanel.Dock="Top">
+			<MenuItem Classes="TopMenuItem" Header="_File">
+				<MenuItem Classes="TopMenuItem" Header="_📄 New" Command="{Binding NewProjectTrackerCommand}" Cursor="Hand"/>
+				<MenuItem Classes="TopMenuItem" Header="_📂 Open" Command="{Binding OpenProjectsFolderCommand}" Cursor="Hand"/>
+				<MenuItem Classes="TopMenuItem" Header="_💾 Save" Command="{Binding SaveProjectsCommand}" Cursor="Hand"/>
+			</MenuItem>
+
+			<MenuItem Classes="TopMenuItem" Header="_Preferences">
+				<MenuItem Classes="TopMenuItem" Header="_🖌️ Theme"/>
+			</MenuItem>
+        </Menu>
+		
+		<Grid Margin="8">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" SharedSizeGroup="LeftRightPanels"/>
+				<ColumnDefinition Width="Auto" SharedSizeGroup="LeftRightPanels"/>
+			</Grid.ColumnDefinitions>
+			
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+			</Grid.RowDefinitions>
+			
+			<Label Grid.Column="0" Grid.Row="0" Content="Projects and Parts Viewer" Classes="sectionHeader"/>
+			<Border Grid.Column="0" Grid.Row="1" BorderBrush="{StaticResource PanelBorderBrush}" BorderThickness="2" Classes="panelCommon">
+				<TreeView ItemsSource="{Binding ExpanderItems}" SelectedItem="{Binding ClickedExpanderItem, Mode=TwoWay}" BorderThickness="0" Background="Transparent" MinWidth="220" MaxHeight="500">
+					<TreeView.DataTemplates>
+						<TreeDataTemplate DataType="vm:ExpanderItemViewModel" ItemsSource="{Binding Children}">
+							<StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="6">
+								<CheckBox IsChecked="{Binding IsChecked}"/>
+								<TextBlock Text="{Binding Title}" Foreground="White"/>
+								<!--<Button Content="{Binding Title}" Command="{Binding ShowPartDetailsCommand}" Classes="linkBtn"/>-->
+							</StackPanel>
+						</TreeDataTemplate>
+					</TreeView.DataTemplates>
+				</TreeView>
+			</Border>
+			
+			<Label Grid.Column="1" Grid.Row="0" Content="Details" Classes="sectionHeader"/>
+			<Border Grid.Column="1" Grid.Row="1" BorderBrush="{StaticResource PanelBorderBrush}" BorderThickness="2" Classes="panelCommon">
+				<Grid MinWidth="220" MaxHeight="500">
+					<TextBlock Text="{Binding ClickedExpanderItem.Title}" />
+					<Button Content="Open File" Command="{Binding OpenSelectedPartCommand}" CommandParameter="{Binding ClickedExpanderItem.Description}" Background="#007ACC"/>
+				</Grid>
+			</Border>
+			
+			<Label Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Content="Additional Details" Classes="sectionHeader"/>
+			<Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" BorderBrush="{StaticResource PanelBorderBrush}" BorderThickness="2" Classes="panelCommon">
+				<StackPanel Margin="0,10,0,0">
+					<TextBlock Text="— Placeholder widget 1"/>
+					<TextBlock Text="— Placeholder widget 2"/>
+				</StackPanel>
+			</Border>
+		</Grid>
+	</DockPanel>
+</Window>

@@ -1,6 +1,6 @@
-﻿using _3DPrintProjectTracker.ViewModels;
+﻿using Core.ViewModels;
 
-namespace _3DPrintProjectTracker.Interfaces
+namespace Core.Interfaces
 {
     public interface IExpanderItemHost
     {
