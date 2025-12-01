@@ -16,6 +16,8 @@
 
   <ItemGroup>
     <AvaloniaResource Remove="Assets\3D_Print_Project_Tracker.png" />
+	<AvaloniaResource Include="Themes\ColoursDark.axaml" />
+	<AvaloniaResource Include="Themes\ColoursLight.axaml" />
   </ItemGroup>
 
   <ItemGroup>

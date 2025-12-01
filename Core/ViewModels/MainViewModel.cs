@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Core.ViewModels;
 
@@ -14,6 +15,7 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
 {
     public readonly IFileManagementService fileManagementService;
     public readonly IFolderSelectionService folderSelectionService;
+    private readonly IThemeChangerService themeChangerService;
     
     public ObservableCollection<ExpanderItemViewModel> ExpanderItems { get; } = new();
 
@@ -21,6 +23,19 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
     public IAsyncRelayCommand OpenProjectsFolderCommand { get; }
     public IAsyncRelayCommand SaveProjectsCommand { get; }
     public IRelayCommand<string> OpenSelectedPartCommand { get; }
+
+    private bool _isUsingDarkTheme = true;
+    public bool IsUsingDarkTheme
+    {
+        get => _isUsingDarkTheme;
+        set
+        {
+            if (SetProperty(ref _isUsingDarkTheme, value))
+            {
+                themeChangerService.SetTheme(value);
+            }
+        }
+    }
 
     private string? _projectsRootFolder;
     public string? ProjectsRootFolder
@@ -42,10 +57,11 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
         }
     }
 
-    public MainViewModel(IFileManagementService fileManagementService, IFolderSelectionService folderSelectionService)
+    public MainViewModel(IFileManagementService fileManagementService, IFolderSelectionService folderSelectionService, IThemeChangerService themeChangerService)
     {
         this.fileManagementService = fileManagementService;
         this.folderSelectionService = folderSelectionService;
+        this.themeChangerService = themeChangerService;
 
         NewProjectTrackerCommand = new AsyncRelayCommand(CreateNewProjectTracker);
         OpenProjectsFolderCommand = new AsyncRelayCommand(OpenProjectsFolder);
