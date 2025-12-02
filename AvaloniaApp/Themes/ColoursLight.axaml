@@ -1,15 +1,9 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-	<Color x:Key="BackgroundColour">#F5F7FA</Color>
-	<Color x:Key="BorderColour">#B71C1C</Color> <!--#444444-->
-	<Color x:Key="TextColour">#2C3E50</Color>
-	<Color x:Key="PointerOverColour">#E3E7ED</Color>
-	<Color x:Key="PointerPressedColour">#2196F3</Color>
-	<Color x:Key="PointerPressedTextColour">#FFFFFF</Color>
-
-	<SolidColorBrush x:Key="BackgroundBrush" Color="{DynamicResource BackgroundColour}" />
-	<SolidColorBrush x:Key="BorderBrush" Color="{DynamicResource BorderColour}" />
-	<SolidColorBrush x:Key="TextBrush" Color="{DynamicResource TextColour}" />
-	<SolidColorBrush x:Key="PointerOverBrush" Color="{DynamicResource PointerOverColour}" />
-	<SolidColorBrush x:Key="PointerPressedBrush" Color="{DynamicResource PointerPressedColour}" />
-	<SolidColorBrush x:Key="PointerPressedTextBrush" Color="{DynamicResource PointerPressedTextColour}" />
+	<SolidColorBrush x:Key="MainBackgroundBrush" Color="#F5F7FA" />           <!-- Soft off-white, low glare -->
+	<SolidColorBrush x:Key="NavigationBarBackgroundBrush" Color="#D0D3D8" />  <!-- Slightly darker for separation -->
+	<SolidColorBrush x:Key="PanelBackgroundBrush" Color="#E3E7ED" />          <!-- Pale grey for panels -->
+	<SolidColorBrush x:Key="BorderBrush" Color="#B0BEC5" />                   <!-- Muted steel for edges -->
+	<SolidColorBrush x:Key="TextBrush" Color="#2C3E50" />                     <!-- Deep slate for readability -->
+	<SolidColorBrush x:Key="PointerOverBrush" Color="#DDE2E8" />              <!-- Gentle hover highlight -->
+	<SolidColorBrush x:Key="PointerPressedBrush" Color="#2196F3" />           <!-- Bright blue accent -->
 </ResourceDictionary>
