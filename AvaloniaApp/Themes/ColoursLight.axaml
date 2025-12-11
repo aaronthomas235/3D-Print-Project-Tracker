@@ -6,4 +6,7 @@
 	<SolidColorBrush x:Key="TextBrush" Color="#2C3E50" />                     <!-- Deep slate for readability -->
 	<SolidColorBrush x:Key="PointerOverBrush" Color="#DDE2E8" />              <!-- Gentle hover highlight -->
 	<SolidColorBrush x:Key="PointerPressedBrush" Color="#2196F3" />           <!-- Bright blue accent -->
+	<SolidColorBrush x:Key="CheckBoxBorderBrush" Color="#2C3E50" />
+	<SolidColorBrush x:Key="TreeChevronBrush" Color="#2C3E50"/>
+
 </ResourceDictionary>

@@ -6,4 +6,6 @@
 	<SolidColorBrush x:Key="TextBrush" Color="#CCCCCC" />                    <!-- Light gray: readable but not stark -->
 	<SolidColorBrush x:Key="PointerOverBrush" Color="#2E2E30" />             <!-- Gentle hover feedback -->
 	<SolidColorBrush x:Key="PointerPressedBrush" Color="#007ACC" />          <!-- Azure blue: clear action highlight -->
+	<SolidColorBrush x:Key="CheckBoxBorderBrush" Color="#CCCCCC" />
+	<SolidColorBrush x:Key="TreeChevronBrush" Color="#CCCCCC"/>
 </ResourceDictionary>
