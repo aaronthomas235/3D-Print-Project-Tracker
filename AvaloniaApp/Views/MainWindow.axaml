@@ -9,10 +9,10 @@
 		Background="{DynamicResource MainBackgroundBrush}"
 		Icon="/Assets/3D_Print_Project_Tracker.ico"
 		Title="3D Print Project Tracker"
-		MinWidth="550"
-		MinHeight="550"
-		Width="550"
-		Height="550">
+		MinWidth="600"
+		MinHeight="600"
+		Width="600"
+		Height="600">
 
 	<Window.Styles>
 		<StyleInclude Source="avares://AvaloniaApp/Styles/NavigationBar.axaml"/>
@@ -41,11 +41,11 @@
             </MenuItem>
         </Menu>
 
-        <Grid Grid.Row="1" Margin="8" ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,*,Auto,Auto">
+        <Grid Grid.Row="1" Margin="8" ColumnDefinitions="*,*" RowDefinitions="Auto,*,Auto,Auto">
             <Label Content="Projects and Parts Viewer" Classes="sectionHeader"/>
 
             <Border Grid.Row="1" Classes="panelCommon">
-                <TreeView ItemsSource="{Binding ExpanderItems}" SelectedItem="{Binding ClickedExpanderItem, Mode=TwoWay}" Classes="projectTree">
+                <TreeView ItemsSource="{Binding ExpanderItems}" SelectedItem="{Binding ClickedExpanderItem, Mode=TwoWay}" Classes="projectTree" Width="NaN">
                     <TreeView.DataTemplates>
                         <TreeDataTemplate DataType="vm:ExpanderItemViewModel" ItemsSource="{Binding Children}">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="6">
@@ -61,8 +61,6 @@
 
             <Border Grid.Column="1" Grid.Row="1" Classes="panelCommon">
                 <StackPanel>
-                    <TextBlock Text="{Binding ClickedExpanderItem.Title}"/>
-                    <Button Content="Open File" Command="{Binding OpenSelectedPartCommand}" CommandParameter="{Binding ClickedExpanderItem.Description}"/>
                 </StackPanel>
             </Border>
 
@@ -70,8 +68,6 @@
 
             <Border Grid.Row="3" Grid.ColumnSpan="2" Classes="panelCommon">
                 <StackPanel>
-                    <TextBlock Text="— Placeholder widget 1"/>
-                    <TextBlock Text="— Placeholder widget 2"/>
                 </StackPanel>
             </Border>
         </Grid>
