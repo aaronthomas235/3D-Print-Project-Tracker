@@ -1,11 +1,15 @@
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Avalonia.Markup.Xaml.Styling;
 using AvaloniaApp.Services;
 using AvaloniaApp.Views;
 using Core.Interfaces;
 using Core.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Reflection;
 
 namespace AvaloniaApp
 {
@@ -21,28 +25,41 @@ namespace AvaloniaApp
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                // Create DI container
+
                 var services = new ServiceCollection();
 
-                // Register ViewModels
                 services.AddSingleton<MainViewModel>();
 
-                // Create main window
                 var mainWindow = new MainWindow();
 
-                // Register Avalonia-specific services
                 services.AddSingleton<IFileManagementService, Core.Services.FileManagementService>();
+                services.AddSingleton<IThemeChangerService, ThemeChangerService>();
                 services.AddSingleton<IFolderSelectionService>(new FolderSelectionService(mainWindow));
 
-                // Build the provider
                 serviceProvider = services.BuildServiceProvider();
 
                 desktop.MainWindow = mainWindow;
-                // Set window DataContext
+
                 mainWindow.DataContext = serviceProvider.GetRequiredService<MainViewModel>();
             }
 
             base.OnFrameworkInitializationCompleted();
         }
+
+        public void SetTheme(bool useDark)
+        {
+            var app = Application.Current;
+            if (app == null) return;
+
+            var asm = Assembly.GetEntryAssembly()?.GetName().Name ?? "AvaloniaApp";
+            var themeUri = new Uri($"avares://{asm}/Themes/Colours{(useDark ? "Dark" : "Light")}.axaml");
+
+            app.Resources.MergedDictionaries.Clear();
+
+            var dict = (ResourceDictionary)AvaloniaXamlLoader.Load(themeUri);
+            app.Resources.MergedDictionaries.Add(dict);
+        }
+
+
     }
 }

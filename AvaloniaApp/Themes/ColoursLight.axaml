@@ -1,0 +1,12 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<SolidColorBrush x:Key="MainBackgroundBrush" Color="#F5F7FA" />           <!-- Soft off-white, low glare -->
+	<SolidColorBrush x:Key="NavigationBarBackgroundBrush" Color="#D0D3D8" />  <!-- Slightly darker for separation -->
+	<SolidColorBrush x:Key="PanelBackgroundBrush" Color="#E3E7ED" />          <!-- Pale grey for panels -->
+	<SolidColorBrush x:Key="BorderBrush" Color="#B0BEC5" />                   <!-- Muted steel for edges -->
+	<SolidColorBrush x:Key="TextBrush" Color="#2C3E50" />                     <!-- Deep slate for readability -->
+	<SolidColorBrush x:Key="PointerOverBrush" Color="#DDE2E8" />              <!-- Gentle hover highlight -->
+	<SolidColorBrush x:Key="PointerPressedBrush" Color="#2196F3" />           <!-- Bright blue accent -->
+	<SolidColorBrush x:Key="CheckBoxBorderBrush" Color="#2C3E50" />
+	<SolidColorBrush x:Key="TreeChevronBrush" Color="#2C3E50"/>
+
+</ResourceDictionary>

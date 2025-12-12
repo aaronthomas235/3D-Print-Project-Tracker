@@ -1,0 +1,21 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+
+    <Style Selector="TreeView.projectTree TreeViewItem /template/ ToggleButton#PART_ExpandCollapseChevron Path">
+        <Setter Property="Fill" Value="{DynamicResource TreeChevronBrush}" />
+    </Style>
+    
+    <Style Selector="TreeView.projectTree TreeViewItem /template/ ToggleButton#PART_ExpandCollapseChevron:pointerover">
+        <Setter Property="Foreground" Value="{DynamicResource TreeChevronBrush}" />
+    </Style>
+    
+    <Style Selector="TreeView.projectTree CheckBox:unchecked /template/ Border#NormalRectangle">
+        <Setter Property="Margin" Value="4"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource CheckBoxBorderBrush}" />
+    </Style>
+</Styles>
