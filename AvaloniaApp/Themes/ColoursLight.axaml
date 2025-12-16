@@ -8,5 +8,8 @@
 	<SolidColorBrush x:Key="PointerPressedBrush" Color="#2196F3" />           <!-- Bright blue accent -->
 	<SolidColorBrush x:Key="CheckBoxBorderBrush" Color="#2C3E50" />
 	<SolidColorBrush x:Key="TreeChevronBrush" Color="#2C3E50"/>
-
+	<SolidColorBrush x:Key="PanelBorderBrush" Color="#2C2C2C" />
+	<SolidColorBrush x:Key="DividerBrush" Color="#000000" />
+	<SolidColorBrush x:Key="OpenProjectFileBackgroundBrush" Color="#000000" />
+	<SolidColorBrush x:Key="OpenProjectFileForegroundBrush" Color="#FFFFFF" />
 </ResourceDictionary>
