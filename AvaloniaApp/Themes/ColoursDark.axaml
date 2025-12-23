@@ -10,6 +10,6 @@
 	<SolidColorBrush x:Key="TreeChevronBrush" Color="#CCCCCC"/>
 	<SolidColorBrush x:Key="PanelBorderBrush" Color="#2C2C2C" />
 	<SolidColorBrush x:Key="DividerBrush" Color="#FFFFFF" />
-	<SolidColorBrush x:Key="OpenProjectFileBackgroundBrush" Color="#FFFFFF" />
-	<SolidColorBrush x:Key="OpenProjectFileForegroundBrush" Color="#000000" />
+	<SolidColorBrush x:Key="OpenProjectFileBackgroundBrush" Color="#E6E6E6" />
+	<SolidColorBrush x:Key="OpenProjectFileForegroundBrush" Color="#1A1A1A" />
 </ResourceDictionary>
