@@ -40,6 +40,16 @@
       <Setter Property="CornerRadius" Value="4"/>
       <Setter Property="Background" Value="{DynamicResource OpenProjectFileBackgroundBrush}"/>
       <Setter Property="Foreground" Value="{DynamicResource OpenProjectFileForegroundBrush}"/>
-      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="BorderThickness" Value="5"/>
+  </Style>
+  
+  <Style Selector="Button.openProjectFileButton:pointerover">
+	  <Setter Property="Background" Value="{DynamicResource OpenProjectFileHoverBrush}" />
+	  <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+  </Style>
+	
+  <Style Selector="Button.openProjectFileButton:pressed">
+	  <Setter Property="Background" Value="{DynamicResource OpenProjectFilePressedBrush}" />
+	  <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
   </Style>
 </Styles>

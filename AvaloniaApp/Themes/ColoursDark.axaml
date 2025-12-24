@@ -1,15 +1,18 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-	<SolidColorBrush x:Key="MainBackgroundBrush" Color="#1E1E1E" />          <!-- Deep charcoal: low glare -->
-	<SolidColorBrush x:Key="NavigationBarBackgroundBrush" Color="#1A1A1A" /> <!-- Slightly darker for separation -->
-	<SolidColorBrush x:Key="PanelBackgroundBrush" Color="#252526" />         <!-- Slate gray: subtle contrast -->
-	<SolidColorBrush x:Key="BorderBrush" Color="#3C3C3C" />                  <!-- Graphite: soft edge definition -->
-	<SolidColorBrush x:Key="TextBrush" Color="#CCCCCC" />                    <!-- Light gray: readable but not stark -->
-	<SolidColorBrush x:Key="PointerOverBrush" Color="#2E2E30" />             <!-- Gentle hover feedback -->
-	<SolidColorBrush x:Key="PointerPressedBrush" Color="#007ACC" />          <!-- Azure blue: clear action highlight -->
-	<SolidColorBrush x:Key="CheckBoxBorderBrush" Color="#CCCCCC" />
-	<SolidColorBrush x:Key="TreeChevronBrush" Color="#CCCCCC"/>
-	<SolidColorBrush x:Key="PanelBorderBrush" Color="#2C2C2C" />
-	<SolidColorBrush x:Key="DividerBrush" Color="#FFFFFF" />
-	<SolidColorBrush x:Key="OpenProjectFileBackgroundBrush" Color="#E6E6E6" />
-	<SolidColorBrush x:Key="OpenProjectFileForegroundBrush" Color="#1A1A1A" />
+	<SolidColorBrush x:Key="MainBackgroundBrush" Color="#1E1E1E" />					<!-- Deep charcoal: low glare, ideal for dark mode background -->
+	<SolidColorBrush x:Key="NavigationBarBackgroundBrush" Color="#1A1A1A" />		<!-- Slightly darker than main background for separation and emphasis -->
+	<SolidColorBrush x:Key="PanelBackgroundBrush" Color="#252526" />				<!-- Slate gray: subtle contrast for panels, balanced dark tone -->
+	<SolidColorBrush x:Key="BorderBrush" Color="#3C3C3C" />							<!-- Graphite: soft edge definition for borders, not too harsh -->
+	<SolidColorBrush x:Key="TextBrush" Color="#CCCCCC" />							<!-- Light gray: readable text without being too stark against dark backgrounds -->
+	<SolidColorBrush x:Key="PointerOverBrush" Color="#2E2E30" />					<!-- Gentle hover feedback: darker shade to indicate interactivity -->
+	<SolidColorBrush x:Key="PointerPressedBrush" Color="#007ACC" />					<!-- Azure blue: clear, noticeable action highlight (buttons, etc.) -->
+	<SolidColorBrush x:Key="CheckBoxBorderBrush" Color="#CCCCCC" />					<!-- Light gray: consistent with text color for checkbox borders -->
+	<SolidColorBrush x:Key="TreeChevronBrush" Color="#CCCCCC" />					<!-- Light gray for tree view chevrons, maintaining readability -->
+	<SolidColorBrush x:Key="PanelBorderBrush" Color="#2C2C2C" />					<!-- Darker grey for defined panel borders, creating a subtle separation -->
+	<SolidColorBrush x:Key="DividerBrush" Color="#FFFFFF" />						<!-- White divider: clear and clean separation between sections -->
+	<SolidColorBrush x:Key="OpenProjectFileBackgroundBrush" Color="#E6E6E6" />		<!-- Soft light gray: background for open project files, non-distracting -->
+	<SolidColorBrush x:Key="OpenProjectFileForegroundBrush" Color="#1A1A1A" />		<!-- Dark gray for text in open project files, ensuring readability -->
+	<SolidColorBrush x:Key="OpenProjectFileHoverBrush" Color="#2E2E30" />			<!-- Subtle hover effect for opened project files, consistent with other hover states -->
+	<SolidColorBrush x:Key="OpenProjectFilePressedBrush" Color="#007ACC" />			<!-- Bright azure blue for active/opened project file highlight -->
+
 </ResourceDictionary>
