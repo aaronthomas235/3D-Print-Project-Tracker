@@ -1,12 +1,18 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-	<SolidColorBrush x:Key="MainBackgroundBrush" Color="#F5F7FA" />           <!-- Soft off-white, low glare -->
-	<SolidColorBrush x:Key="NavigationBarBackgroundBrush" Color="#D0D3D8" />  <!-- Slightly darker for separation -->
-	<SolidColorBrush x:Key="PanelBackgroundBrush" Color="#E3E7ED" />          <!-- Pale grey for panels -->
-	<SolidColorBrush x:Key="BorderBrush" Color="#B0BEC5" />                   <!-- Muted steel for edges -->
-	<SolidColorBrush x:Key="TextBrush" Color="#2C3E50" />                     <!-- Deep slate for readability -->
-	<SolidColorBrush x:Key="PointerOverBrush" Color="#DDE2E8" />              <!-- Gentle hover highlight -->
-	<SolidColorBrush x:Key="PointerPressedBrush" Color="#2196F3" />           <!-- Bright blue accent -->
-	<SolidColorBrush x:Key="CheckBoxBorderBrush" Color="#2C3E50" />
-	<SolidColorBrush x:Key="TreeChevronBrush" Color="#2C3E50"/>
+	<SolidColorBrush x:Key="MainBackgroundBrush" Color="#F5F7FA" />					<!-- Soft off-white, low glare for a calm background -->
+	<SolidColorBrush x:Key="NavigationBarBackgroundBrush" Color="#D0D3D8" />		<!-- Slightly darker grey for a subtle separation of the navigation bar -->
+	<SolidColorBrush x:Key="PanelBackgroundBrush" Color="#E3E7ED" />				<!-- Light grey for panel backgrounds, clean and unobtrusive -->
+	<SolidColorBrush x:Key="BorderBrush" Color="#B0BEC5" />							<!-- Muted steel color for borders, adds subtle contrast -->
+	<SolidColorBrush x:Key="TextBrush" Color="#2C3E50" />							<!-- Dark slate color for text, ensuring readability -->
+	<SolidColorBrush x:Key="PointerOverBrush" Color="#DDE2E8" />					<!-- Light highlight color for when an element is hovered over -->
+	<SolidColorBrush x:Key="PointerPressedBrush" Color="#2196F3" />					<!-- Bright blue for active elements, draws attention to interactions -->
+	<SolidColorBrush x:Key="CheckBoxBorderBrush" Color="#2C3E50" />					<!-- Dark slate color for checkbox borders, matches text color -->
+	<SolidColorBrush x:Key="TreeChevronBrush" Color="#2C3E50" />					<!-- Same dark slate for tree view chevrons, consistent UI theme -->
+	<SolidColorBrush x:Key="PanelBorderBrush" Color="#2C2C2C" />					<!-- Darker grey for borders around panels, more defined edges -->
+	<SolidColorBrush x:Key="DividerBrush" Color="#000000" />						<!-- Black for strong visual division, often used in dividers -->
+	<SolidColorBrush x:Key="OpenProjectFileBackgroundBrush" Color="#2C3E50" />		<!-- Dark slate for background of opened project files -->
+	<SolidColorBrush x:Key="OpenProjectFileForegroundBrush" Color="#FFFFFF" />		<!-- White color for text/foreground in the opened project files -->
+	<SolidColorBrush x:Key="OpenProjectFileHoverBrush" Color="#DDE2E8" />			<!-- Light hover effect color for opened project files -->
+	<SolidColorBrush x:Key="OpenProjectFilePressedBrush" Color="#2196F3" />			<!-- Blue highlight for active/opened project files -->
 
 </ResourceDictionary>

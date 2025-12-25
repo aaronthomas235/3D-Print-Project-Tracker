@@ -52,17 +52,6 @@ namespace Core.Services
             var directories = GetProjectDirectories(projectPath);
             var files = GetProjectFiles(projectPath);
 
-            /*string projectName = Path.GetFileName(projectPath);
-            
-
-            var expanderItemNode = new ExpanderItemViewModel(expanderItemHost)
-            {
-                Title = projectName,
-                Description = projectPath,
-                IsChecked = false,
-                IsProjectFile = false
-            };*/
-
             foreach(var directory in directories)
             {
                 var directoryNode = new ExpanderItemViewModel(expanderItemHost)
@@ -70,7 +59,8 @@ namespace Core.Services
                     Title = Path.GetFileName(directory),
                     Description = directory,
                     IsChecked = false,
-                    IsProjectFile = false
+                    IsProjectFile = false,
+                    PartName = String.Empty
                 };
 
                 var childItems = BuildProjectDirectoryTree(directory, expanderItemHost);
@@ -88,7 +78,8 @@ namespace Core.Services
                     Title = Path.GetFileName(file),
                     Description = file,
                     IsChecked = false,
-                    IsProjectFile = true
+                    IsProjectFile = true,
+                    PartName = Path.GetFileNameWithoutExtension(file)
                 });
             }
 

@@ -19,17 +19,18 @@
 		<StyleInclude Source="avares://AvaloniaApp/Styles/Treeview.axaml"/>
 		<StyleInclude Source="avares://AvaloniaApp/Styles/Typography.axaml"/>
 		<StyleInclude Source="avares://AvaloniaApp/Styles/Panels.axaml"/>
+        <StyleInclude Source="avares://AvaloniaApp/Styles/DetailsPanel.axaml"/>
 	</Window.Styles>
 
 	<Grid RowDefinitions="Auto,*">
         <Menu Classes="NavigationBarMenu">
-            <MenuItem Header="_File">
-                <MenuItem Header="_📄 New"   Command="{Binding NewProjectTrackerCommand}"/>
-                <MenuItem Header="_📂 Open"  Command="{Binding OpenProjectsFolderCommand}"/>
-                <MenuItem Header="_💾 Save"  Command="{Binding SaveProjectsCommand}"/>
+            <MenuItem Classes="NavigationBarMenuItem" Header="_File">
+                <MenuItem Classes="NavigationBarSubMenuItem" Header="_📄 New"   Command="{Binding NewProjectTrackerCommand}"/>
+                <MenuItem Classes="NavigationBarSubMenuItem" Header="_📂 Open"  Command="{Binding OpenProjectsFolderCommand}"/>
+                <MenuItem Classes="NavigationBarSubMenuItem" Header="_💾 Save"  Command="{Binding SaveProjectsCommand}"/>
             </MenuItem>
 
-            <MenuItem Header="_Preferences">
+            <MenuItem Classes="NavigationBarMenuItem" Header="_Preferences">
                 <MenuItem>
                     <MenuItem.Header>
                         <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
@@ -60,8 +61,23 @@
             <Label Grid.Column="1" Content="Details" Classes="sectionHeader"/>
 
             <Border Grid.Column="1" Grid.Row="1" Classes="panelCommon">
-                <StackPanel>
-                </StackPanel>
+                <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto" ColumnSpacing="12" RowSpacing="10">
+                    <Label Grid.Column="0" Grid.Row="0" Classes="detailLabel" Content="Name"/>
+                    <TextBlock Grid.Column="1" Grid.Row="0" Classes="detailContent" Text="{Binding ClickedExpanderItem.PartName}"/>
+                    
+                    <Label Grid.Column="0" Grid.Row="1" Classes="detailLabel" Content="Dimensions (mm)"/>
+                    <TextBlock Grid.Column="1" Grid.Row="1" Classes="detailNumericContent" Text="0 x 0 x 0"/>
+
+                    <Label Grid.Column="0" Grid.Row="2" Classes="detailLabel" Content="Print Time"/>
+                    <TextBlock Grid.Column="1" Grid.Row="2" Classes="detailNumericContent" Text="0 Hrs 0 Min"/>
+
+                    <Label Grid.Column="0" Grid.Row="3" Classes="detailLabel" Content="Material Usage"/>
+                    <TextBlock Grid.Column="1" Grid.Row="3" Classes="detailNumericContent" Text="0g"/>
+                    
+                    <Border Grid.ColumnSpan="2" Grid.Row="4" Classes="divider"/>
+
+                    <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" Classes="openProjectFileButton" Content="Open File"/>
+                </Grid>
             </Border>
 
             <Label Grid.Row="2" Grid.ColumnSpan="2" Content="Additional Details" Classes="sectionHeader"/>

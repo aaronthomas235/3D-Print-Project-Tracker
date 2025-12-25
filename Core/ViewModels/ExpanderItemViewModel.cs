@@ -17,18 +17,25 @@ namespace Core.ViewModels
         private bool _isUpdatingChildren;
         private bool _isDisposed;
 
-
         private string _title = String.Empty;
         public string Title
         {
             get => _title;
             set => SetProperty(ref _title, value);
         }
+
         private string _description = String.Empty;
         public string Description
         {
             get => _description;
             set => SetProperty(ref _description, value);
+        }
+
+        private string _partName = String.Empty;
+        public string PartName
+        {
+            get => _partName;
+            set => SetProperty(ref _partName, value);
         }
 
         private bool _isExpanded = false;

@@ -8,9 +8,11 @@
 
     <Style Selector="Border.panelCommon">
         <Setter Property="CornerRadius" Value="6"/>
-        <Setter Property="Padding" Value="8"/>
+        <Setter Property="Padding" Value="12"/>
         <Setter Property="Margin" Value="10"/>
         <Setter Property="Background" Value="{DynamicResource PanelBackgroundBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource PanelBorderBrush}"/>
     </Style>
 
 </Styles>
