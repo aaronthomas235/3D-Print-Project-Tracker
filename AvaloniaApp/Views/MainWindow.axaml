@@ -63,7 +63,7 @@
             <Border Grid.Column="1" Grid.Row="1" Classes="panelCommon">
                 <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto" ColumnSpacing="12" RowSpacing="10">
                     <Label Grid.Column="0" Grid.Row="0" Classes="detailLabel" Content="Name"/>
-                    <TextBlock Grid.Column="1" Grid.Row="0" Classes="detailContent" Text="Test Part"/>
+                    <TextBlock Grid.Column="1" Grid.Row="0" Classes="detailContent" Text="{Binding ClickedExpanderItem.PartName}"/>
                     
                     <Label Grid.Column="0" Grid.Row="1" Classes="detailLabel" Content="Dimensions (mm)"/>
                     <TextBlock Grid.Column="1" Grid.Row="1" Classes="detailNumericContent" Text="0 x 0 x 0"/>
