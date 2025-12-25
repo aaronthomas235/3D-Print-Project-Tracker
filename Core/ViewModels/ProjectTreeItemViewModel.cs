@@ -10,9 +10,9 @@ using System.Text.Json.Serialization;
 
 namespace Core.ViewModels
 {
-    public class ExpanderItemViewModel : ObservableObject, IDisposable
+    public class ProjectTreeItemViewModel : ObservableObject, IDisposable
     {
-        private IExpanderItemHost? _expanderItemHost;
+        private IProjectTreeItemHost? _projectTreeItemHost;
 
         private bool _isUpdatingChildren;
         private bool _isDisposed;
@@ -72,26 +72,26 @@ namespace Core.ViewModels
         }
 
         [JsonInclude]
-        public ObservableCollection<ExpanderItemViewModel> Children { get; private set; } = new();
+        public ObservableCollection<ProjectTreeItemViewModel> Children { get; private set; } = new();
 
         [JsonIgnore]
         public IRelayCommand ShowPartDetailsCommand { get; private set; } =   new RelayCommand(() => { /* placeholder */ }, () => false);
 
 
-        public ExpanderItemViewModel()
+        public ProjectTreeItemViewModel()
         {
-            InitialiseCommonResources(_expanderItemHost);
+            InitialiseCommonResources(_projectTreeItemHost);
         }
 
-        public ExpanderItemViewModel(IExpanderItemHost expanderItemHost)
+        public ProjectTreeItemViewModel(IProjectTreeItemHost projectTreeItemHost)
         {
-            _expanderItemHost = expanderItemHost ?? throw new ArgumentNullException(nameof(expanderItemHost));
-            InitialiseCommonResources(expanderItemHost);
+            _projectTreeItemHost = projectTreeItemHost ?? throw new ArgumentNullException(nameof(projectTreeItemHost));
+            InitialiseCommonResources(projectTreeItemHost);
         }
 
-        private void InitialiseCommonResources(IExpanderItemHost? expanderItemHost)
+        private void InitialiseCommonResources(IProjectTreeItemHost? projectTreeItemHost)
         {
-            _expanderItemHost = expanderItemHost;
+            _projectTreeItemHost = projectTreeItemHost;
 
             ShowPartDetailsCommand = new RelayCommand(
                 execute: ShowPartDetails,
@@ -101,20 +101,20 @@ namespace Core.ViewModels
             Children.CollectionChanged += OnChildrenCollectionChanged;
             foreach(var child in Children)
             {
-                child.InitialiseCommonResources(expanderItemHost);
+                child.InitialiseCommonResources(projectTreeItemHost);
             }
         }
 
-        public void InitialiseRuntimeResources(IExpanderItemHost expanderItemHost)
+        public void InitialiseRuntimeResources(IProjectTreeItemHost projectTreeItemHost)
         {
-            InitialiseCommonResources(expanderItemHost);
+            InitialiseCommonResources(projectTreeItemHost);
         }
 
         private void OnChildrenCollectionChanged(object? sender, NotifyCollectionChangedEventArgs eventArgs)
         {
             if (eventArgs.NewItems != null)
             {
-                foreach (ExpanderItemViewModel child in eventArgs.NewItems)
+                foreach (ProjectTreeItemViewModel child in eventArgs.NewItems)
                 {
                     child.PropertyChanged += OnChildPropertyChanged;
                 }
@@ -122,7 +122,7 @@ namespace Core.ViewModels
 
             if (eventArgs.OldItems != null)
             {
-                foreach (ExpanderItemViewModel child in eventArgs.OldItems)
+                foreach (ProjectTreeItemViewModel child in eventArgs.OldItems)
                 {
                     child.PropertyChanged -= OnChildPropertyChanged;
                 }
@@ -197,7 +197,7 @@ namespace Core.ViewModels
 
         private void ShowPartDetails()
         {
-            _expanderItemHost?.OnExpanderItemSelected(this);
+            _projectTreeItemHost?.OnProjectTreeItemSelected(this);
         }
 
         public void Dispose()
