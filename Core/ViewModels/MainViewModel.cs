@@ -11,13 +11,13 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Core.ViewModels;
 
-public partial class MainViewModel : ObservableObject, IExpanderItemHost
+public partial class MainViewModel : ObservableObject, IProjectTreeItemHost
 {
     public readonly IFileManagementService fileManagementService;
     public readonly IFolderSelectionService folderSelectionService;
     private readonly IThemeChangerService themeChangerService;
     
-    public ObservableCollection<ExpanderItemViewModel> ExpanderItems { get; } = new();
+    public ObservableCollection<ProjectTreeItemViewModel> ProjectTreeItems { get; } = new();
 
     public IRelayCommand NewProjectTrackerCommand { get; }
     public IAsyncRelayCommand OpenProjectsFolderCommand { get; }
@@ -44,13 +44,13 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
         set => SetProperty(ref _projectsRootFolder, value);
     }
 
-    private ExpanderItemViewModel? _clickedExpanderItem;
-    public ExpanderItemViewModel? ClickedExpanderItem
+    private ProjectTreeItemViewModel? _ClickedProjectTreeItem;
+    public ProjectTreeItemViewModel? ClickedProjectTreeItem
     {
-        get => _clickedExpanderItem;
+        get => _ClickedProjectTreeItem;
         set
         {
-            if (SetProperty(ref _clickedExpanderItem, value))
+            if (SetProperty(ref _ClickedProjectTreeItem, value))
             {
                 OpenSelectedPartCommand.NotifyCanExecuteChanged();
             }
@@ -69,9 +69,9 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
         OpenSelectedPartCommand = new RelayCommand<string>(OpenProjectPartFile, CanOpenFileInSlicer);
     }
 
-    public void OnExpanderItemSelected(ExpanderItemViewModel item)
+    public void OnProjectTreeItemSelected(ProjectTreeItemViewModel item)
     {
-        ClickedExpanderItem = item;
+        ClickedProjectTreeItem = item;
     }
 
     private async Task CreateNewProjectTracker()
@@ -82,11 +82,11 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
             return;
         }
 
-        foreach (ExpanderItemViewModel expanderItem in ExpanderItems)
+        foreach (ProjectTreeItemViewModel projectTreeItem in ProjectTreeItems)
         {
-            expanderItem.Dispose();
+            projectTreeItem.Dispose();
         }
-        ExpanderItems.Clear();
+        ProjectTreeItems.Clear();
 
         var projectsTreeItems = fileManagementService.BuildProjectDirectoryTree(ProjectsRootFolder, this);
 
@@ -94,7 +94,7 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
         {
             CollapseChildren(projectTreeItem);
             projectTreeItem.IsExpanded = false;
-            ExpanderItems.Add(projectTreeItem);
+            ProjectTreeItems.Add(projectTreeItem);
         }
     }
 
@@ -109,11 +109,11 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
             }
         }
 
-        foreach (var expanderItem in ExpanderItems)
+        foreach (var projectTreeItem in ProjectTreeItems)
         {
-            expanderItem.Dispose();
+            projectTreeItem.Dispose();
         }
-        ExpanderItems.Clear();
+        ProjectTreeItems.Clear();
 
         var loadedProjects = await fileManagementService.LoadProjectsAsync(ProjectsRootFolder, this);
         Debug.WriteLine($"Projects: {loadedProjects.Count}");
@@ -121,9 +121,9 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
         if (loadedProjects.Any())
         {
             foreach (var project in loadedProjects)
-                ExpanderItems.Add(project);
+                ProjectTreeItems.Add(project);
 
-            foreach (var item in ExpanderItems)
+            foreach (var item in ProjectTreeItems)
                 item.IsExpanded = true;
         }
         else
@@ -136,7 +136,7 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
             {
                 CollapseChildren(projectTreeItem);
                 projectTreeItem.IsExpanded = false;
-                ExpanderItems.Add(projectTreeItem);
+                ProjectTreeItems.Add(projectTreeItem);
             }
         }
     }
@@ -149,7 +149,7 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
             return;
         }
 
-        if (ExpanderItems == null || ExpanderItems.Count == 0)
+        if (ProjectTreeItems == null || ProjectTreeItems.Count == 0)
         {
             Debug.WriteLine("No projects to save.");
             return;
@@ -157,7 +157,7 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
 
         try
         {
-            await fileManagementService.SaveProjectsAsync(ProjectsRootFolder, ExpanderItems);
+            await fileManagementService.SaveProjectsAsync(ProjectsRootFolder, ProjectTreeItems);
         }
         catch (Exception ex)
         {
@@ -165,7 +165,7 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
         }
     }
 
-    private void CollapseChildren(ExpanderItemViewModel parent)
+    private void CollapseChildren(ProjectTreeItemViewModel parent)
     {
         foreach (var child in parent.Children)
         {
@@ -184,7 +184,7 @@ public partial class MainViewModel : ObservableObject, IExpanderItemHost
 
     private bool CanOpenFileInSlicer(string? descriptionParameter)
     {
-        if (ClickedExpanderItem != null && ClickedExpanderItem.IsProjectFile)
+        if (ClickedProjectTreeItem != null && ClickedProjectTreeItem.IsProjectFile)
         {
             return true;
         }

@@ -46,9 +46,9 @@
             <Label Content="Projects and Parts Viewer" Classes="sectionHeader"/>
 
             <Border Grid.Row="1" Classes="panelCommon">
-                <TreeView ItemsSource="{Binding ExpanderItems}" SelectedItem="{Binding ClickedExpanderItem, Mode=TwoWay}" Classes="projectTree" Width="NaN">
+                <TreeView ItemsSource="{Binding ProjectTreeItems}" SelectedItem="{Binding ClickedProjectTreeItem, Mode=TwoWay}" Classes="projectTree" Width="NaN">
                     <TreeView.DataTemplates>
-                        <TreeDataTemplate DataType="vm:ExpanderItemViewModel" ItemsSource="{Binding Children}">
+                        <TreeDataTemplate DataType="vm:ProjectTreeItemViewModel" ItemsSource="{Binding Children}">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="6">
                                 <CheckBox IsChecked="{Binding IsChecked}"/>
                                 <TextBlock Classes="NormalText" Text="{Binding Title}"/>
@@ -63,7 +63,7 @@
             <Border Grid.Column="1" Grid.Row="1" Classes="panelCommon">
                 <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto" ColumnSpacing="12" RowSpacing="10">
                     <Label Grid.Column="0" Grid.Row="0" Classes="detailLabel" Content="Name"/>
-                    <TextBlock Grid.Column="1" Grid.Row="0" Classes="detailContent" Text="{Binding ClickedExpanderItem.PartName}"/>
+                    <TextBlock Grid.Column="1" Grid.Row="0" Classes="detailContent" Text="{Binding ClickedProjectTreeItem.PartName}"/>
                     
                     <Label Grid.Column="0" Grid.Row="1" Classes="detailLabel" Content="Dimensions (mm)"/>
                     <TextBlock Grid.Column="1" Grid.Row="1" Classes="detailNumericContent" Text="0 x 0 x 0"/>

@@ -45,16 +45,16 @@ namespace Core.Services
             return projectFiles;
         }
 
-        public List<ExpanderItemViewModel> BuildProjectDirectoryTree(string projectPath, IExpanderItemHost expanderItemHost)
+        public List<ProjectTreeItemViewModel> BuildProjectDirectoryTree(string projectPath, IProjectTreeItemHost projectTreeItemHost)
         {
-            var items = new List<ExpanderItemViewModel>();
+            var items = new List<ProjectTreeItemViewModel>();
 
             var directories = GetProjectDirectories(projectPath);
             var files = GetProjectFiles(projectPath);
 
             foreach(var directory in directories)
             {
-                var directoryNode = new ExpanderItemViewModel(expanderItemHost)
+                var directoryNode = new ProjectTreeItemViewModel(projectTreeItemHost)
                 {
                     Title = Path.GetFileName(directory),
                     Description = directory,
@@ -63,7 +63,7 @@ namespace Core.Services
                     PartName = String.Empty
                 };
 
-                var childItems = BuildProjectDirectoryTree(directory, expanderItemHost);
+                var childItems = BuildProjectDirectoryTree(directory, projectTreeItemHost);
                 foreach(var childItem in childItems)
                 {
                     directoryNode.Children.Add(childItem);
@@ -73,7 +73,7 @@ namespace Core.Services
 
             foreach(var file in files)
             {
-                items.Add(new ExpanderItemViewModel()
+                items.Add(new ProjectTreeItemViewModel()
                 {
                     Title = Path.GetFileName(file),
                     Description = file,
@@ -86,18 +86,18 @@ namespace Core.Services
             return items;
         }
 
-        public async Task<ObservableCollection<ExpanderItemViewModel>> LoadProjectsAsync(string projectRootFolderPath, IExpanderItemHost expanderItemHost)
+        public async Task<ObservableCollection<ProjectTreeItemViewModel>> LoadProjectsAsync(string projectRootFolderPath, IProjectTreeItemHost projectTreeItemHost)
         {
             if (string.IsNullOrWhiteSpace(projectRootFolderPath) || !Directory.Exists(projectRootFolderPath))
             {
-                return new ObservableCollection<ExpanderItemViewModel>();
+                return new ObservableCollection<ProjectTreeItemViewModel>();
             }
 
             string saveFilePath = Path.Combine(projectRootFolderPath, "projectSaveData.json");
 
             if (!File.Exists(saveFilePath))
             {
-                return new ObservableCollection<ExpanderItemViewModel>();
+                return new ObservableCollection<ProjectTreeItemViewModel>();
             }
             try
             {
@@ -106,24 +106,24 @@ namespace Core.Services
                 {
                     ReferenceHandler = ReferenceHandler.IgnoreCycles
                 };
-                var projects = JsonSerializer.Deserialize<ObservableCollection<ExpanderItemViewModel>>(json, options) ?? new ObservableCollection<ExpanderItemViewModel>();
+                var projects = JsonSerializer.Deserialize<ObservableCollection<ProjectTreeItemViewModel>>(json, options) ?? new ObservableCollection<ProjectTreeItemViewModel>();
                 Debug.WriteLine($"Project Child Count: {projects[0].Children.Count}");
                 foreach(var project in projects)
                 {
-                    project.InitialiseRuntimeResources(expanderItemHost);
+                    project.InitialiseRuntimeResources(projectTreeItemHost);
                 }
                 return projects;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Failed to load projects: {ex.Message}");
-                return new ObservableCollection<ExpanderItemViewModel>();
+                return new ObservableCollection<ProjectTreeItemViewModel>();
             }
         }
 
-        public async Task SaveProjectsAsync(string projectsRootFolderPath, ObservableCollection<ExpanderItemViewModel> expanderItems)
+        public async Task SaveProjectsAsync(string projectsRootFolderPath, ObservableCollection<ProjectTreeItemViewModel> projectTreeItems)
         {
-            if (string.IsNullOrWhiteSpace(projectsRootFolderPath) || expanderItems == null)
+            if (string.IsNullOrWhiteSpace(projectsRootFolderPath) || projectTreeItems == null)
                 return;
 
             try
@@ -136,7 +136,7 @@ namespace Core.Services
                     ReferenceHandler = ReferenceHandler.IgnoreCycles
                 };
 
-                string json = JsonSerializer.Serialize(expanderItems, options);
+                string json = JsonSerializer.Serialize(projectTreeItems, options);
                 string savePath = Path.Combine(projectsRootFolderPath, "projectSaveData.json");
 
                 await File.WriteAllTextAsync(savePath, json);

@@ -10,9 +10,9 @@ namespace Core.Interfaces
         string[] GetProjectDirectories(string ProjectDirectoriesFilePath);
         string[] GetProjectFiles(string ProjectFilesFilePath);
 
-        List<ExpanderItemViewModel> BuildProjectDirectoryTree(string projectPath, IExpanderItemHost expanderItemHost);
+        List<ProjectTreeItemViewModel> BuildProjectDirectoryTree(string projectPath, IProjectTreeItemHost projectTreeItemHost);
 
-        Task<ObservableCollection<ExpanderItemViewModel>> LoadProjectsAsync(string projectsRootFolderPath, IExpanderItemHost expanderItemHost);
-        Task SaveProjectsAsync(string projectsRootFolderPath, ObservableCollection<ExpanderItemViewModel> expanderItems);
+        Task<ObservableCollection<ProjectTreeItemViewModel>> LoadProjectsAsync(string projectsRootFolderPath, IProjectTreeItemHost projectTreeItemHost);
+        Task SaveProjectsAsync(string projectsRootFolderPath, ObservableCollection<ProjectTreeItemViewModel> projectTreeItems);
     }
 }
