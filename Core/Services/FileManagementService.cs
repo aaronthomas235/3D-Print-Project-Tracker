@@ -45,7 +45,7 @@ namespace Core.Services
             return projectFiles;
         }
 
-        public List<ProjectTreeItemViewModel> BuildProjectDirectoryTree(string projectPath, IProjectTreeItemHost projectTreeItemHost)
+        public List<ProjectTreeItemViewModel> BuildProjectDirectoryTree(string projectPath, IProjectTreeItemHost projectTreeItemHost, IMeshAnalyserService meshAnalyserService)
         {
             var items = new List<ProjectTreeItemViewModel>();
 
@@ -54,16 +54,19 @@ namespace Core.Services
 
             foreach(var directory in directories)
             {
-                var directoryNode = new ProjectTreeItemViewModel(projectTreeItemHost)
+                var directoryNode = new ProjectTreeItemViewModel(projectTreeItemHost, meshAnalyserService)
                 {
                     Title = Path.GetFileName(directory),
                     Description = directory,
                     IsChecked = false,
                     IsProjectFile = false,
-                    PartName = String.Empty
+                    PartName = String.Empty,
+                    Dimensions = String.Empty,
+                    PrintTime = String.Empty,
+                    MaterialUsage = String.Empty
                 };
 
-                var childItems = BuildProjectDirectoryTree(directory, projectTreeItemHost);
+                var childItems = BuildProjectDirectoryTree(directory, projectTreeItemHost, meshAnalyserService);
                 foreach(var childItem in childItems)
                 {
                     directoryNode.Children.Add(childItem);
@@ -73,13 +76,16 @@ namespace Core.Services
 
             foreach(var file in files)
             {
-                items.Add(new ProjectTreeItemViewModel()
+                items.Add(new ProjectTreeItemViewModel(projectTreeItemHost, meshAnalyserService)
                 {
                     Title = Path.GetFileName(file),
                     Description = file,
                     IsChecked = false,
                     IsProjectFile = true,
-                    PartName = Path.GetFileNameWithoutExtension(file)
+                    PartName = Path.GetFileNameWithoutExtension(file),
+                    Dimensions = "- x - x -",
+                    PrintTime = "0 Hrs 0 Min",
+                    MaterialUsage = "0g"
                 });
             }
 
@@ -145,7 +151,7 @@ namespace Core.Services
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error saving projects: {ex.Message}");
-                throw; // Let ViewModel handle the UI notification
+                throw;
             }
         }
     }

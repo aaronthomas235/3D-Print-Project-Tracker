@@ -5,17 +5,22 @@ using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace Core.ViewModels
 {
     public class ProjectTreeItemViewModel : ObservableObject, IDisposable
     {
         private IProjectTreeItemHost? _projectTreeItemHost;
+        private IMeshAnalyserService _meshAnalyserService;
 
         private bool _isUpdatingChildren;
         private bool _isDisposed;
+
+        private bool _areDimensionsLoaded = false;
 
         private string _title = String.Empty;
         public string Title
@@ -36,6 +41,27 @@ namespace Core.ViewModels
         {
             get => _partName;
             set => SetProperty(ref _partName, value);
+        }
+
+        private string _dimensions = String.Empty;
+        public string Dimensions
+        {
+            get => _dimensions;
+            set => SetProperty(ref _dimensions, value);
+        }
+
+        private string _printTime = String.Empty;
+        public string PrintTime
+        {
+            get => _printTime;
+            set => SetProperty(ref _printTime, value);
+        }
+
+        private string _materialUsage = String.Empty;
+        public string MaterialUsage
+        {
+            get => _materialUsage;
+            set => SetProperty(ref _materialUsage, value);
         }
 
         private bool _isExpanded = false;
@@ -75,28 +101,21 @@ namespace Core.ViewModels
         public ObservableCollection<ProjectTreeItemViewModel> Children { get; private set; } = new();
 
         [JsonIgnore]
-        public IRelayCommand ShowPartDetailsCommand { get; private set; } =   new RelayCommand(() => { /* placeholder */ }, () => false);
+        public IRelayCommand ShowPartDetailsCommand { get; private set; }
 
 
-        public ProjectTreeItemViewModel()
-        {
-            InitialiseCommonResources(_projectTreeItemHost);
-        }
-
-        public ProjectTreeItemViewModel(IProjectTreeItemHost projectTreeItemHost)
+        public ProjectTreeItemViewModel(IProjectTreeItemHost projectTreeItemHost, IMeshAnalyserService meshAnalyserService)
         {
             _projectTreeItemHost = projectTreeItemHost ?? throw new ArgumentNullException(nameof(projectTreeItemHost));
+            _meshAnalyserService = meshAnalyserService ?? throw new ArgumentNullException(nameof(meshAnalyserService));
+
+            ShowPartDetailsCommand = new RelayCommand(ShowPartDetails, () => IsProjectFile);
             InitialiseCommonResources(projectTreeItemHost);
         }
 
         private void InitialiseCommonResources(IProjectTreeItemHost? projectTreeItemHost)
         {
             _projectTreeItemHost = projectTreeItemHost;
-
-            ShowPartDetailsCommand = new RelayCommand(
-                execute: ShowPartDetails,
-                canExecute: () => IsProjectFile
-            );
 
             Children.CollectionChanged += OnChildrenCollectionChanged;
             foreach(var child in Children)
@@ -192,6 +211,25 @@ namespace Core.ViewModels
                 {
                     _isUpdatingChildren = false;
                 }
+            }
+        }
+
+        public async Task LoadDimensionsAsync()
+        {
+            if (!IsProjectFile || _areDimensionsLoaded)
+            {
+                return;
+            }
+
+            try
+            {
+                Debug.WriteLine($"Calculating Dimensions for {Description}");
+                var calculatedDimensions = await _meshAnalyserService.AnalyseAsync(Description);
+                Dimensions = $"{calculatedDimensions.Width:F1} x {calculatedDimensions.Height:F1} x {calculatedDimensions.Depth:F1}";
+            }
+            catch
+            {
+                Dimensions = "0 x 0 x 0";
             }
         }
 

@@ -9,10 +9,10 @@
 		Background="{DynamicResource MainBackgroundBrush}"
 		Icon="/Assets/3D_Print_Project_Tracker.ico"
 		Title="3D Print Project Tracker"
-		MinWidth="600"
-		MinHeight="600"
-		Width="600"
-		Height="600">
+		MinWidth="800"
+		MinHeight="800"
+		Width="800"
+		Height="800">
 
 	<Window.Styles>
 		<StyleInclude Source="avares://AvaloniaApp/Styles/NavigationBar.axaml"/>
@@ -66,13 +66,13 @@
                     <TextBlock Grid.Column="1" Grid.Row="0" Classes="detailContent" Text="{Binding ClickedProjectTreeItem.PartName}"/>
                     
                     <Label Grid.Column="0" Grid.Row="1" Classes="detailLabel" Content="Dimensions (mm)"/>
-                    <TextBlock Grid.Column="1" Grid.Row="1" Classes="detailNumericContent" Text="0 x 0 x 0"/>
+                    <TextBlock Grid.Column="1" Grid.Row="1" Classes="detailNumericContent" Text="{Binding ClickedProjectTreeItem.Dimensions}"/>
 
                     <Label Grid.Column="0" Grid.Row="2" Classes="detailLabel" Content="Print Time"/>
-                    <TextBlock Grid.Column="1" Grid.Row="2" Classes="detailNumericContent" Text="0 Hrs 0 Min"/>
+                    <TextBlock Grid.Column="1" Grid.Row="2" Classes="detailNumericContent" Text="{Binding ClickedProjectTreeItem.PrintTime}"/>
 
                     <Label Grid.Column="0" Grid.Row="3" Classes="detailLabel" Content="Material Usage"/>
-                    <TextBlock Grid.Column="1" Grid.Row="3" Classes="detailNumericContent" Text="0g"/>
+                    <TextBlock Grid.Column="1" Grid.Row="3" Classes="detailNumericContent" Text="{Binding ClickedProjectTreeItem.MaterialUsage}"/>
                     
                     <Border Grid.ColumnSpan="2" Grid.Row="4" Classes="divider"/>
 

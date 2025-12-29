@@ -4,16 +4,15 @@ using Core.Interfaces;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Core.ViewModels;
 
 public partial class MainViewModel : ObservableObject, IProjectTreeItemHost
 {
     public readonly IFileManagementService fileManagementService;
+    public readonly IMeshAnalyserService meshAnalyserService;
     public readonly IFolderSelectionService folderSelectionService;
     private readonly IThemeChangerService themeChangerService;
     
@@ -50,16 +49,18 @@ public partial class MainViewModel : ObservableObject, IProjectTreeItemHost
         get => _ClickedProjectTreeItem;
         set
         {
-            if (SetProperty(ref _ClickedProjectTreeItem, value))
+            if (SetProperty(ref _ClickedProjectTreeItem, value) && value != null)
             {
+                _ = value.LoadDimensionsAsync();
                 OpenSelectedPartCommand.NotifyCanExecuteChanged();
             }
         }
     }
 
-    public MainViewModel(IFileManagementService fileManagementService, IFolderSelectionService folderSelectionService, IThemeChangerService themeChangerService)
+    public MainViewModel(IFileManagementService fileManagementService, IMeshAnalyserService meshAnalyserService, IFolderSelectionService folderSelectionService, IThemeChangerService themeChangerService)
     {
         this.fileManagementService = fileManagementService;
+        this.meshAnalyserService = meshAnalyserService;
         this.folderSelectionService = folderSelectionService;
         this.themeChangerService = themeChangerService;
 
@@ -88,7 +89,7 @@ public partial class MainViewModel : ObservableObject, IProjectTreeItemHost
         }
         ProjectTreeItems.Clear();
 
-        var projectsTreeItems = fileManagementService.BuildProjectDirectoryTree(ProjectsRootFolder, this);
+        var projectsTreeItems = fileManagementService.BuildProjectDirectoryTree(ProjectsRootFolder, this, meshAnalyserService);
 
         foreach(var projectTreeItem in projectsTreeItems)
         {
@@ -130,7 +131,7 @@ public partial class MainViewModel : ObservableObject, IProjectTreeItemHost
         {
             Debug.WriteLine("No existing project data found. Building a new project tree...");
             Debug.WriteLine($"Projects Folder: {ProjectsRootFolder}");
-            var projectsTreeItems = fileManagementService.BuildProjectDirectoryTree(ProjectsRootFolder, this);
+            var projectsTreeItems = fileManagementService.BuildProjectDirectoryTree(ProjectsRootFolder, this, meshAnalyserService);
 
             foreach (var projectTreeItem in projectsTreeItems)
             {

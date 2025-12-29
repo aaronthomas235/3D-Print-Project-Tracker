@@ -33,6 +33,7 @@ namespace AvaloniaApp
                 var mainWindow = new MainWindow();
 
                 services.AddSingleton<IFileManagementService, Core.Services.FileManagementService>();
+                services.AddSingleton<IMeshAnalyserService, Core.Services.MeshAnalyserService>();
                 services.AddSingleton<IThemeChangerService, ThemeChangerService>();
                 services.AddSingleton<IFolderSelectionService>(new FolderSelectionService(mainWindow));
 
