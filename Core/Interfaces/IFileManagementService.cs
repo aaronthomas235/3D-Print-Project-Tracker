@@ -1,4 +1,5 @@
-﻿using Core.ViewModels;
+﻿using Core.Services;
+using Core.ViewModels;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace Core.Interfaces
         string[] GetProjectDirectories(string ProjectDirectoriesFilePath);
         string[] GetProjectFiles(string ProjectFilesFilePath);
 
-        List<ProjectTreeItemViewModel> BuildProjectDirectoryTree(string projectPath, IProjectTreeItemHost projectTreeItemHost);
+        List<ProjectTreeItemViewModel> BuildProjectDirectoryTree(string projectPath, IProjectTreeItemHost projectTreeItemHost, IMeshAnalyserService meshAnalyserService);
 
         Task<ObservableCollection<ProjectTreeItemViewModel>> LoadProjectsAsync(string projectsRootFolderPath, IProjectTreeItemHost projectTreeItemHost);
         Task SaveProjectsAsync(string projectsRootFolderPath, ObservableCollection<ProjectTreeItemViewModel> projectTreeItems);
