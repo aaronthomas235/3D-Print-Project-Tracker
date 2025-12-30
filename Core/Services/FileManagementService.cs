@@ -14,11 +14,10 @@ namespace Core.Services
 {
     public class FileManagementService : IFileManagementService
     {
-        private readonly HashSet<string> _supportedFileExtensionsSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
-        {
-            ".stl", ".obj", ".3mf", ".dae", ".ply", ".gltf", ".glb", ".x3d", ".amf"
-        };
-        public FileManagementService() {
+        private readonly ISupportedFileFormatsService _supportedFileFormatsService;
+        public FileManagementService(ISupportedFileFormatsService supportedFileFormatsService) {
+            _supportedFileFormatsService = supportedFileFormatsService;
+
         }
 
         public string[] GetProjectDirectories(string projectDirectoriesFilePath)
@@ -39,7 +38,7 @@ namespace Core.Services
             }
 
             projectFiles = Directory.GetFiles(projectFilesFilePath)
-                .Where(file => _supportedFileExtensionsSet.Contains(Path.GetExtension(file)))
+                .Where(file => _supportedFileFormatsService.IsExtensionSupported(Path.GetExtension(file)))
                 .ToArray();
 
             return projectFiles;

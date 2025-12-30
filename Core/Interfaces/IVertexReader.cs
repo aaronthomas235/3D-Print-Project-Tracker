@@ -1,5 +1,4 @@
-﻿using Core.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Core.Interfaces
 {
-    public interface IMeshAnalyserService
+    public interface IVertexReader : IEnumerable<(float X, float Y, float Z)>
     {
-        Task<MeshDimensions> AnalyseAsync(string FilePath);
+
     }
 }

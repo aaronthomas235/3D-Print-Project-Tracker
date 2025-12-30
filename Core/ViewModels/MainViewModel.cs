@@ -12,6 +12,7 @@ namespace Core.ViewModels;
 public partial class MainViewModel : ObservableObject, IProjectTreeItemHost
 {
     public readonly IFileManagementService fileManagementService;
+    public readonly ISupportedFileFormatsService supportedFileFormatsService;
     public readonly IMeshAnalyserService meshAnalyserService;
     public readonly IFolderSelectionService folderSelectionService;
     private readonly IThemeChangerService themeChangerService;
@@ -57,9 +58,10 @@ public partial class MainViewModel : ObservableObject, IProjectTreeItemHost
         }
     }
 
-    public MainViewModel(IFileManagementService fileManagementService, IMeshAnalyserService meshAnalyserService, IFolderSelectionService folderSelectionService, IThemeChangerService themeChangerService)
+    public MainViewModel(IFileManagementService fileManagementService, ISupportedFileFormatsService supportedFileFormatsService, IMeshAnalyserService meshAnalyserService, IFolderSelectionService folderSelectionService, IThemeChangerService themeChangerService)
     {
         this.fileManagementService = fileManagementService;
+        this.supportedFileFormatsService = supportedFileFormatsService;
         this.meshAnalyserService = meshAnalyserService;
         this.folderSelectionService = folderSelectionService;
         this.themeChangerService = themeChangerService;

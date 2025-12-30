@@ -1,4 +1,6 @@
 ﻿using Core.Interfaces;
+using Core.Models;
+using Core.Readers.STL;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,23 +13,55 @@ namespace Core.Services
 {
     public class MeshAnalyserService : IMeshAnalyserService
     {
-        public async Task<MeshDimensions> AnalyseAsync(string FilePath)
+        private readonly Dictionary<string, Func<string, MeshDimensions>> _analysers;
+
+        public MeshAnalyserService()
+        {
+            _analysers = new(StringComparer.OrdinalIgnoreCase)
+            {
+                [".stl"] = StlAnalysis
+            };
+        }
+        public async Task<MeshDimensions> AnalyseAsync(string filePath)
         {
             return await Task.Run(() => {
-                var extension = Path.GetExtension(FilePath).ToLowerInvariant();
+                var extension = Path.GetExtension(filePath).ToLowerInvariant();
 
-                return extension switch
+                if (!_analysers.TryGetValue(extension, out var analyser))
                 {
-                    ".stl" => StlAnalysis(FilePath),
-                    _ => throw new NotSupportedException($"Unsupported file type: {extension}")
-                };
+                    throw new NotSupportedException($"Unsupported File Type: {extension}");
+                }
+
+                return analyser(filePath);
             });
         }
 
-        private MeshDimensions StlAnalysis(string FilePath)
+        private MeshDimensions StlAnalysis(string filePath)
         {
-            return new MeshDimensions(1,1,1);
+            IVertexReader vertexReader = StlVertexReaderFactory.Create(filePath);
+            return CalculateBoundingBox(vertexReader);
         }
         //Repeat for other File Types
+
+        private MeshDimensions CalculateBoundingBox(IVertexReader vertices)
+        {
+            float minX = float.MaxValue, maxX = float.MinValue;
+            float minY = float.MaxValue, maxY = float.MinValue;
+            float minZ = float.MaxValue, maxZ = float.MinValue;
+
+            foreach (var (x, y, z) in vertices)
+            {
+                if (x < minX) minX = x; if (x > maxX) maxX = x;
+                if (y < minY) minY = y; if (y > maxY) maxY = y;
+                if (z < minZ) minZ = z; if (z > maxZ) maxZ = z;
+            }
+
+            if (!vertices.Any())
+            {
+                return new MeshDimensions(1, 1, 1);
+            }
+
+            return new MeshDimensions(maxX - minX, maxY - minY, maxZ - minZ);
+        }
     }
 }
