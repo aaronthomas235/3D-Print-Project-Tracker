@@ -8,8 +8,7 @@ namespace Core.Services
     {
         private readonly HashSet<string> _supportedFileExtensionsSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
-            ".stl", ".obj", ".3mf", ".dae", ".ply",
-            ".gltf", ".glb", ".x3d", ".amf"
+            ".stl", ".obj", ".3mf", ".amf" //".dae", ".ply", ".gltf", ".glb", ".x3d"
         };
 
         public bool IsExtensionSupported(string extension)

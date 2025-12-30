@@ -73,5 +73,5 @@ Publish/
 /.vs/
 
 /bin
-/obj
-/WPFApp
+/obj/
+!/OBJ/

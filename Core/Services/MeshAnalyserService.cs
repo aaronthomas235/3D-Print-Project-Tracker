@@ -1,12 +1,11 @@
 ﻿using Core.Interfaces;
 using Core.Models;
+using Core.Readers.OBJ;
 using Core.Readers.STL;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Core.Services
@@ -19,7 +18,11 @@ namespace Core.Services
         {
             _analysers = new(StringComparer.OrdinalIgnoreCase)
             {
-                [".stl"] = StlAnalysis
+                [".stl"] = StlAnalysis,
+                [".obj"] = ObjAnalysis,
+                [".3mf"] = MfAnalysis,
+                [".amf"] = AmfAnalysis
+
             };
         }
         public async Task<MeshDimensions> AnalyseAsync(string filePath)
@@ -41,7 +44,25 @@ namespace Core.Services
             IVertexReader vertexReader = StlVertexReaderFactory.Create(filePath);
             return CalculateBoundingBox(vertexReader);
         }
-        //Repeat for other File Types
+
+        private MeshDimensions ObjAnalysis(string filePath)
+        {
+            IVertexReader vertexReader = ObjVertexReaderFactory.Create(filePath);
+            return CalculateBoundingBox(vertexReader);
+        }
+
+        private MeshDimensions MfAnalysis(string filePath)
+        {
+            IVertexReader vertexReader = StlVertexReaderFactory.Create(filePath);
+            return CalculateBoundingBox(vertexReader);
+        }
+
+        private MeshDimensions AmfAnalysis(string filePath)
+        {
+            IVertexReader vertexReader = StlVertexReaderFactory.Create(filePath);
+            return CalculateBoundingBox(vertexReader);
+        }
+
 
         private MeshDimensions CalculateBoundingBox(IVertexReader vertices)
         {
