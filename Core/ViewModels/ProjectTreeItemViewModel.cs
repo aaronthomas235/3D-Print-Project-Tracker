@@ -223,7 +223,6 @@ namespace Core.ViewModels
 
             try
             {
-                Debug.WriteLine($"Calculating Dimensions for {Description}");
                 var calculatedDimensions = await _meshAnalyserService.AnalyseAsync(Description);
                 Dimensions = $"{calculatedDimensions.Width:F1} x {calculatedDimensions.Height:F1} x {calculatedDimensions.Depth:F1}";
             }

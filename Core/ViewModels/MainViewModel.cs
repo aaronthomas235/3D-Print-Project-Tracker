@@ -4,6 +4,7 @@ using Core.Interfaces;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,13 +17,14 @@ public partial class MainViewModel : ObservableObject, IProjectTreeItemHost
     public readonly IMeshAnalyserService meshAnalyserService;
     public readonly IFolderSelectionService folderSelectionService;
     private readonly IThemeChangerService themeChangerService;
+    private readonly IFileLauncherService fileLauncherService;
     
     public ObservableCollection<ProjectTreeItemViewModel> ProjectTreeItems { get; } = new();
 
     public IRelayCommand NewProjectTrackerCommand { get; }
     public IAsyncRelayCommand OpenProjectsFolderCommand { get; }
     public IAsyncRelayCommand SaveProjectsCommand { get; }
-    public IRelayCommand<string> OpenSelectedPartCommand { get; }
+    public IAsyncRelayCommand OpenSelectedPartCommand { get; }
 
     private bool _isUsingDarkTheme = true;
     public bool IsUsingDarkTheme
@@ -58,18 +60,22 @@ public partial class MainViewModel : ObservableObject, IProjectTreeItemHost
         }
     }
 
-    public MainViewModel(IFileManagementService fileManagementService, ISupportedFileFormatsService supportedFileFormatsService, IMeshAnalyserService meshAnalyserService, IFolderSelectionService folderSelectionService, IThemeChangerService themeChangerService)
+    public MainViewModel(IFileManagementService fileManagementService, ISupportedFileFormatsService supportedFileFormatsService,
+        IMeshAnalyserService meshAnalyserService, IFolderSelectionService folderSelectionService,
+        IThemeChangerService themeChangerService, IFileLauncherService fileLauncherService)
     {
         this.fileManagementService = fileManagementService;
         this.supportedFileFormatsService = supportedFileFormatsService;
         this.meshAnalyserService = meshAnalyserService;
         this.folderSelectionService = folderSelectionService;
         this.themeChangerService = themeChangerService;
+        this.fileLauncherService = fileLauncherService;
 
         NewProjectTrackerCommand = new AsyncRelayCommand(CreateNewProjectTracker);
         OpenProjectsFolderCommand = new AsyncRelayCommand(OpenProjectsFolder);
         SaveProjectsCommand = new AsyncRelayCommand(SaveProjects);
-        OpenSelectedPartCommand = new RelayCommand<string>(OpenProjectPartFile, CanOpenFileInSlicer);
+        OpenSelectedPartCommand = new AsyncRelayCommand(OpenProjectPartFileAsync);
+        this.fileLauncherService = fileLauncherService;
     }
 
     public void OnProjectTreeItemSelected(ProjectTreeItemViewModel item)
@@ -177,20 +183,19 @@ public partial class MainViewModel : ObservableObject, IProjectTreeItemHost
         }
     }
 
-    private void OpenProjectPartFile(string? partFilePath)
+    private async Task OpenProjectPartFileAsync()
     {
-        if (!string.IsNullOrWhiteSpace(partFilePath))
+        if (ClickedProjectTreeItem == null || !ClickedProjectTreeItem.IsProjectFile)
         {
-            Debug.WriteLine($"Opening {partFilePath}");
+            return;
         }
-    }
 
-    private bool CanOpenFileInSlicer(string? descriptionParameter)
-    {
-        if (ClickedProjectTreeItem != null && ClickedProjectTreeItem.IsProjectFile)
+        try
         {
-            return true;
+            await fileLauncherService.OpenFileAsync(ClickedProjectTreeItem.Description);
         }
-        return false;
+        catch (Exception ex) {
+            Debug.WriteLine($"Failed to open file: {ex.Message}");
+        }
     }
 }
