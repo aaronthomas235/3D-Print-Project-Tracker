@@ -76,7 +76,7 @@
                     
                     <Border Grid.ColumnSpan="2" Grid.Row="4" Classes="divider"/>
 
-                    <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" Classes="openProjectFileButton" Content="Open File"/>
+                    <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" Classes="openProjectFileButton" Content="Open File" Command="{ Binding OpenSelectedPartCommand }" IsEnabled="{Binding ClickedProjectTreeItem.IsProjectFile}"/>
                 </Grid>
             </Border>
 
