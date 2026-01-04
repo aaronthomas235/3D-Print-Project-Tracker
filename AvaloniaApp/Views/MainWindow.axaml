@@ -26,8 +26,8 @@
         <Menu Classes="NavigationBarMenu">
             <MenuItem Classes="NavigationBarMenuItem" Header="_File">
                 <MenuItem Classes="NavigationBarSubMenuItem" Header="_📄 New"   Command="{Binding NewProjectTrackerCommand}"/>
-                <MenuItem Classes="NavigationBarSubMenuItem" Header="_📂 Open"  Command="{Binding OpenProjectsFolderCommand}"/>
-                <MenuItem Classes="NavigationBarSubMenuItem" Header="_💾 Save"  Command="{Binding SaveProjectsCommand}"/>
+                <MenuItem Classes="NavigationBarSubMenuItem" Header="_📂 Open"  Command="{Binding OpenProjectsFolderAsyncCommand}"/>
+                <MenuItem Classes="NavigationBarSubMenuItem" Header="_💾 Save"  Command="{Binding SaveProjectsAsyncCommand}"/>
             </MenuItem>
 
             <MenuItem Classes="NavigationBarMenuItem" Header="_Preferences">
