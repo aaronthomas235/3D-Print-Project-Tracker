@@ -68,7 +68,7 @@
                     <Label Grid.Column="0" Grid.Row="1" Classes="detailLabel" Content="Dimensions (mm)"/>
                     <TextBlock Grid.Column="1" Grid.Row="1" Classes="detailNumericContent" Text="{Binding ClickedProjectTreeItem.Dimensions}"/>
 
-                    <Label Grid.Column="0" Grid.Row="2" Classes="detailLabel" Content="Print Time"/>
+                    <Label Grid.Column="0" Grid.Row="2" Classes="detailLabel" Content="Estimated Print Time"/>
                     <TextBlock Grid.Column="1" Grid.Row="2" Classes="detailNumericContent" Text="{Binding ClickedProjectTreeItem.PrintTime}"/>
 
                     <Label Grid.Column="0" Grid.Row="3" Classes="detailLabel" Content="Material Usage"/>
