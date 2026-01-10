@@ -44,7 +44,7 @@ namespace Core.Services
             return projectFiles;
         }
 
-        public List<ProjectTreeItemViewModel> BuildProjectDirectoryTree(string projectPath, IProjectTreeItemHost projectTreeItemHost, IMeshAnalyserService meshAnalyserService)
+        public List<ProjectTreeItemViewModel> BuildProjectDirectoryTree(string projectPath, IProjectTreeItemHost projectTreeItemHost, IMeshAnalyserService meshAnalyserService, IPrinterProfileService printerProfileService, IPrintTimeEstimationService printTimeEstimationService)
         {
             var items = new List<ProjectTreeItemViewModel>();
 
@@ -53,7 +53,7 @@ namespace Core.Services
 
             foreach(var directory in directories)
             {
-                var directoryNode = new ProjectTreeItemViewModel(projectTreeItemHost, meshAnalyserService)
+                var directoryNode = new ProjectTreeItemViewModel(projectTreeItemHost, printerProfileService, meshAnalyserService, printTimeEstimationService)
                 {
                     Title = Path.GetFileName(directory),
                     Description = directory,
@@ -65,7 +65,7 @@ namespace Core.Services
                     MaterialUsage = String.Empty
                 };
 
-                var childItems = BuildProjectDirectoryTree(directory, projectTreeItemHost, meshAnalyserService);
+                var childItems = BuildProjectDirectoryTree(directory, projectTreeItemHost, meshAnalyserService, printerProfileService, printTimeEstimationService);
                 foreach(var childItem in childItems)
                 {
                     directoryNode.Children.Add(childItem);
@@ -75,7 +75,7 @@ namespace Core.Services
 
             foreach(var file in files)
             {
-                items.Add(new ProjectTreeItemViewModel(projectTreeItemHost, meshAnalyserService)
+                items.Add(new ProjectTreeItemViewModel(projectTreeItemHost, printerProfileService, meshAnalyserService, printTimeEstimationService)
                 {
                     Title = Path.GetFileName(file),
                     Description = file,

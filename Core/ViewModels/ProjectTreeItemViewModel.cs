@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Core.Interfaces;
+using Core.Models;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -15,12 +16,15 @@ namespace Core.ViewModels
     public class ProjectTreeItemViewModel : ObservableObject, IDisposable
     {
         private IProjectTreeItemHost? _projectTreeItemHost;
+        private IPrinterProfileService _printerProfileService;
         private IMeshAnalyserService _meshAnalyserService;
+        private IPrintTimeEstimationService _printTimeEstimationService;
 
         private bool _isUpdatingChildren;
         private bool _isDisposed;
 
         private bool _areDimensionsLoaded = false;
+        private bool _hasPrintTimeBeenEstimated = false;
 
         private string _title = String.Empty;
         public string Title
@@ -34,6 +38,21 @@ namespace Core.ViewModels
         {
             get => _description;
             set => SetProperty(ref _description, value);
+        }
+
+        private Guid _assignedPrinterProfileId = Guid.Empty;
+
+        public Guid AssignedPrinterProfileId
+        {
+            get => _assignedPrinterProfileId;
+            set
+    {
+                if (SetProperty(ref _assignedPrinterProfileId, value))
+                {
+                    _hasPrintTimeBeenEstimated = false;
+                    PrintTime = String.Empty;
+                }
+            }
         }
 
         private string _partName = String.Empty;
@@ -104,10 +123,12 @@ namespace Core.ViewModels
         public IRelayCommand ShowPartDetailsCommand { get; private set; }
 
 
-        public ProjectTreeItemViewModel(IProjectTreeItemHost projectTreeItemHost, IMeshAnalyserService meshAnalyserService)
+        public ProjectTreeItemViewModel(IProjectTreeItemHost projectTreeItemHost, IPrinterProfileService printerProfileService, IMeshAnalyserService meshAnalyserService, IPrintTimeEstimationService printTimeEstimationService)
         {
             _projectTreeItemHost = projectTreeItemHost ?? throw new ArgumentNullException(nameof(projectTreeItemHost));
+            _printerProfileService = printerProfileService ?? throw new ArgumentNullException(nameof(printerProfileService));
             _meshAnalyserService = meshAnalyserService ?? throw new ArgumentNullException(nameof(meshAnalyserService));
+            _printTimeEstimationService = printTimeEstimationService ?? throw new ArgumentNullException(nameof(printTimeEstimationService));
 
             ShowPartDetailsCommand = new RelayCommand(ShowPartDetails, () => IsProjectFile);
             InitialiseCommonResources(projectTreeItemHost);
@@ -214,6 +235,20 @@ namespace Core.ViewModels
             }
         }
 
+        private PrinterProfile ResolvePrinterProfile()
+        {
+            if (AssignedPrinterProfileId != Guid.Empty)
+            {
+                var profile = _printerProfileService.GetPrinterProfileById(AssignedPrinterProfileId);
+                if (profile != null)
+                {
+                    return profile;
+                }
+            }
+
+            return ReferencePrinterProfile.Default;
+        }
+
         public async Task LoadDimensionsAsync()
         {
             if (!IsProjectFile || _areDimensionsLoaded)
@@ -230,6 +265,47 @@ namespace Core.ViewModels
             {
                 Dimensions = "0 x 0 x 0";
             }
+        }
+
+        public async Task LoadPrintTimeAsync()
+        {
+            if(!IsProjectFile || _hasPrintTimeBeenEstimated)
+            {
+                return;
+            }
+
+            try
+            {
+                var selectedProfile = ResolvePrinterProfile();
+                Debug.WriteLine($"Printer Name: {selectedProfile.Name}");
+                var timeSpan = await _printTimeEstimationService.EstimateAsync(Description, selectedProfile);
+
+                PrintTime = FormatTimeSpan(timeSpan);
+                _hasPrintTimeBeenEstimated = true;
+            }
+            catch
+            {
+                PrintTime = "0 Days 0 Hours 0 Minutes";
+            }
+        }
+
+        private static string FormatTimeSpan(TimeSpan calculatedTimeSpan)
+        {
+            var totalMinutes = (int)Math.Round(calculatedTimeSpan.TotalMinutes);
+            if (totalMinutes < 0)
+            {
+                totalMinutes = 0;
+            }
+
+            var days = totalMinutes / (24 * 60);
+            var hours = (totalMinutes % (24 * 60)) / 60;
+            var minutes = totalMinutes % 60;
+
+            if (days > 0)
+            {
+                return $"{days} Days {hours} Hours {minutes} Minutes";
+            }
+            return $"{hours} Hours {minutes} Minutes";
         }
 
         private void ShowPartDetails()

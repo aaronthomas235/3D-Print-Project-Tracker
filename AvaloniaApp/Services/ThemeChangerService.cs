@@ -14,7 +14,7 @@ namespace AvaloniaApp.Services
         {
             if (Application.Current is App app)
             {
-                app.SetTheme(useDarkTheme);
+                App.SetTheme(useDarkTheme);
             }
         }
     }

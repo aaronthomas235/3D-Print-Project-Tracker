@@ -34,6 +34,8 @@ namespace AvaloniaApp
 
                 services.AddSingleton<IFileManagementService, Core.Services.FileManagementService>();
                 services.AddSingleton<ISupportedFileFormatsService, Core.Services.SupportedFileFormatsService>();
+                services.AddSingleton<IPrinterProfileService, Core.Services.PrinterProfileService>();
+                services.AddSingleton<IPrintTimeEstimationService, Core.Services.PrintTimeEstimationService>();
                 services.AddSingleton<IMeshAnalyserService, Core.Services.MeshAnalyserService>();
                 services.AddSingleton<IFileLauncherService, FileLauncherService>();
                 services.AddSingleton<IThemeChangerService, ThemeChangerService>();
@@ -49,7 +51,7 @@ namespace AvaloniaApp
             base.OnFrameworkInitializationCompleted();
         }
 
-        public void SetTheme(bool useDark)
+        public static void SetTheme(bool useDark)
         {
             var app = Application.Current;
             if (app == null) return;

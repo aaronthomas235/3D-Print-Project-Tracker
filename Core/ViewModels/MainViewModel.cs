@@ -12,18 +12,20 @@ namespace Core.ViewModels;
 
 public partial class MainViewModel : ObservableObject, IProjectTreeItemHost
 {
-    public readonly IFileManagementService fileManagementService;
-    public readonly ISupportedFileFormatsService supportedFileFormatsService;
-    public readonly IMeshAnalyserService meshAnalyserService;
-    public readonly IFolderSelectionService folderSelectionService;
-    private readonly IThemeChangerService themeChangerService;
-    private readonly IFileLauncherService fileLauncherService;
-    
+    private readonly IFileLauncherService _fileLauncherService;
+    private readonly IFileManagementService _fileManagementService;
+    private readonly IFolderSelectionService _folderSelectionService;
+    private readonly IMeshAnalyserService _meshAnalyserService;
+    private readonly IPrinterProfileService _printerProfileService;
+    private readonly IPrintTimeEstimationService _printTimeEstimationService;
+    private readonly ISupportedFileFormatsService _supportedFileFormatsService;
+    private readonly IThemeChangerService _themeChangerService;
+
     public ObservableCollection<ProjectTreeItemViewModel> ProjectTreeItems { get; } = new();
 
     public IRelayCommand NewProjectTrackerCommand { get; }
-    public IAsyncRelayCommand OpenProjectsFolderCommand { get; }
-    public IAsyncRelayCommand SaveProjectsCommand { get; }
+    public IAsyncRelayCommand OpenProjectsFolderAsyncCommand { get; }
+    public IAsyncRelayCommand SaveProjectsAsyncCommand { get; }
     public IAsyncRelayCommand OpenSelectedPartCommand { get; }
 
     private bool _isUsingDarkTheme = true;
@@ -34,7 +36,7 @@ public partial class MainViewModel : ObservableObject, IProjectTreeItemHost
         {
             if (SetProperty(ref _isUsingDarkTheme, value))
             {
-                themeChangerService.SetTheme(value);
+                _themeChangerService.SetTheme(value);
             }
         }
     }
@@ -46,46 +48,65 @@ public partial class MainViewModel : ObservableObject, IProjectTreeItemHost
         set => SetProperty(ref _projectsRootFolder, value);
     }
 
-    private ProjectTreeItemViewModel? _ClickedProjectTreeItem;
+    private ProjectTreeItemViewModel? _clickedProjectTreeItem;
     public ProjectTreeItemViewModel? ClickedProjectTreeItem
     {
-        get => _ClickedProjectTreeItem;
+        get => _clickedProjectTreeItem;
         set
         {
-            if (SetProperty(ref _ClickedProjectTreeItem, value) && value != null)
+            if (SetProperty(ref _clickedProjectTreeItem, value))
             {
-                _ = value.LoadDimensionsAsync();
-                OpenSelectedPartCommand.NotifyCanExecuteChanged();
+                OnClickedProjectTreeItemChanged(value);
             }
         }
     }
 
-    public MainViewModel(IFileManagementService fileManagementService, ISupportedFileFormatsService supportedFileFormatsService,
-        IMeshAnalyserService meshAnalyserService, IFolderSelectionService folderSelectionService,
-        IThemeChangerService themeChangerService, IFileLauncherService fileLauncherService)
+    public MainViewModel(IFileLauncherService fileLauncherService, IFileManagementService fileManagementService, IFolderSelectionService folderSelectionService,
+        IMeshAnalyserService meshAnalyserService, IPrinterProfileService printerProfileService, IPrintTimeEstimationService printTimeEstimationService,
+        ISupportedFileFormatsService supportedFileFormatsService, IThemeChangerService themeChangerService)
     {
-        this.fileManagementService = fileManagementService;
-        this.supportedFileFormatsService = supportedFileFormatsService;
-        this.meshAnalyserService = meshAnalyserService;
-        this.folderSelectionService = folderSelectionService;
-        this.themeChangerService = themeChangerService;
-        this.fileLauncherService = fileLauncherService;
+        _fileLauncherService = fileLauncherService;
+        _fileManagementService = fileManagementService;
+        _folderSelectionService = folderSelectionService;
+        _meshAnalyserService = meshAnalyserService;
+        _printerProfileService = printerProfileService;
+        _printTimeEstimationService = printTimeEstimationService;
+        _supportedFileFormatsService = supportedFileFormatsService;
+        _themeChangerService = themeChangerService;
 
         NewProjectTrackerCommand = new AsyncRelayCommand(CreateNewProjectTracker);
-        OpenProjectsFolderCommand = new AsyncRelayCommand(OpenProjectsFolder);
-        SaveProjectsCommand = new AsyncRelayCommand(SaveProjects);
+        OpenProjectsFolderAsyncCommand = new AsyncRelayCommand(OpenProjectsFolderAsync);
+        SaveProjectsAsyncCommand = new AsyncRelayCommand(SaveProjectsAsync);
         OpenSelectedPartCommand = new AsyncRelayCommand(OpenProjectPartFileAsync);
-        this.fileLauncherService = fileLauncherService;
+    }
+
+    private async void OnClickedProjectTreeItemChanged(ProjectTreeItemViewModel? item)
+    {
+        if (item == null)
+            return;
+
+        _ = item.LoadDimensionsAsync();
+        _ = item.LoadPrintTimeAsync();
+
+        OpenSelectedPartCommand.NotifyCanExecuteChanged();
     }
 
     public void OnProjectTreeItemSelected(ProjectTreeItemViewModel item)
     {
+        if (item == null)
+        {
+            return;
+        }
+
+        _ = item.LoadDimensionsAsync();
+        _ = item.LoadPrintTimeAsync();
         ClickedProjectTreeItem = item;
+        OpenSelectedPartCommand.NotifyCanExecuteChanged();
     }
 
     private async Task CreateNewProjectTracker()
     {
-        ProjectsRootFolder = await folderSelectionService.SelectFolderAsync();
+        ProjectsRootFolder = await _folderSelectionService.SelectFolderAsync();
         if (string.IsNullOrWhiteSpace(ProjectsRootFolder))
         {
             return;
@@ -97,7 +118,7 @@ public partial class MainViewModel : ObservableObject, IProjectTreeItemHost
         }
         ProjectTreeItems.Clear();
 
-        var projectsTreeItems = fileManagementService.BuildProjectDirectoryTree(ProjectsRootFolder, this, meshAnalyserService);
+        var projectsTreeItems = _fileManagementService.BuildProjectDirectoryTree(ProjectsRootFolder, this, _meshAnalyserService, _printerProfileService, _printTimeEstimationService);
 
         foreach(var projectTreeItem in projectsTreeItems)
         {
@@ -107,11 +128,11 @@ public partial class MainViewModel : ObservableObject, IProjectTreeItemHost
         }
     }
 
-    private async Task OpenProjectsFolder()
+    private async Task OpenProjectsFolderAsync()
     {
         if (string.IsNullOrWhiteSpace(ProjectsRootFolder))
         {
-            ProjectsRootFolder = await folderSelectionService.SelectFolderAsync();
+            ProjectsRootFolder = await _folderSelectionService.SelectFolderAsync();
             if (string.IsNullOrWhiteSpace(ProjectsRootFolder))
             {
                 return;
@@ -124,7 +145,7 @@ public partial class MainViewModel : ObservableObject, IProjectTreeItemHost
         }
         ProjectTreeItems.Clear();
 
-        var loadedProjects = await fileManagementService.LoadProjectsAsync(ProjectsRootFolder, this);
+        var loadedProjects = await _fileManagementService.LoadProjectsAsync(ProjectsRootFolder, this);
         Debug.WriteLine($"Projects: {loadedProjects.Count}");
 
         if (loadedProjects.Any())
@@ -139,7 +160,7 @@ public partial class MainViewModel : ObservableObject, IProjectTreeItemHost
         {
             Debug.WriteLine("No existing project data found. Building a new project tree...");
             Debug.WriteLine($"Projects Folder: {ProjectsRootFolder}");
-            var projectsTreeItems = fileManagementService.BuildProjectDirectoryTree(ProjectsRootFolder, this, meshAnalyserService);
+            var projectsTreeItems = _fileManagementService.BuildProjectDirectoryTree(ProjectsRootFolder, this, _meshAnalyserService, _printerProfileService, _printTimeEstimationService);
 
             foreach (var projectTreeItem in projectsTreeItems)
             {
@@ -150,7 +171,7 @@ public partial class MainViewModel : ObservableObject, IProjectTreeItemHost
         }
     }
 
-    private async Task SaveProjects()
+    private async Task SaveProjectsAsync()
     {
         if (string.IsNullOrWhiteSpace(ProjectsRootFolder))
         {
@@ -166,7 +187,7 @@ public partial class MainViewModel : ObservableObject, IProjectTreeItemHost
 
         try
         {
-            await fileManagementService.SaveProjectsAsync(ProjectsRootFolder, ProjectTreeItems);
+            await _fileManagementService.SaveProjectsAsync(ProjectsRootFolder, ProjectTreeItems);
         }
         catch (Exception ex)
         {
@@ -192,7 +213,7 @@ public partial class MainViewModel : ObservableObject, IProjectTreeItemHost
 
         try
         {
-            await fileLauncherService.OpenFileAsync(ClickedProjectTreeItem.Description);
+            await _fileLauncherService.OpenFileAsync(ClickedProjectTreeItem.Description);
         }
         catch (Exception ex) {
             Debug.WriteLine($"Failed to open file: {ex.Message}");
