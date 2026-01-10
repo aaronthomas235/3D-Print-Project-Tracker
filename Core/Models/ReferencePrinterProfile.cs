@@ -44,17 +44,25 @@ namespace Core.Models
             InitialLayerTravelSpeed = 100,
 
             // ───── Inefficiency / calibration factors ─────
-            WallSpeedEfficiency = 0.95,
-            InfillSpeedEfficiency = 0.95,
+            WallSpeedEfficiency = 0.99,        // slightly slower than max
+            InfillSpeedEfficiency = 0.99,      // slightly slower than max
 
             // ───── Geometry ─────
             WallCount = 2,
             InfillDensity = 0.2,
+
+            // ───── Supports ─────
             SupportsEnabled = false,
+            SupportDensity = 0.2,
+            SupportVolumeFactor = 0.6,         // realistic support volume
+            PrintSpeedSupport = 25,
+            SupportSpeedEfficiency = 0.5,     // slow support printing
+            SupportTravelFactor = 0.8,         // overhead for support travel
 
             // ───── Time calibration ─────
-            TravelTimeFactor = 0.1,
-            CalibrationFactor = 0.85
+            TravelTimeFactor = 0.075,           // fraction of extrusion time added as travel
+            CalibrationFactor = 0.95            // global fudge factor
+
         };
     }
 }

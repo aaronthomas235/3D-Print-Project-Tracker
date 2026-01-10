@@ -4,6 +4,7 @@ using Core.Readers.OBJ;
 using Core.Readers.STL;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -63,6 +64,15 @@ namespace Core.Services
             double calibration = Math.Clamp(profile.CalibrationFactor, 0.5, 2.5);
 
             double totalSeconds = (extrusionTime + travelTime + supportsTime) * calibration;
+
+            Debug.WriteLine($"First Layer: {firstLayer.TimeSeconds}");
+            Debug.WriteLine($"Main Layers: {mainLayers}");
+            Debug.WriteLine($"Extrusion: {extrusionTime}");
+            Debug.WriteLine($"Travel: {travelTime}");
+            Debug.WriteLine($"Supports: {supportsTime}");
+            Debug.WriteLine($"Calibration: {calibration}");
+            Debug.WriteLine($"Total: {totalSeconds}");
+
 
             return TimeSpan.FromSeconds(Math.Max(0, totalSeconds));
         }
@@ -132,9 +142,9 @@ namespace Core.Services
 
         private static double CalculateTravelTime(double extrusionTimeSeconds, PrinterProfile profile)
         {
-            double inefficiency = Math.Clamp(profile.TravelInefficiency, 1.0, 4.0);
+            double factor = Math.Clamp(profile.TravelTimeFactor, 0.05, 0.5);
 
-            return extrusionTimeSeconds * profile.TravelTimeFactor * profile.TravelInefficiency;
+            return extrusionTimeSeconds * factor;
         }
 
         private static double CalculateSupportTime(PrintModel model, PrinterProfile profile)
@@ -144,8 +154,17 @@ namespace Core.Services
                 return 0;
             }
 
-            // TODO: ADD Support Calculations
-            return 0;
+            double supportVolume = model.VolumeMm3 * profile.SupportVolumeFactor * profile.SupportDensity;
+
+            double supportSpeed = ResolveEffectiveSpeed(profile.PrintSpeedSupport, profile.PrintSpeedGeneral, profile.SupportSpeedEfficiency);
+
+            double supportFlow = profile.LineWidth * profile.LayerHeight * supportSpeed;
+
+            double printTime = CalculateTimeInSeconds(supportVolume, supportFlow);
+
+            double travelOverhead = printTime * profile.SupportTravelFactor;
+
+            return printTime + travelOverhead;
         }
 
         private static PrintModel StlImport(string filePath)
