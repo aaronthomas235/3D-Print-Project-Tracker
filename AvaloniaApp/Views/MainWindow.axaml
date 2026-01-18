@@ -46,11 +46,11 @@
             <Label Content="Projects and Parts Viewer" Classes="sectionHeader"/>
 
             <Border Grid.Row="1" Classes="panelCommon">
-                <TreeView ItemsSource="{Binding ProjectTreeItems}" SelectedItem="{Binding ClickedProjectTreeItem, Mode=TwoWay}" Classes="projectTree" Width="NaN">
+                <TreeView ItemsSource="{Binding ProjectTreeItems}" SelectedItem="{Binding ClickedProjectTreeItem, Mode=TwoWay}" Classes="projectTree">
                     <TreeView.DataTemplates>
                         <TreeDataTemplate DataType="vm:ProjectTreeItemViewModel" ItemsSource="{Binding Children}">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="6">
-                                <CheckBox IsChecked="{Binding IsChecked}"/>
+                                <CheckBox IsChecked="{Binding IsCompleted, Mode=TwoWay}"/>
                                 <TextBlock Classes="NormalText" Text="{Binding Title}"/>
                             </StackPanel>
                         </TreeDataTemplate>
@@ -63,7 +63,7 @@
             <Border Grid.Column="1" Grid.Row="1" Classes="panelCommon">
                 <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto" ColumnSpacing="12" RowSpacing="10">
                     <Label Grid.Column="0" Grid.Row="0" Classes="detailLabel" Content="Name"/>
-                    <TextBlock Grid.Column="1" Grid.Row="0" Classes="detailContent" Text="{Binding ClickedProjectTreeItem.PartName}"/>
+                    <TextBlock Grid.Column="1" Grid.Row="0" Classes="detailContent" Text="{Binding ClickedProjectTreeItem.Title}"/>
                     
                     <Label Grid.Column="0" Grid.Row="1" Classes="detailLabel" Content="Dimensions (mm)"/>
                     <TextBlock Grid.Column="1" Grid.Row="1" Classes="detailNumericContent" Text="{Binding ClickedProjectTreeItem.Dimensions}"/>
@@ -72,11 +72,11 @@
                     <TextBlock Grid.Column="1" Grid.Row="2" Classes="detailNumericContent" Text="{Binding ClickedProjectTreeItem.PrintTime}"/>
 
                     <Label Grid.Column="0" Grid.Row="3" Classes="detailLabel" Content="Material Usage"/>
-                    <TextBlock Grid.Column="1" Grid.Row="3" Classes="detailNumericContent" Text="{Binding ClickedProjectTreeItem.MaterialUsage}"/>
+                    <TextBlock Grid.Column="1" Grid.Row="3" Classes="detailNumericContent" Text="{Binding ClickedProjectTreeItem.Description}"/>
                     
                     <Border Grid.ColumnSpan="2" Grid.Row="4" Classes="divider"/>
 
-                    <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" Classes="openProjectFileButton" Content="Open File" Command="{ Binding OpenSelectedPartCommand }" IsEnabled="{Binding ClickedProjectTreeItem.IsProjectFile}"/>
+                    <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" Classes="openProjectFileButton" Content="Open File" Command="{ Binding OpenSelectedPartCommand }" IsEnabled="{Binding ClickedProjectTreeItem.IsFile}"/>
                 </Grid>
             </Border>
 

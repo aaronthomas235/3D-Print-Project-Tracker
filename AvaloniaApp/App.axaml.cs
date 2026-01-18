@@ -32,6 +32,9 @@ namespace AvaloniaApp
 
                 var mainWindow = new MainWindow();
 
+                services.AddSingleton<IProjectTreeCoordinationService, Core.Services.ProjectTreeCoordinationService>();
+                services.AddSingleton<IProjectTreeBuilder, Core.Services.ProjectTreeBuilder>();
+                services.AddSingleton<IProjectTreeItemViewModelFactory, Core.Factories.ProjectTreeItemViewModelFactory>();
                 services.AddSingleton<IFileManagementService, Core.Services.FileManagementService>();
                 services.AddSingleton<ISupportedFileFormatsService, Core.Services.SupportedFileFormatsService>();
                 services.AddSingleton<IPrinterProfileService, Core.Services.PrinterProfileService>();

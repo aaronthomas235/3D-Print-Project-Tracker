@@ -65,14 +65,6 @@ namespace Core.Services
 
             double totalSeconds = (extrusionTime + travelTime + supportsTime) * calibration;
 
-            Debug.WriteLine($"First Layer: {firstLayer.TimeSeconds}");
-            Debug.WriteLine($"Main Layers: {mainLayers}");
-            Debug.WriteLine($"Extrusion: {extrusionTime}");
-            Debug.WriteLine($"Travel: {travelTime}");
-            Debug.WriteLine($"Supports: {supportsTime}");
-            Debug.WriteLine($"Calibration: {calibration}");
-            Debug.WriteLine($"Total: {totalSeconds}");
-
 
             return TimeSpan.FromSeconds(Math.Max(0, totalSeconds));
         }
