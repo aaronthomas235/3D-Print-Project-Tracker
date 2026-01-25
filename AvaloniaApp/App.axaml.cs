@@ -33,13 +33,16 @@ namespace AvaloniaApp
                 var mainWindow = new MainWindow();
 
                 services.AddSingleton<IProjectTreeCoordinationService, Core.Services.ProjectTreeCoordinationService>();
-                services.AddSingleton<IProjectTreeBuilder, Core.Services.ProjectTreeBuilder>();
+                services.AddSingleton<IProjectTreeBuilder, Core.Services.ProjectTreeBuilderService>();
                 services.AddSingleton<IProjectTreeItemViewModelFactory, Core.Factories.ProjectTreeItemViewModelFactory>();
                 services.AddSingleton<IFileManagementService, Core.Services.FileManagementService>();
                 services.AddSingleton<ISupportedFileFormatsService, Core.Services.SupportedFileFormatsService>();
                 services.AddSingleton<IPrinterProfileService, Core.Services.PrinterProfileService>();
                 services.AddSingleton<IPrintTimeEstimationService, Core.Services.PrintTimeEstimationService>();
                 services.AddSingleton<IMeshAnalyserService, Core.Services.MeshAnalyserService>();
+                services.AddSingleton<IMaterialUsageEstimationService, Core.Services.MaterialUsageEstimationService>();
+                services.AddSingleton<IPrintModelCacheService, Core.Services.PrintModelCacheService>();
+                services.AddSingleton<IPrintModelImportService, Core.Services.PrintModelImportService>();
                 services.AddSingleton<IFileLauncherService, FileLauncherService>();
                 services.AddSingleton<IThemeChangerService, ThemeChangerService>();
                 services.AddSingleton<IFolderSelectionService>(new FolderSelectionService(mainWindow));

@@ -1,15 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Core.Interfaces;
 using Core.Models;
-using Core.Services;
 using System;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Core.ViewModels
@@ -20,6 +14,7 @@ namespace Core.ViewModels
         private readonly IProjectTreeItemViewModelFactory _projectTreeItemViewModelFactory;
         private readonly IMeshAnalyserService _meshAnalyserService;
         private readonly IPrintTimeEstimationService _printTimeEstimationService;
+        private readonly IMaterialUsageEstimationService _materialUsageEstimationService;
         private readonly IPrinterProfileService _printerProfileService;
 
         public ObservableCollection<ProjectTreeItemViewModel> Children { get; }
@@ -47,7 +42,14 @@ namespace Core.ViewModels
         public string? PrintTime
         {
             get => _printTime ?? "Estimating Print Time...";
-            private set => SetProperty(ref _dimensions, value);
+            private set => SetProperty(ref _printTime, value);
+        }
+
+        private string? _materialUsage;
+        public string? MaterialUsage
+        {
+            get => _materialUsage ?? "Estimating Material Usage...";
+            set => SetProperty(ref _materialUsage, value);
         }
 
         public bool IsFile => _model.IsFile;
@@ -81,12 +83,15 @@ namespace Core.ViewModels
             }
         }
 
-        public ProjectTreeItemViewModel(ProjectTreeItem model, IProjectTreeItemViewModelFactory projectTreeItemViewModelFactory, IMeshAnalyserService meshAnalyserService, IPrintTimeEstimationService printTimeEstimationService, IPrinterProfileService printerProfileService)
+        public ProjectTreeItemViewModel(ProjectTreeItem model, IProjectTreeItemViewModelFactory projectTreeItemViewModelFactory,
+            IMeshAnalyserService meshAnalyserService, IPrintTimeEstimationService printTimeEstimationService,
+            IMaterialUsageEstimationService materialUsageEstimationService, IPrinterProfileService printerProfileService)
         {
             _model = model ?? throw new ArgumentNullException(nameof(model));
             _projectTreeItemViewModelFactory = projectTreeItemViewModelFactory ?? throw new ArgumentNullException(nameof(projectTreeItemViewModelFactory));
             _meshAnalyserService = meshAnalyserService ?? throw new ArgumentNullException(nameof(meshAnalyserService));
             _printTimeEstimationService = printTimeEstimationService ?? throw new ArgumentNullException(nameof(printTimeEstimationService));
+            _materialUsageEstimationService = materialUsageEstimationService ?? throw new ArgumentNullException(nameof(materialUsageEstimationService));
             _printerProfileService = printerProfileService ?? throw new ArgumentNullException(nameof(printerProfileService));
 
             Children = new ObservableCollection<ProjectTreeItemViewModel>(_model.Children.Select(childModel => _projectTreeItemViewModelFactory.Create(childModel)));
@@ -99,8 +104,8 @@ namespace Core.ViewModels
                 return;
             }
 
-            var dims = await _meshAnalyserService.AnalyseAsync(Description);
-            Dimensions = $"{dims.Width:F1} x {dims.Height:F1} x {dims.Depth:F1}";
+            MeshDimensions? dimensions = await _meshAnalyserService.AnalyseAsync(Description);
+            Dimensions = $"{dimensions.Width:F1} x {dimensions.Height:F1} x {dimensions.Depth:F1}";
         }
 
         public async Task LoadPrintTimeAsync()
@@ -111,8 +116,21 @@ namespace Core.ViewModels
             }
 
             var profile = ResolvePrinterProfile();
-            var time = await _printTimeEstimationService.EstimateAsync(Description, profile);
-            PrintTime = time.ToString();
+            TimeSpan printTime = await _printTimeEstimationService.EstimateAsync(Description, profile);
+            PrintTime = FormatPrintTimeToString(printTime);
+        }
+
+        public async Task LoadMaterialUsageAsync()
+        {
+            if (!IsFile)
+            {
+                return;
+            }
+
+            var profile = ResolvePrinterProfile();
+            var materialUsage = "0g";
+
+            MaterialUsage = materialUsage;
         }
 
         public ProjectTreeItem ToModel()
@@ -135,6 +153,25 @@ namespace Core.ViewModels
             }
 
             return _printerProfileService.GetPrinterProfileById(AssignedPrinterProfileId) ?? ReferencePrinterProfile.Default;
+        }
+
+        private string FormatPrintTimeToString(TimeSpan printTime)
+        {
+            var totalMinutes = (int)Math.Round(printTime.TotalMinutes);
+            if (totalMinutes < 0)
+            {
+                totalMinutes = 0;
+            }
+
+            var days = totalMinutes / (24 * 60);
+            var hours = (totalMinutes % (24 * 60)) / 60;
+            var minutes = totalMinutes % 60;
+
+            if (days > 0)
+            {
+                return $"{days} Days {hours} Hours {minutes} Minutes";
+            }
+            return $"{hours} Hours {minutes} Minutes";
         }
     }
 }

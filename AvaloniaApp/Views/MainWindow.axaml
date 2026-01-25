@@ -72,7 +72,7 @@
                     <TextBlock Grid.Column="1" Grid.Row="2" Classes="detailNumericContent" Text="{Binding ClickedProjectTreeItem.PrintTime}"/>
 
                     <Label Grid.Column="0" Grid.Row="3" Classes="detailLabel" Content="Material Usage"/>
-                    <TextBlock Grid.Column="1" Grid.Row="3" Classes="detailNumericContent" Text="{Binding ClickedProjectTreeItem.Description}"/>
+                    <TextBlock Grid.Column="1" Grid.Row="3" Classes="detailNumericContent" Text="{Binding ClickedProjectTreeItem.MaterialUsage}"/>
                     
                     <Border Grid.ColumnSpan="2" Grid.Row="4" Classes="divider"/>
 

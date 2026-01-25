@@ -3,16 +3,13 @@ using Core.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Services
 {
-    public class ProjectTreeBuilder : IProjectTreeBuilder
+    public class ProjectTreeBuilderService : IProjectTreeBuilder
     {
         private readonly ISupportedFileFormatsService _supportedFileFormatsService;
-        public ProjectTreeBuilder(ISupportedFileFormatsService supportedFileFormatsService)
+        public ProjectTreeBuilderService(ISupportedFileFormatsService supportedFileFormatsService)
         {
             _supportedFileFormatsService = supportedFileFormatsService;
         }

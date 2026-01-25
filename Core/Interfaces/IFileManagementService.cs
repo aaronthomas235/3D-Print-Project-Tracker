@@ -1,8 +1,5 @@
-﻿using Core.Services;
-using Core.ViewModels;
-using Core.Models;
+﻿using Core.Models;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace Core.Interfaces

@@ -27,6 +27,7 @@ public partial class MainViewModel : ObservableObject
             {
                 _ = value.LoadDimensionsAsync();
                 _ = value.LoadPrintTimeAsync();
+                _ = value.LoadMaterialUsageAsync();
 
                 OnClickedProjectTreeItemChanged(value);
             }
