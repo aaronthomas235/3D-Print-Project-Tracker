@@ -5,6 +5,6 @@ namespace Core.Interfaces
 {
     public interface IMeshAnalyserService
     {
-        Task<MeshDimensions> AnalyseAsync(string FilePath);
+        Task<MeshDimensions> AnalyseMesh(PrintModel model);
     }
 }

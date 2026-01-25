@@ -15,21 +15,25 @@ namespace Core.Services
             _modelImportService = modelImportService;
         }
 
-        public Task<PrintModel> GetPrintModelAsync(string filePath)
+        public async Task<PrintModel> GetPrintModelAsync(string filePath)
         {
-            if (_cache.TryGetValue(filePath, out var task))
+            try
             {
-                return task;
+                return await _cache.GetOrAdd(
+                    filePath,
+                    _ => Task.Run(() => _modelImportService.ImportModel(filePath))
+                );
             }
-
-            return _cache.GetOrAdd(filePath, _ => Task.Run(() => _modelImportService.ImportModel(filePath)));
+            catch
+            {
+                _cache.TryRemove(filePath, out _);
+                throw;
+            }
         }
 
-        public Task ImportPrintModelAsync(string filePath)
+        public Task<PrintModel> PreloadPrintModelAsync(string filePath)
         {
-            _cache.GetOrAdd(filePath, _ => Task.Run(() => _modelImportService.ImportModel(filePath)));
-
-            return Task.CompletedTask;
+            return GetPrintModelAsync(filePath);
         }
 
         public void InvalidatePrintModel(string filePath)

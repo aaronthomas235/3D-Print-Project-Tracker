@@ -4,6 +4,7 @@ using Core.Models;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Core.ViewModels
@@ -12,6 +13,7 @@ namespace Core.ViewModels
     {
         private readonly ProjectTreeItem _model;
         private readonly IProjectTreeItemViewModelFactory _projectTreeItemViewModelFactory;
+        private readonly IPrintModelCacheService _printModelCacheService;
         private readonly IMeshAnalyserService _meshAnalyserService;
         private readonly IPrintTimeEstimationService _printTimeEstimationService;
         private readonly IMaterialUsageEstimationService _materialUsageEstimationService;
@@ -83,12 +85,13 @@ namespace Core.ViewModels
             }
         }
 
-        public ProjectTreeItemViewModel(ProjectTreeItem model, IProjectTreeItemViewModelFactory projectTreeItemViewModelFactory,
+        public ProjectTreeItemViewModel(ProjectTreeItem model, IProjectTreeItemViewModelFactory projectTreeItemViewModelFactory, IPrintModelCacheService printModelCacheService,
             IMeshAnalyserService meshAnalyserService, IPrintTimeEstimationService printTimeEstimationService,
             IMaterialUsageEstimationService materialUsageEstimationService, IPrinterProfileService printerProfileService)
         {
             _model = model ?? throw new ArgumentNullException(nameof(model));
             _projectTreeItemViewModelFactory = projectTreeItemViewModelFactory ?? throw new ArgumentNullException(nameof(projectTreeItemViewModelFactory));
+            _printModelCacheService = printModelCacheService ?? throw new ArgumentNullException(nameof(printModelCacheService));
             _meshAnalyserService = meshAnalyserService ?? throw new ArgumentNullException(nameof(meshAnalyserService));
             _printTimeEstimationService = printTimeEstimationService ?? throw new ArgumentNullException(nameof(printTimeEstimationService));
             _materialUsageEstimationService = materialUsageEstimationService ?? throw new ArgumentNullException(nameof(materialUsageEstimationService));
@@ -97,39 +100,45 @@ namespace Core.ViewModels
             Children = new ObservableCollection<ProjectTreeItemViewModel>(_model.Children.Select(childModel => _projectTreeItemViewModelFactory.Create(childModel)));
         }
 
-        public async Task LoadDimensionsAsync()
+        public async Task LoadAnalysisAsync(CancellationToken cancellationToken)
         {
             if (!IsFile)
             {
-                return;
+                return; 
             }
 
-            MeshDimensions? dimensions = await _meshAnalyserService.AnalyseAsync(Description);
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var model = await _printModelCacheService.GetPrintModelAsync(Description);
+            var profile = ResolvePrinterProfile();
+
+            await Task.WhenAll(
+                LoadDimensionsAsync(model, cancellationToken),
+                LoadPrintTimeAsync(model, profile, cancellationToken),
+                LoadMaterialUsageAsync(model, profile, cancellationToken)
+            );
+        }
+
+        private async Task LoadDimensionsAsync(PrintModel model, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            var dimensions = await _meshAnalyserService.AnalyseMesh(model);
+            cancellationToken.ThrowIfCancellationRequested();
             Dimensions = $"{dimensions.Width:F1} x {dimensions.Height:F1} x {dimensions.Depth:F1}";
         }
 
-        public async Task LoadPrintTimeAsync()
+        private async Task LoadPrintTimeAsync(PrintModel model, PrinterProfile profile, CancellationToken cancellationToken)
         {
-            if (!IsFile)
-            {
-                return;
-            }
-
-            var profile = ResolvePrinterProfile();
-            TimeSpan printTime = await _printTimeEstimationService.EstimateAsync(Description, profile);
+            cancellationToken.ThrowIfCancellationRequested();
+            TimeSpan printTime = await _printTimeEstimationService.EstimatePrintTimeAsync(model, profile);
+            cancellationToken.ThrowIfCancellationRequested();
             PrintTime = FormatPrintTimeToString(printTime);
         }
 
-        public async Task LoadMaterialUsageAsync()
+        private async Task LoadMaterialUsageAsync(PrintModel model, PrinterProfile profile, CancellationToken cancellationToken)
         {
-            if (!IsFile)
-            {
-                return;
-            }
-
-            var profile = ResolvePrinterProfile();
+            cancellationToken.ThrowIfCancellationRequested();
             var materialUsage = "0g";
-
             MaterialUsage = materialUsage;
         }
 

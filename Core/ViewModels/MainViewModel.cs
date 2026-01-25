@@ -3,6 +3,8 @@ using CommunityToolkit.Mvvm.Input;
 using Core.Interfaces;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Core.ViewModels;
@@ -23,13 +25,9 @@ public partial class MainViewModel : ObservableObject
         get => _clickedProjectTreeItem;
         set
         {
-            if (SetProperty(ref _clickedProjectTreeItem, value) && value != null)
+            if (SetProperty(ref _clickedProjectTreeItem, value))
             {
-                _ = value.LoadDimensionsAsync();
-                _ = value.LoadPrintTimeAsync();
-                _ = value.LoadMaterialUsageAsync();
-
-                OnClickedProjectTreeItemChanged(value);
+                OnClickedProjectTreeItemChanged();
             }
         }
     }
@@ -54,6 +52,8 @@ public partial class MainViewModel : ObservableObject
         }
     }
 
+    private CancellationTokenSource? _selectionCancellationTokenSource;
+
     public IRelayCommand NewProjectTrackerCommand { get; }
     public IAsyncRelayCommand OpenProjectsFolderAsyncCommand { get; }
     public IAsyncRelayCommand SaveProjectsAsyncCommand { get; }
@@ -72,9 +72,28 @@ public partial class MainViewModel : ObservableObject
         OpenSelectedPartCommand = new AsyncRelayCommand(OpenProjectPartFileAsync);
     }
 
-    private async void OnClickedProjectTreeItemChanged(ProjectTreeItemViewModel? item)
+    private async void OnClickedProjectTreeItemChanged()
     {
         OpenSelectedPartCommand.NotifyCanExecuteChanged();
+
+        _selectionCancellationTokenSource?.Cancel();
+        _selectionCancellationTokenSource = new CancellationTokenSource();
+
+        var item = ClickedProjectTreeItem;
+
+        if (item == null || !item.IsFile)
+        {
+            return;
+        }
+
+        try
+        {
+            await item.LoadAnalysisAsync(_selectionCancellationTokenSource.Token);
+        }
+        catch (OperationCanceledException ex)
+        {
+            Debug.WriteLine(ex);
+        }
     }
 
     private async Task CreateNewProjectTracker()
