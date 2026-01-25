@@ -123,6 +123,7 @@ namespace Core.ViewModels
         {
             cancellationToken.ThrowIfCancellationRequested();
             var dimensions = await _meshAnalyserService.AnalyseMesh(model);
+
             cancellationToken.ThrowIfCancellationRequested();
             Dimensions = $"{dimensions.Width:F1} x {dimensions.Height:F1} x {dimensions.Depth:F1}";
         }
@@ -131,6 +132,7 @@ namespace Core.ViewModels
         {
             cancellationToken.ThrowIfCancellationRequested();
             TimeSpan printTime = await _printTimeEstimationService.EstimatePrintTimeAsync(model, profile);
+
             cancellationToken.ThrowIfCancellationRequested();
             PrintTime = FormatPrintTimeToString(printTime);
         }
@@ -138,8 +140,10 @@ namespace Core.ViewModels
         private async Task LoadMaterialUsageAsync(PrintModel model, PrinterProfile profile, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var materialUsage = "0g";
-            MaterialUsage = materialUsage;
+            MaterialEstimate materialEstimate = await _materialUsageEstimationService.EstimateAsync(model, profile);
+
+            cancellationToken.ThrowIfCancellationRequested();
+            MaterialUsage = $"{materialEstimate.WeightGrams:F0}g";
         }
 
         public ProjectTreeItem ToModel()

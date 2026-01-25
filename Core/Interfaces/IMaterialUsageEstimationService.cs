@@ -5,6 +5,6 @@ namespace Core.Interfaces
 {
     public interface IMaterialUsageEstimationService
     {
-        Task<string> EstimateWeightAsync(string filePath, PrinterProfile profile);
+        Task<MaterialEstimate> EstimateAsync(PrintModel model, PrinterProfile profile);
     }
 }
