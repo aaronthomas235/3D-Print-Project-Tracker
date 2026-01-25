@@ -1,297 +1,163 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Core.Interfaces;
 using Core.Models;
 using System;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Core.ViewModels
 {
-    public class ProjectTreeItemViewModel : ObservableObject, IDisposable
+    public class ProjectTreeItemViewModel : ObservableObject
     {
-        private IProjectTreeItemHost? _projectTreeItemHost;
-        private IPrinterProfileService _printerProfileService;
-        private IMeshAnalyserService _meshAnalyserService;
-        private IPrintTimeEstimationService _printTimeEstimationService;
+        private readonly ProjectTreeItem _model;
+        private readonly IProjectTreeItemViewModelFactory _projectTreeItemViewModelFactory;
+        private readonly IMeshAnalyserService _meshAnalyserService;
+        private readonly IPrintTimeEstimationService _printTimeEstimationService;
+        private readonly IMaterialUsageEstimationService _materialUsageEstimationService;
+        private readonly IPrinterProfileService _printerProfileService;
 
-        private bool _isUpdatingChildren;
-        private bool _isDisposed;
+        public ObservableCollection<ProjectTreeItemViewModel> Children { get; }
 
-        private bool _areDimensionsLoaded = false;
-        private bool _hasPrintTimeBeenEstimated = false;
-
-        private string _title = String.Empty;
         public string Title
         {
-            get => _title;
-            set => SetProperty(ref _title, value);
+            get => _model.Title;
+            set => SetProperty(_model.Title, value, v => _model.Title = v);
         }
 
-        private string _description = String.Empty;
         public string Description
         {
-            get => _description;
-            set => SetProperty(ref _description, value);
+            get => _model.Description;
+            set => SetProperty(_model.Description, value, v => _model.Description = v);
         }
 
-        private Guid _assignedPrinterProfileId = Guid.Empty;
-
-        public Guid AssignedPrinterProfileId
+        private string? _dimensions;
+        public string? Dimensions
         {
-            get => _assignedPrinterProfileId;
-            set
-    {
-                if (SetProperty(ref _assignedPrinterProfileId, value))
-                {
-                    _hasPrintTimeBeenEstimated = false;
-                    PrintTime = String.Empty;
-                }
-            }
+            get => _dimensions ?? "Measuring Dimensions...";
+            private set => SetProperty(ref _dimensions, value);
         }
 
-        private string _partName = String.Empty;
-        public string PartName
+        private string? _printTime;
+        public string? PrintTime
         {
-            get => _partName;
-            set => SetProperty(ref _partName, value);
+            get => _printTime ?? "Estimating Print Time...";
+            private set => SetProperty(ref _printTime, value);
         }
 
-        private string _dimensions = String.Empty;
-        public string Dimensions
+        private string? _materialUsage;
+        public string? MaterialUsage
         {
-            get => _dimensions;
-            set => SetProperty(ref _dimensions, value);
-        }
-
-        private string _printTime = String.Empty;
-        public string PrintTime
-        {
-            get => _printTime;
-            set => SetProperty(ref _printTime, value);
-        }
-
-        private string _materialUsage = String.Empty;
-        public string MaterialUsage
-        {
-            get => _materialUsage;
+            get => _materialUsage ?? "Estimating Material Usage...";
             set => SetProperty(ref _materialUsage, value);
         }
 
-        private bool _isExpanded = false;
+        public bool IsFile => _model.IsFile;
+
+        public Guid AssignedPrinterProfileId
+        {
+            get => _model.AssignedPrinterProfileId;
+            set => SetProperty(_model.AssignedPrinterProfileId, value, v => _model.AssignedPrinterProfileId = v);
+        }
+
+        private bool _isExpanded;
         public bool IsExpanded
         {
             get => _isExpanded;
             set => SetProperty(ref _isExpanded, value);
         }
 
-        private bool _isProjectFile;
-        public bool IsProjectFile
+        private bool _isCompleted;
+        public bool IsCompleted
         {
-            get => _isProjectFile;
+            get => _isCompleted;
             set
             {
-                if (SetProperty(ref _isProjectFile, value))
+                if (SetProperty(ref _isCompleted, value))
                 {
-                    ShowPartDetailsCommand.NotifyCanExecuteChanged();
-                }
-            }
-        }
-
-        private bool? _isChecked;
-        public bool? IsChecked
-        {
-            get => _isChecked;
-            set
-            {
-                if (SetProperty(ref _isChecked, value))
-                {
-                    OnIsCheckedChanged();
-                }
-            }
-        }
-
-        [JsonInclude]
-        public ObservableCollection<ProjectTreeItemViewModel> Children { get; private set; } = new();
-
-        [JsonIgnore]
-        public IRelayCommand ShowPartDetailsCommand { get; private set; }
-
-
-        public ProjectTreeItemViewModel(IProjectTreeItemHost projectTreeItemHost, IPrinterProfileService printerProfileService, IMeshAnalyserService meshAnalyserService, IPrintTimeEstimationService printTimeEstimationService)
-        {
-            _projectTreeItemHost = projectTreeItemHost ?? throw new ArgumentNullException(nameof(projectTreeItemHost));
-            _printerProfileService = printerProfileService ?? throw new ArgumentNullException(nameof(printerProfileService));
-            _meshAnalyserService = meshAnalyserService ?? throw new ArgumentNullException(nameof(meshAnalyserService));
-            _printTimeEstimationService = printTimeEstimationService ?? throw new ArgumentNullException(nameof(printTimeEstimationService));
-
-            ShowPartDetailsCommand = new RelayCommand(ShowPartDetails, () => IsProjectFile);
-            InitialiseCommonResources(projectTreeItemHost);
-        }
-
-        private void InitialiseCommonResources(IProjectTreeItemHost? projectTreeItemHost)
-        {
-            _projectTreeItemHost = projectTreeItemHost;
-
-            Children.CollectionChanged += OnChildrenCollectionChanged;
-            foreach(var child in Children)
-            {
-                child.InitialiseCommonResources(projectTreeItemHost);
-            }
-        }
-
-        public void InitialiseRuntimeResources(IProjectTreeItemHost projectTreeItemHost)
-        {
-            InitialiseCommonResources(projectTreeItemHost);
-        }
-
-        private void OnChildrenCollectionChanged(object? sender, NotifyCollectionChangedEventArgs eventArgs)
-        {
-            if (eventArgs.NewItems != null)
-            {
-                foreach (ProjectTreeItemViewModel child in eventArgs.NewItems)
-                {
-                    child.PropertyChanged += OnChildPropertyChanged;
-                }
-            }
-
-            if (eventArgs.OldItems != null)
-            {
-                foreach (ProjectTreeItemViewModel child in eventArgs.OldItems)
-                {
-                    child.PropertyChanged -= OnChildPropertyChanged;
-                }
-            }
-        }
-
-        private void OnChildPropertyChanged(object? sender, PropertyChangedEventArgs eventArgs)
-        {
-            if (_isUpdatingChildren || eventArgs.PropertyName != nameof(IsChecked))
-            {
-                return;
-            }
-
-            UpdateCheckStateFromChildren();
-        }
-
-        private void UpdateCheckStateFromChildren()
-        {
-            if (IsProjectFile || Children.Count == 0)
-            {
-                return;
-            }
-
-            bool? newCheckState = CalculateCheckStateFromChildren();
-
-            if (_isChecked != newCheckState)
-            {
-                SetProperty(ref _isChecked, newCheckState, nameof(IsChecked));
-            }
-        }
-
-        private bool? CalculateCheckStateFromChildren()
-        {
-            if (Children.All(c => c.IsChecked == true))
-            {
-                return true;
-            }
-            if (Children.All(c => c.IsChecked == false))
-            {
-                return false;
-            }
-            return null;
-        }
-
-        private void OnIsCheckedChanged()
-        {
-            if (IsProjectFile)
-            {
-                if (IsChecked == null)
-                {
-                    IsChecked = false;
-                }
-                return;
-            }
-
-            if (IsChecked.HasValue)
-            {
-                _isUpdatingChildren = true;
-                try
-                {
-                    foreach(var child in Children)
+                    foreach (var child in Children)
                     {
-                        child.IsChecked = IsChecked;
+                        child.IsCompleted = value;
                     }
                 }
-                finally
-                {
-                    _isUpdatingChildren = false;
-                }
             }
         }
 
-        private PrinterProfile ResolvePrinterProfile()
+        public ProjectTreeItemViewModel(ProjectTreeItem model, IProjectTreeItemViewModelFactory projectTreeItemViewModelFactory,
+            IMeshAnalyserService meshAnalyserService, IPrintTimeEstimationService printTimeEstimationService,
+            IMaterialUsageEstimationService materialUsageEstimationService, IPrinterProfileService printerProfileService)
         {
-            if (AssignedPrinterProfileId != Guid.Empty)
-            {
-                var profile = _printerProfileService.GetPrinterProfileById(AssignedPrinterProfileId);
-                if (profile != null)
-                {
-                    return profile;
-                }
-            }
+            _model = model ?? throw new ArgumentNullException(nameof(model));
+            _projectTreeItemViewModelFactory = projectTreeItemViewModelFactory ?? throw new ArgumentNullException(nameof(projectTreeItemViewModelFactory));
+            _meshAnalyserService = meshAnalyserService ?? throw new ArgumentNullException(nameof(meshAnalyserService));
+            _printTimeEstimationService = printTimeEstimationService ?? throw new ArgumentNullException(nameof(printTimeEstimationService));
+            _materialUsageEstimationService = materialUsageEstimationService ?? throw new ArgumentNullException(nameof(materialUsageEstimationService));
+            _printerProfileService = printerProfileService ?? throw new ArgumentNullException(nameof(printerProfileService));
 
-            return ReferencePrinterProfile.Default;
+            Children = new ObservableCollection<ProjectTreeItemViewModel>(_model.Children.Select(childModel => _projectTreeItemViewModelFactory.Create(childModel)));
         }
 
         public async Task LoadDimensionsAsync()
         {
-            if (!IsProjectFile || _areDimensionsLoaded)
+            if (!IsFile)
             {
                 return;
             }
 
-            try
-            {
-                var calculatedDimensions = await _meshAnalyserService.AnalyseAsync(Description);
-                Dimensions = $"{calculatedDimensions.Width:F1} x {calculatedDimensions.Height:F1} x {calculatedDimensions.Depth:F1}";
-            }
-            catch
-            {
-                Dimensions = "0 x 0 x 0";
-            }
+            MeshDimensions? dimensions = await _meshAnalyserService.AnalyseAsync(Description);
+            Dimensions = $"{dimensions.Width:F1} x {dimensions.Height:F1} x {dimensions.Depth:F1}";
         }
 
         public async Task LoadPrintTimeAsync()
         {
-            if(!IsProjectFile || _hasPrintTimeBeenEstimated)
+            if (!IsFile)
             {
                 return;
             }
 
-            try
-            {
-                var selectedProfile = ResolvePrinterProfile();
-                Debug.WriteLine($"Printer Name: {selectedProfile.Name}");
-                var timeSpan = await _printTimeEstimationService.EstimateAsync(Description, selectedProfile);
-
-                PrintTime = FormatTimeSpan(timeSpan);
-                _hasPrintTimeBeenEstimated = true;
-            }
-            catch
-            {
-                PrintTime = "0 Days 0 Hours 0 Minutes";
-            }
+            var profile = ResolvePrinterProfile();
+            TimeSpan printTime = await _printTimeEstimationService.EstimateAsync(Description, profile);
+            PrintTime = FormatPrintTimeToString(printTime);
         }
 
-        private static string FormatTimeSpan(TimeSpan calculatedTimeSpan)
+        public async Task LoadMaterialUsageAsync()
         {
-            var totalMinutes = (int)Math.Round(calculatedTimeSpan.TotalMinutes);
+            if (!IsFile)
+            {
+                return;
+            }
+
+            var profile = ResolvePrinterProfile();
+            var materialUsage = "0g";
+
+            MaterialUsage = materialUsage;
+        }
+
+        public ProjectTreeItem ToModel()
+        {
+            return new ProjectTreeItem
+            {
+                Title = Title,
+                Description = Description,
+                IsFile = IsFile,
+                AssignedPrinterProfileId = AssignedPrinterProfileId,
+                Children = Children.Select(c => c.ToModel()).ToList()
+            };
+        }
+
+        private PrinterProfile ResolvePrinterProfile()
+        {
+            if (AssignedPrinterProfileId == Guid.Empty)
+            {
+                return ReferencePrinterProfile.Default;
+            }
+
+            return _printerProfileService.GetPrinterProfileById(AssignedPrinterProfileId) ?? ReferencePrinterProfile.Default;
+        }
+
+        private string FormatPrintTimeToString(TimeSpan printTime)
+        {
+            var totalMinutes = (int)Math.Round(printTime.TotalMinutes);
             if (totalMinutes < 0)
             {
                 totalMinutes = 0;
@@ -306,22 +172,6 @@ namespace Core.ViewModels
                 return $"{days} Days {hours} Hours {minutes} Minutes";
             }
             return $"{hours} Hours {minutes} Minutes";
-        }
-
-        private void ShowPartDetails()
-        {
-            _projectTreeItemHost?.OnProjectTreeItemSelected(this);
-        }
-
-        public void Dispose()
-        {
-            if (_isDisposed) return;
-            _isDisposed = true;
-
-            foreach (var child in Children)
-                child.PropertyChanged -= OnChildPropertyChanged;
-
-            Children.CollectionChanged -= OnChildrenCollectionChanged;
         }
     }
 }

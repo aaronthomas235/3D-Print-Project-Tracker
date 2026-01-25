@@ -1,19 +1,12 @@
-﻿using Core.Services;
-using Core.ViewModels;
+﻿using Core.Models;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace Core.Interfaces
 {
     public interface IFileManagementService
     {
-        string[] GetProjectDirectories(string ProjectDirectoriesFilePath);
-        string[] GetProjectFiles(string ProjectFilesFilePath);
-
-        List<ProjectTreeItemViewModel> BuildProjectDirectoryTree(string projectPath, IProjectTreeItemHost projectTreeItemHost, IMeshAnalyserService meshAnalyserService, IPrinterProfileService printerProfileService, IPrintTimeEstimationService printTimeEstimationService);
-
-        Task<ObservableCollection<ProjectTreeItemViewModel>> LoadProjectsAsync(string projectsRootFolderPath, IProjectTreeItemHost projectTreeItemHost);
-        Task SaveProjectsAsync(string projectsRootFolderPath, ObservableCollection<ProjectTreeItemViewModel> projectTreeItems);
+        Task<IReadOnlyList<ProjectTreeItem>> LoadProjectModelsAsync(string rootFolderPath);
+        Task SaveProjectsAsync(string rootFolder, IReadOnlyList<ProjectTreeItem> items);
     }
 }
