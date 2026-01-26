@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Core.Services
 {
-    public class ProjectTreeBuilderService : IProjectTreeBuilder
+    public class ProjectTreeBuilderService : IProjectTreeBuilderService
     {
         private readonly ISupportedFileFormatsService _supportedFileFormatsService;
         public ProjectTreeBuilderService(ISupportedFileFormatsService supportedFileFormatsService)

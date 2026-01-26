@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Core.Interfaces
 {
-    public interface IProjectTreeBuilder
+    public interface IProjectTreeBuilderService
     {
         IReadOnlyList<ProjectTreeItem> BuildTree(string rootFolderPath);
     }

@@ -10,10 +10,10 @@ namespace Core.Services
     public class ProjectTreeCoordinationService : IProjectTreeCoordinationService
     {
         private readonly IFileManagementService _fileManagementService;
-        private readonly IProjectTreeBuilder _projectTreeBuilderService;
+        private readonly IProjectTreeBuilderService _projectTreeBuilderService;
         private readonly IProjectTreeItemViewModelFactory _projectTreeItemViewModelFactory;
 
-        public ProjectTreeCoordinationService(IFileManagementService fileManagementService, IProjectTreeBuilder projectTreeBuilderService, IProjectTreeItemViewModelFactory projectTreeItemViewModelFactory)
+        public ProjectTreeCoordinationService(IFileManagementService fileManagementService, IProjectTreeBuilderService projectTreeBuilderService, IProjectTreeItemViewModelFactory projectTreeItemViewModelFactory)
         {
             _fileManagementService = fileManagementService ?? throw new ArgumentNullException(nameof(fileManagementService));
             _projectTreeBuilderService = projectTreeBuilderService ?? throw new ArgumentNullException(nameof(projectTreeBuilderService));
