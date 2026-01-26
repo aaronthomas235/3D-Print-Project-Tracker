@@ -5,29 +5,30 @@ using System.Threading.Tasks;
 
 namespace Core.Services
 {
-    public class MaterialUsageEstimationService :IMaterialUsageEstimationService
+    public class MaterialUsageEstimationService : IMaterialUsageEstimationService
     {
-        private readonly IPrintModelCacheService _modelCacheService;
         private const double _filamentDiameterMm = 1.75;
         private const double _filamentDensityGPerMm3 = 0.00124;
         private static readonly double _filamentAreaMm2 = Math.PI * Math.Pow(_filamentDiameterMm / 2.0, 2.0);
 
-        public MaterialUsageEstimationService(IPrintModelCacheService modelCacheService)
+        public MaterialUsageEstimationService()
         {
-            _modelCacheService = modelCacheService;
         }
 
-        public async Task<string> EstimateWeightAsync(string filePath, PrinterProfile profile)
+        public async Task<MaterialEstimate> EstimateAsync(PrintModel model, PrinterProfile profile)
         {
-
-            var model = await _modelCacheService.GetPrintModelAsync(filePath);
             var estimate = EstimateMaterialUsage(model, profile);
 
-            return FormatWeight(estimate.WeightGrams);
+            return estimate;
         }
 
         private static MaterialEstimate EstimateMaterialUsage(PrintModel model, PrinterProfile profile)
         {
+            if (model == null || profile == null)
+            {
+                throw new ArgumentNullException("Model and Profile cannot be null.");
+            }
+
             if (model.VolumeMm3 <= 0 || model.HeightMm <= 0)
             {
                 return new MaterialEstimate(0, 0, 0);
@@ -49,19 +50,6 @@ namespace Core.Services
 
             return new MaterialEstimate(totalVolume, filamentLengthM, weightGrams);
         }
-
-        private static string FormatWeight(double grams)
-        {
-            return grams < 1
-                ? $"{grams * 1000:0}mg"
-                : $"{grams:0}g";
-        }
-
-        private sealed record MaterialEstimate(
-            double VolumeMm3,
-            double FilamentLengthMeters,
-            double WeightGrams
-        );
 
         private sealed record LayerCalculation(
             double HeightMm,

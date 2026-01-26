@@ -71,7 +71,7 @@
                     <Label Grid.Column="0" Grid.Row="2" Classes="detailLabel" Content="Estimated Print Time"/>
                     <TextBlock Grid.Column="1" Grid.Row="2" Classes="detailNumericContent" Text="{Binding ClickedProjectTreeItem.PrintTime}"/>
 
-                    <Label Grid.Column="0" Grid.Row="3" Classes="detailLabel" Content="Material Usage"/>
+                    <Label Grid.Column="0" Grid.Row="3" Classes="detailLabel" Content="Estimated Material Usage"/>
                     <TextBlock Grid.Column="1" Grid.Row="3" Classes="detailNumericContent" Text="{Binding ClickedProjectTreeItem.MaterialUsage}"/>
                     
                     <Border Grid.ColumnSpan="2" Grid.Row="4" Classes="divider"/>

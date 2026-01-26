@@ -6,6 +6,6 @@ namespace Core.Interfaces
 {
     public interface IPrintTimeEstimationService
     {
-        Task<TimeSpan> EstimateAsync(string filePath, PrinterProfile profile);
+        Task<TimeSpan> EstimatePrintTimeAsync(PrintModel model, PrinterProfile profile);
     }
 }

@@ -7,13 +7,16 @@ namespace Core.Factories
 {
     public class ProjectTreeItemViewModelFactory : IProjectTreeItemViewModelFactory
     {
+        private readonly IPrintModelCacheService _printModelCacheService;
         private readonly IMeshAnalyserService _meshAnalyserService;
         private readonly IPrintTimeEstimationService _printTimeEstimationService;
         private readonly IMaterialUsageEstimationService _materialUsageEstimationService;
         private readonly IPrinterProfileService _printerProfileService;
 
-        public ProjectTreeItemViewModelFactory(IMeshAnalyserService meshAnalyserService, IPrintTimeEstimationService printTimeEstimationService, IMaterialUsageEstimationService materialUsageEstimationService, IPrinterProfileService printerProfileService)
+        public ProjectTreeItemViewModelFactory(IMeshAnalyserService meshAnalyserService, IPrintModelCacheService printModelCacheService,
+            IPrintTimeEstimationService printTimeEstimationService, IMaterialUsageEstimationService materialUsageEstimationService, IPrinterProfileService printerProfileService)
         {
+            _printModelCacheService = printModelCacheService ?? throw new ArgumentNullException(nameof(printModelCacheService));
             _meshAnalyserService = meshAnalyserService ?? throw new ArgumentNullException(nameof(meshAnalyserService));
             _printTimeEstimationService = printTimeEstimationService ?? throw new ArgumentNullException(nameof(printTimeEstimationService));
             _materialUsageEstimationService = materialUsageEstimationService ?? throw new ArgumentNullException(nameof(materialUsageEstimationService));
@@ -21,6 +24,6 @@ namespace Core.Factories
         }
 
         public ProjectTreeItemViewModel Create(ProjectTreeItem model)
-        => new ProjectTreeItemViewModel(model, this, _meshAnalyserService, _printTimeEstimationService, _materialUsageEstimationService, _printerProfileService);
+        => new ProjectTreeItemViewModel(model, this, _printModelCacheService, _meshAnalyserService, _printTimeEstimationService, _materialUsageEstimationService, _printerProfileService);
     }
 }
