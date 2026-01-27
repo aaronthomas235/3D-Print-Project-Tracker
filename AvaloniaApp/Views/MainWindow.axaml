@@ -9,10 +9,10 @@
 		Background="{DynamicResource MainBackgroundBrush}"
 		Icon="/Assets/3D_Print_Project_Tracker.ico"
 		Title="3D Print Project Tracker"
-		MinWidth="800"
-		MinHeight="800"
 		Width="800"
-		Height="800">
+        Height="800"
+        MinWidth="600"
+		MinHeight="600">
 
 	<Window.Styles>
 		<StyleInclude Source="avares://AvaloniaApp/Styles/NavigationBar.axaml"/>
@@ -25,9 +25,23 @@
 	<Grid RowDefinitions="Auto,*">
         <Menu Classes="NavigationBarMenu">
             <MenuItem Classes="NavigationBarMenuItem" Header="_File">
-                <MenuItem Classes="NavigationBarSubMenuItem" Header="_📄 New"   Command="{Binding NewProjectTrackerCommand}"/>
-                <MenuItem Classes="NavigationBarSubMenuItem" Header="_📂 Open"  Command="{Binding OpenProjectsFolderAsyncCommand}"/>
-                <MenuItem Classes="NavigationBarSubMenuItem" Header="_💾 Save"  Command="{Binding SaveProjectsAsyncCommand}"/>
+                <MenuItem Classes="NavigationBarSubMenuItem" Header="_New" Command="{Binding NewProjectTrackerCommand}">
+                    <MenuItem.Icon>
+                        <Image Width="16" Height="16" Source="/Assets/New-File.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem Classes="NavigationBarSubMenuItem" Header="_Open" Command="{Binding OpenProjectsFolderAsyncCommand}">
+                    <MenuItem.Icon>
+                        <Image Width="16" Height="16" Source="/Assets/Open-Folder.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem Classes="NavigationBarSubMenuItem" Header="_Save"  Command="{Binding SaveProjectsAsyncCommand}">
+                    <MenuItem.Icon>
+                        <Image Width="16" Height="16" Source="/Assets/Save-File.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
 
             <MenuItem Classes="NavigationBarMenuItem" Header="_Preferences">
@@ -45,13 +59,17 @@
         <Grid Grid.Row="1" Margin="8" ColumnDefinitions="*,*" RowDefinitions="Auto,*,Auto,Auto">
             <Label Content="Projects and Parts Viewer" Classes="sectionHeader"/>
 
-            <Border Grid.Row="1" Classes="panelCommon">
+            <Border Grid.Row="1" Classes="panelCommon" MinHeight="400" MaxHeight="500">
                 <TreeView ItemsSource="{Binding ProjectTreeItems}" SelectedItem="{Binding ClickedProjectTreeItem, Mode=TwoWay}" Classes="projectTree">
                     <TreeView.DataTemplates>
                         <TreeDataTemplate DataType="vm:ProjectTreeItemViewModel" ItemsSource="{Binding Children}">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="6">
                                 <CheckBox IsChecked="{Binding IsCompleted, Mode=TwoWay}"/>
-                                <TextBlock Classes="NormalText" Text="{Binding Title}"/>
+                                <TextBlock Classes="NormalText" Text="{Binding Title}" TextTrimming="CharacterEllipsis" MaxWidth="250">
+                                    <ToolTip.Tip>
+                                        <TextBlock Text="{Binding Title}" />
+                                    </ToolTip.Tip>
+                                </TextBlock>
                             </StackPanel>
                         </TreeDataTemplate>
                     </TreeView.DataTemplates>
@@ -60,29 +78,35 @@
 
             <Label Grid.Column="1" Content="Details" Classes="sectionHeader"/>
 
-            <Border Grid.Column="1" Grid.Row="1" Classes="panelCommon">
-                <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto" ColumnSpacing="12" RowSpacing="10">
-                    <Label Grid.Column="0" Grid.Row="0" Classes="detailLabel" Content="Name"/>
-                    <TextBlock Grid.Column="1" Grid.Row="0" Classes="detailContent" Text="{Binding ClickedProjectTreeItem.Title}"/>
+            <Border Grid.Column="1" Grid.Row="1" Classes="panelCommon" MinHeight="400" MaxHeight="500">
+                <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto" ColumnSpacing="12" RowSpacing="10">
+
+                    <Label Grid.Column="0" Grid.Row="0" Classes="detailLabel" Content="Printer Profile"/>
+                    <ComboBox Grid.Column="1" Grid.Row="0" SelectedIndex="0">
+						<ComboBoxItem Content="No Profile Selected"></ComboBoxItem>
+                    </ComboBox>
+
+                    <Label Grid.Column="0" Grid.Row="1" Classes="detailLabel" Content="Name"/>
+                    <TextBlock Grid.Column="1" Grid.Row="1" Classes="detailContent" Text="{Binding ClickedProjectTreeItem.Title}"/>
                     
-                    <Label Grid.Column="0" Grid.Row="1" Classes="detailLabel" Content="Dimensions (mm)"/>
-                    <TextBlock Grid.Column="1" Grid.Row="1" Classes="detailNumericContent" Text="{Binding ClickedProjectTreeItem.Dimensions}"/>
+                    <Label Grid.Column="0" Grid.Row="2" Classes="detailLabel" Content="Dimensions (mm)"/>
+                    <TextBlock Grid.Column="1" Grid.Row="2" Classes="detailNumericContent" Text="{Binding ClickedProjectTreeItem.Dimensions}"/>
 
-                    <Label Grid.Column="0" Grid.Row="2" Classes="detailLabel" Content="Estimated Print Time"/>
-                    <TextBlock Grid.Column="1" Grid.Row="2" Classes="detailNumericContent" Text="{Binding ClickedProjectTreeItem.PrintTime}"/>
+                    <Label Grid.Column="0" Grid.Row="3" Classes="detailLabel" Content="Estimated Print Time"/>
+                    <TextBlock Grid.Column="1" Grid.Row="3" Classes="detailNumericContent" Text="{Binding ClickedProjectTreeItem.PrintTime}"/>
 
-                    <Label Grid.Column="0" Grid.Row="3" Classes="detailLabel" Content="Estimated Material Usage"/>
-                    <TextBlock Grid.Column="1" Grid.Row="3" Classes="detailNumericContent" Text="{Binding ClickedProjectTreeItem.MaterialUsage}"/>
+                    <Label Grid.Column="0" Grid.Row="4" Classes="detailLabel" Content="Estimated Material Usage"/>
+                    <TextBlock Grid.Column="1" Grid.Row="4" Classes="detailNumericContent" Text="{Binding ClickedProjectTreeItem.MaterialUsage}"/>
                     
-                    <Border Grid.ColumnSpan="2" Grid.Row="4" Classes="divider"/>
+                    <Border Grid.ColumnSpan="2" Grid.Row="5" Classes="divider"/>
 
-                    <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" Classes="openProjectFileButton" Content="Open File" Command="{ Binding OpenSelectedPartCommand }" IsEnabled="{Binding ClickedProjectTreeItem.IsFile}"/>
+                    <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7" Classes="openProjectFileButton" Content="Open File" Command="{ Binding OpenSelectedPartCommand }" IsEnabled="{Binding ClickedProjectTreeItem.IsFile}"/>
                 </Grid>
             </Border>
 
             <Label Grid.Row="2" Grid.ColumnSpan="2" Content="Additional Details" Classes="sectionHeader"/>
 
-            <Border Grid.Row="3" Grid.ColumnSpan="2" Classes="panelCommon">
+            <Border Grid.Row="3" Grid.ColumnSpan="2" Classes="panelCommon" MinHeight="200" MaxHeight="500">
                 <StackPanel>
                 </StackPanel>
             </Border>
