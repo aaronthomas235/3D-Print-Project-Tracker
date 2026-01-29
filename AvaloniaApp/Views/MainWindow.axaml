@@ -15,36 +15,38 @@
 		MinHeight="600">
 
 	<Window.Styles>
-		<StyleInclude Source="avares://AvaloniaApp/Styles/NavigationBar.axaml"/>
+		<StyleInclude Source="avares://AvaloniaApp/Styles/Navigation.axaml"/>
 		<StyleInclude Source="avares://AvaloniaApp/Styles/Treeview.axaml"/>
 		<StyleInclude Source="avares://AvaloniaApp/Styles/Typography.axaml"/>
 		<StyleInclude Source="avares://AvaloniaApp/Styles/Panels.axaml"/>
-        <StyleInclude Source="avares://AvaloniaApp/Styles/DetailsPanel.axaml"/>
+        <StyleInclude Source="avares://AvaloniaApp/Styles/Buttons.axaml"/>
+        <StyleInclude Source="avares://AvaloniaApp/Styles/ComboBox.axaml"/>
 	</Window.Styles>
 
 	<Grid RowDefinitions="Auto,*">
-        <Menu Classes="NavigationBarMenu">
-            <MenuItem Classes="NavigationBarMenuItem" Header="_File">
-                <MenuItem Classes="NavigationBarSubMenuItem" Header="_New" Command="{Binding NewProjectTrackerCommand}">
+
+        <Menu Classes="NavMenu">
+            <MenuItem Classes="NavMenuItem" Header="_File">
+                <MenuItem Classes="NavSubMenuItem" Header="_New" Command="{Binding NewProjectTrackerCommand}">
                     <MenuItem.Icon>
                         <Image Width="16" Height="16" Source="/Assets/New-File.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
 
-                <MenuItem Classes="NavigationBarSubMenuItem" Header="_Open" Command="{Binding OpenProjectsFolderAsyncCommand}">
+                <MenuItem Classes="NavSubMenuItem" Header="_Open" Command="{Binding OpenProjectsFolderAsyncCommand}">
                     <MenuItem.Icon>
                         <Image Width="16" Height="16" Source="/Assets/Open-Folder.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
 
-                <MenuItem Classes="NavigationBarSubMenuItem" Header="_Save"  Command="{Binding SaveProjectsAsyncCommand}">
+                <MenuItem Classes="NavSubMenuItem" Header="_Save"  Command="{Binding SaveProjectsAsyncCommand}">
                     <MenuItem.Icon>
                         <Image Width="16" Height="16" Source="/Assets/Save-File.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
 
-            <MenuItem Classes="NavigationBarMenuItem" Header="_Preferences">
+            <MenuItem Classes="NavMenuItem" Header="_Preferences">
                 <MenuItem>
                     <MenuItem.Header>
                         <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
@@ -57,15 +59,15 @@
         </Menu>
 
         <Grid Grid.Row="1" Margin="8" ColumnDefinitions="*,*" RowDefinitions="Auto,*,Auto,Auto">
-            <Label Content="Projects and Parts Viewer" Classes="sectionHeader"/>
+            <Label Content="Projects and Parts Viewer" Classes="SectionHeader"/>
 
-            <Border Grid.Row="1" Classes="panelCommon" MinHeight="400" MaxHeight="500">
-                <TreeView ItemsSource="{Binding ProjectTreeItems}" SelectedItem="{Binding ClickedProjectTreeItem, Mode=TwoWay}" Classes="projectTree">
+            <Border Grid.Row="1" Classes="PanelCommon" MinHeight="400" MaxHeight="500">
+                <TreeView ItemsSource="{Binding ProjectTreeItems}" SelectedItem="{Binding ClickedProjectTreeItem, Mode=TwoWay}" Classes="ProjectTree">
                     <TreeView.DataTemplates>
                         <TreeDataTemplate DataType="vm:ProjectTreeItemViewModel" ItemsSource="{Binding Children}">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="6">
                                 <CheckBox IsChecked="{Binding IsCompleted, Mode=TwoWay}"/>
-                                <TextBlock Classes="NormalText" Text="{Binding Title}" TextTrimming="CharacterEllipsis" MaxWidth="250">
+                                <TextBlock Classes="BaseText" Text="{Binding Title}" TextTrimming="CharacterEllipsis" MaxWidth="250">
                                     <ToolTip.Tip>
                                         <TextBlock Text="{Binding Title}" />
                                     </ToolTip.Tip>
@@ -76,40 +78,43 @@
                 </TreeView>
             </Border>
 
-            <Label Grid.Column="1" Content="Details" Classes="sectionHeader"/>
+            <Label Grid.Column="1" Content="Details" Classes="SectionHeader"/>
 
-            <Border Grid.Column="1" Grid.Row="1" Classes="panelCommon" MinHeight="400" MaxHeight="500">
-                <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto" ColumnSpacing="12" RowSpacing="10">
+            <Border Grid.Column="1" Grid.Row="1" Classes="PanelCommon" MinHeight="400" MaxHeight="500">
+                <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto" ColumnSpacing="12" RowSpacing="6">
 
-                    <Label Grid.Column="0" Grid.Row="0" Classes="detailLabel" Content="Printer Profile"/>
-                    <ComboBox Grid.Column="1" Grid.Row="0" SelectedIndex="0">
+                    <Label Grid.Column="0" Grid.Row="0" Classes="DetailLabel" Content="Printer Profile"/>
+                    <ComboBox Grid.Column="1" Grid.Row="0" Classes="CustomComboBox" SelectedIndex="0">
 						<ComboBoxItem Content="No Profile Selected"></ComboBoxItem>
                     </ComboBox>
 
-                    <Label Grid.Column="0" Grid.Row="1" Classes="detailLabel" Content="Name"/>
-                    <TextBlock Grid.Column="1" Grid.Row="1" Classes="detailContent" Text="{Binding ClickedProjectTreeItem.Title}"/>
+                    <Label Grid.Column="0" Grid.Row="1" Classes="DetailLabel" Content="Name"/>
+                    <TextBlock Grid.Column="1" Grid.Row="1" Classes="BaseText DetailNumericContent" Text="{Binding ClickedProjectTreeItem.Title}"/>
                     
-                    <Label Grid.Column="0" Grid.Row="2" Classes="detailLabel" Content="Dimensions (mm)"/>
-                    <TextBlock Grid.Column="1" Grid.Row="2" Classes="detailNumericContent" Text="{Binding ClickedProjectTreeItem.Dimensions}"/>
+                    <Label Grid.Column="0" Grid.Row="2" Classes="DetailLabel" Content="Dimensions (mm)"/>
+                    <TextBlock Grid.Column="1" Grid.Row="2" Classes="BaseText DetailNumericContent" Text="{Binding ClickedProjectTreeItem.Dimensions}"/>
 
-                    <Label Grid.Column="0" Grid.Row="3" Classes="detailLabel" Content="Estimated Print Time"/>
-                    <TextBlock Grid.Column="1" Grid.Row="3" Classes="detailNumericContent" Text="{Binding ClickedProjectTreeItem.PrintTime}"/>
+                    <Label Grid.Column="0" Grid.Row="3" Classes="DetailLabel" Content="Print Time"/>
+                    <TextBlock Grid.Column="1" Grid.Row="3" Classes="BaseText etailNumericContent" Text="{Binding ClickedProjectTreeItem.PrintTime}"/>
 
-                    <Label Grid.Column="0" Grid.Row="4" Classes="detailLabel" Content="Estimated Material Usage"/>
-                    <TextBlock Grid.Column="1" Grid.Row="4" Classes="detailNumericContent" Text="{Binding ClickedProjectTreeItem.MaterialUsage}"/>
+                    <Label Grid.Column="0" Grid.Row="4" Classes="DetailLabel" Content="Material Usage"/>
+                    <TextBlock Grid.Column="1" Grid.Row="4" Classes="BaseText DetailNumericContent" Text="{Binding ClickedProjectTreeItem.MaterialUsage}"/>
                     
-                    <Border Grid.ColumnSpan="2" Grid.Row="5" Classes="divider"/>
+                    <Border Grid.ColumnSpan="2" Grid.Row="5" Classes="Divider"/>
 
-                    <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7" Classes="openProjectFileButton" Content="Open File" Command="{ Binding OpenSelectedPartCommand }" IsEnabled="{Binding ClickedProjectTreeItem.IsFile}"/>
+                    <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7" Classes="OpenProjectButton" Content="Open File" Command="{ Binding OpenSelectedPartCommand }" IsEnabled="{Binding ClickedProjectTreeItem.IsFile}"/>
                 </Grid>
             </Border>
 
-            <Label Grid.Row="2" Grid.ColumnSpan="2" Content="Additional Details" Classes="sectionHeader"/>
+            <Label Grid.Row="2" Grid.ColumnSpan="2" Content="Additional Details" Classes="SectionHeader"/>
 
-            <Border Grid.Row="3" Grid.ColumnSpan="2" Classes="panelCommon" MinHeight="200" MaxHeight="500">
+            <Border Grid.Row="3" Grid.ColumnSpan="2" Classes="PanelCommon" MinHeight="200" MaxHeight="500">
                 <StackPanel>
                 </StackPanel>
             </Border>
+
         </Grid>
+
     </Grid>	
+
 </Window>

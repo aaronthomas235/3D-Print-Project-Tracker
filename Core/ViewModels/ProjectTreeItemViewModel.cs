@@ -3,6 +3,7 @@ using Core.Interfaces;
 using Core.Models;
 using System;
 using System.Collections.ObjectModel;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,25 +37,59 @@ namespace Core.ViewModels
         private string? _dimensions;
         public string? Dimensions
         {
-            get => _dimensions ?? "Measuring Dimensions...";
-            private set => SetProperty(ref _dimensions, value);
+            get
+            {
+                if (!IsAnalysable)
+                {
+                    return null;
+                }
+
+                return _dimensions ?? "Measuring Dimensions...";
+            }
+            private set
+            {
+                SetProperty(ref _dimensions, value);
+            }
         }
 
         private string? _printTime;
         public string? PrintTime
         {
-            get => _printTime ?? "Estimating Print Time...";
-            private set => SetProperty(ref _printTime, value);
+            get
+            {
+                if (!IsAnalysable)
+                {
+                    return null; 
+                }
+
+                return _printTime ?? "Estimating Print Time...";
+            }
+            private set
+            {
+                SetProperty(ref _printTime, value);
+            }
         }
 
         private string? _materialUsage;
         public string? MaterialUsage
         {
-            get => _materialUsage ?? "Estimating Material Usage...";
-            set => SetProperty(ref _materialUsage, value);
+            get
+            {
+                if (!IsAnalysable)
+                {
+                    return null;
+                }
+
+                return _materialUsage ?? "Estimating Material Usage...";
+            }
+            private set
+            {
+                SetProperty(ref _materialUsage, value);
+            }
         }
 
         public bool IsFile => _model.IsFile;
+        private bool IsAnalysable => IsFile;
 
         public Guid AssignedPrinterProfileId
         {
@@ -100,13 +135,19 @@ namespace Core.ViewModels
             Children = new ObservableCollection<ProjectTreeItemViewModel>(_model.Children.Select(childModel => _projectTreeItemViewModelFactory.Create(childModel)));
         }
 
+        public void ClearAnalysis()
+        {
+            _dimensions = null;
+            _printTime = null;
+            _materialUsage = null;
+
+            OnPropertyChanged(nameof(Dimensions));
+            OnPropertyChanged(nameof(PrintTime));
+            OnPropertyChanged(nameof(MaterialUsage));
+        }
+
         public async Task LoadAnalysisAsync(CancellationToken cancellationToken)
         {
-            if (!IsFile)
-            {
-                return; 
-            }
-
             cancellationToken.ThrowIfCancellationRequested();
 
             var model = await _printModelCacheService.GetPrintModelAsync(Description);
@@ -125,7 +166,7 @@ namespace Core.ViewModels
             var dimensions = await _meshAnalyserService.AnalyseMesh(model);
 
             cancellationToken.ThrowIfCancellationRequested();
-            Dimensions = $"{dimensions.Width:F1} x {dimensions.Height:F1} x {dimensions.Depth:F1}";
+            Dimensions = $"{dimensions.Width:F1} x {dimensions.Height:F1} x {dimensions.Depth:F1} mm";
         }
 
         private async Task LoadPrintTimeAsync(PrintModel model, PrinterProfile profile, CancellationToken cancellationToken)
@@ -143,7 +184,7 @@ namespace Core.ViewModels
             MaterialEstimate materialEstimate = await _materialUsageEstimationService.EstimateAsync(model, profile);
 
             cancellationToken.ThrowIfCancellationRequested();
-            MaterialUsage = $"{materialEstimate.WeightGrams:F0}g";
+            MaterialUsage = $"{materialEstimate.WeightGrams:F0} g";
         }
 
         public ProjectTreeItem ToModel()
@@ -168,7 +209,7 @@ namespace Core.ViewModels
             return _printerProfileService.GetPrinterProfileById(AssignedPrinterProfileId) ?? ReferencePrinterProfile.Default;
         }
 
-        private string FormatPrintTimeToString(TimeSpan printTime)
+        private static string FormatPrintTimeToString(TimeSpan printTime)
         {
             var totalMinutes = (int)Math.Round(printTime.TotalMinutes);
             if (totalMinutes < 0)
@@ -182,9 +223,13 @@ namespace Core.ViewModels
 
             if (days > 0)
             {
-                return $"{days} Days {hours} Hours {minutes} Minutes";
+                return $"{days} d {hours} h {minutes} min";
             }
-            return $"{hours} Hours {minutes} Minutes";
+            else if (days <= 0 && hours > 0)
+            {
+                return $"{hours} h {minutes} min";
+            }
+            return $"{minutes} min";
         }
     }
 }

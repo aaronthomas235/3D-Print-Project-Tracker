@@ -6,15 +6,17 @@
         </Border>
     </Design.PreviewWith>
 
-    <Style Selector="TreeView.projectTree TreeViewItem /template/ ToggleButton#PART_ExpandCollapseChevron Path">
+    <!-- TreeView Chevron -->
+    <Style Selector="TreeView.ProjectTree TreeViewItem /template/ ToggleButton#PART_ExpandCollapseChevron Path">
         <Setter Property="Fill" Value="{DynamicResource TreeChevronBrush}" />
     </Style>
-    
-    <Style Selector="TreeView.projectTree TreeViewItem /template/ ToggleButton#PART_ExpandCollapseChevron:pointerover">
+
+    <Style Selector="TreeView.ProjectTree TreeViewItem /template/ ToggleButton#PART_ExpandCollapseChevron:pointerover">
         <Setter Property="Foreground" Value="{DynamicResource TreeChevronBrush}" />
     </Style>
-    
-    <Style Selector="TreeView.projectTree CheckBox:unchecked /template/ Border#NormalRectangle">
+
+    <!-- TreeView CheckBox -->
+    <Style Selector="TreeView.ProjectTree CheckBox:unchecked /template/ Border#NormalRectangle">
         <Setter Property="Margin" Value="4"/>
         <Setter Property="BorderBrush" Value="{DynamicResource CheckBoxBorderBrush}" />
     </Style>
