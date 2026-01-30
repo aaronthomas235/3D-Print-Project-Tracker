@@ -51,13 +51,5 @@
       <Setter Property="Background" Value="{DynamicResource OpenProjectFilePressedBrush}"/>
       <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
   </Style>
-  
-  <Style Selector="ComboBox.CustomComboBox /template/ ToggleButton#PART_DropDownToggle Path">
-      <Setter Property="Fill" Value="{DynamicResource TreeChevronBrush}"/>
-  </Style>
-   
-  <Style Selector="ComboBox.CustomComboBox /template/ ToggleButton#PART_DropDownToggle:pointerover Path">
-      <Setter Property="Fill" Value="{DynamicResource OpenProjectFileHoverBrush}"/>
-  </Style>
 
 </Styles>

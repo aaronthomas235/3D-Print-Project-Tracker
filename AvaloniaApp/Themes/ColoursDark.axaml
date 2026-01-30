@@ -14,5 +14,6 @@
 	<SolidColorBrush x:Key="OpenProjectFileForegroundBrush" Color="#1A1A1A" />		<!-- Dark gray for text in open project files, ensuring readability -->
 	<SolidColorBrush x:Key="OpenProjectFileHoverBrush" Color="#2E2E30" />			<!-- Subtle hover effect for opened project files, consistent with other hover states -->
 	<SolidColorBrush x:Key="OpenProjectFilePressedBrush" Color="#007ACC" />			<!-- Bright azure blue for active/opened project file highlight -->
+	<SolidColorBrush x:Key="ComboBoxDropDownGlyphForeground" Color="#CCCCCC"/>
 
 </ResourceDictionary>
