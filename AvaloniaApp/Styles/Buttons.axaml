@@ -1,0 +1,36 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Design.PreviewWith>
+    <Border Padding="20">
+      <!-- Add Controls for Previewer Here -->
+    </Border>
+  </Design.PreviewWith>
+
+  <!-- Base Button -->
+    <Style Selector="Button.BaseButton">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="12,6"/>
+        <Setter Property="Margin" Value="0,12,0,0"/>
+        <Setter Property="CornerRadius" Value="4"/>
+    </Style>
+
+    <!-- Open Project Button -->
+    <Style Selector="Button.OpenProjectButton">
+        <Setter Property="Background" Value="{DynamicResource OpenProjectFileBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource OpenProjectFileForegroundBrush}"/>
+        <Setter Property="BorderThickness" Value="5"/>
+    </Style>
+
+    <!-- Hover -->
+    <Style Selector="Button.OpenProjectButton:pointerover">
+        <Setter Property="Background" Value="{DynamicResource OpenProjectFileHoverBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+    </Style>
+
+    <!-- Pressed -->
+    <Style Selector="Button.OpenProjectButton:pressed">
+        <Setter Property="Background" Value="{DynamicResource OpenProjectFilePressedBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+    </Style>
+</Styles>

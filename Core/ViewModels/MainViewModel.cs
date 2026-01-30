@@ -27,7 +27,7 @@ public partial class MainViewModel : ObservableObject
         {
             if (SetProperty(ref _clickedProjectTreeItem, value))
             {
-                OnClickedProjectTreeItemChanged();
+                _ = HandleClickedProjectTreeItemChangedAsync();
             }
         }
     }
@@ -72,28 +72,37 @@ public partial class MainViewModel : ObservableObject
         OpenSelectedPartCommand = new AsyncRelayCommand(OpenProjectPartFileAsync);
     }
 
-    private async void OnClickedProjectTreeItemChanged()
+    private async Task HandleClickedProjectTreeItemChangedAsync()
+    {
+        try
+        {
+            await OnClickedProjectTreeItemChanged();
+        }
+        catch (OperationCanceledException)
+        {
+            Debug.WriteLine($"LoadAnalysisAsync canceled for {ClickedProjectTreeItem?.Title}");
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Failed to load analysis: {ex}");
+        }
+    }
+
+    private async Task OnClickedProjectTreeItemChanged()
     {
         OpenSelectedPartCommand.NotifyCanExecuteChanged();
 
-        _selectionCancellationTokenSource?.Cancel();
-        _selectionCancellationTokenSource = new CancellationTokenSource();
+        var clickedItem = ClickedProjectTreeItem;
 
-        var item = ClickedProjectTreeItem;
+        CancellationToken cancellationToken = BeginNewSelection();
 
-        if (item == null || !item.IsFile)
+        if (clickedItem is not { IsFile : true })
         {
+            clickedItem?.ClearAnalysis();
             return;
         }
-
-        try
-        {
-            await item.LoadAnalysisAsync(_selectionCancellationTokenSource.Token);
-        }
-        catch (OperationCanceledException ex)
-        {
-            Debug.WriteLine(ex);
-        }
+        
+        await clickedItem.LoadAnalysisAsync(cancellationToken);
     }
 
     private async Task CreateNewProjectTracker()
@@ -142,6 +151,13 @@ public partial class MainViewModel : ObservableObject
         }
 
         await _fileLauncherService.OpenFileAsync(ClickedProjectTreeItem.Description);
+    }
+
+    private CancellationToken BeginNewSelection()
+    {
+        _selectionCancellationTokenSource?.Cancel();
+        _selectionCancellationTokenSource = new CancellationTokenSource();
+        return _selectionCancellationTokenSource.Token;
     }
 
     private async Task LoadProjectsAsync()

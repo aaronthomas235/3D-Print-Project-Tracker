@@ -1,0 +1,55 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Design.PreviewWith>
+    <Border Padding="20">
+      <!-- Add Controls for Previewer Here -->
+    </Border>
+  </Design.PreviewWith>
+
+  <Style Selector="ComboBox.CustomComboBox">
+    <!-- Size & Layout -->
+    <Setter Property="Width" Value="200"/>
+    <Setter Property="Height" Value="32"/>
+    <Setter Property="Padding" Value="6,4"/>
+    <Setter Property="Margin" Value="0,0,0,6"/>
+    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+    <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+    <!-- Background & Border -->
+    <Setter Property="Background" Value="{DynamicResource PanelBackgroundBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="CornerRadius" Value="4"/>
+
+    <!-- Font -->
+    <Setter Property="FontSize" Value="13"/>
+    <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+  </Style>
+  
+  <Style Selector="ComboBox.CustomComboBox:pointerover">
+      <Setter Property="Background" Value="{DynamicResource PointerOverBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource TextBrush}"/>
+  </Style>
+  
+  <Style Selector="ComboBox.CustomComboBox:focused">
+      <Setter Property="BorderBrush" Value="{DynamicResource OpenProjectFilePressedBrush}"/>
+      <Setter Property="BorderThickness" Value="2"/>
+  </Style>
+  
+  <Style Selector="ComboBoxItem">
+      <Setter Property="Background" Value="{DynamicResource PanelBackgroundBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+      <Setter Property="Padding" Value="6,4"/>
+  </Style>
+    
+  <Style Selector="ComboBoxItem:pointerover">
+      <Setter Property="Background" Value="{DynamicResource PointerOverBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+  </Style>
+  
+  <Style Selector="ComboBoxItem:selected">
+      <Setter Property="Background" Value="{DynamicResource OpenProjectFilePressedBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+  </Style>
+
+</Styles>
