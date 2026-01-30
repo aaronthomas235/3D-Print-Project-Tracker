@@ -150,7 +150,7 @@ public partial class MainViewModel : ObservableObject
             return;
         }
 
-        await _fileLauncherService.OpenFileAsync(ClickedProjectTreeItem.Description);
+        await _fileLauncherService.OpenFileAsync(ClickedProjectTreeItem.FilePath);
     }
 
     private CancellationToken BeginNewSelection()
