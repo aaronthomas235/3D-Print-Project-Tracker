@@ -57,6 +57,7 @@ public partial class MainViewModel : ObservableObject
     public IRelayCommand NewProjectTrackerCommand { get; }
     public IAsyncRelayCommand OpenProjectsFolderAsyncCommand { get; }
     public IAsyncRelayCommand SaveProjectsAsyncCommand { get; }
+
     public IAsyncRelayCommand OpenSelectedPartCommand { get; }
 
     public MainViewModel(IFileLauncherService fileLauncherService, IFolderSelectionService folderSelectionService, IThemeChangerService themeChangerService, IProjectTreeCoordinationService projectTreeCoordinationService)

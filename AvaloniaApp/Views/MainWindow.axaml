@@ -39,9 +39,17 @@
                     </MenuItem.Icon>
                 </MenuItem>
 
-                <MenuItem Classes="NavSubMenuItem" Header="_Save"  Command="{Binding SaveProjectsAsyncCommand}">
+                <MenuItem Classes="NavSubMenuItem" Header="_Save" Command="{Binding SaveProjectsAsyncCommand}">
                     <MenuItem.Icon>
                         <Image Width="16" Height="16" Source="/Assets/Save-File.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+
+            <MenuItem Classes="NavMenuItem" Header="_Edit">
+				<MenuItem Classes="NavSubMenuItem" Header="_Manage Printers">
+					<MenuItem.Icon>
+						<Image Width="16" Height="16" Source="/Assets/Settings.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
