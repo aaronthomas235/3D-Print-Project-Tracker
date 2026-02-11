@@ -9,6 +9,7 @@
 		Background="{DynamicResource MainBackgroundBrush}"
 		Icon="/Assets/3D_Print_Project_Tracker.ico"
 		Title="3D Print Project Tracker"
+        WindowStartupLocation="CenterScreen"
 		Width="800"
         Height="800"
         MinWidth="600"
@@ -46,8 +47,13 @@
                 </MenuItem>
             </MenuItem>
 
-            <MenuItem Classes="NavMenuItem" Header="_Edit">
-				<MenuItem Classes="NavSubMenuItem" Header="_Manage Printers">
+            <MenuItem Classes="NavMenuItem" Header="_Tools">
+				<MenuItem Classes="NavSubMenuItem" Header="_Manage Printers" Command="{Binding ManagePrintersAsyncCommand}">
+					<MenuItem.Icon>
+						<Image Width="16" Height="16" Source="/Assets/Settings.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Classes="NavSubMenuItem" Header="_Manage Filaments" Command="{Binding ManageFilamentsAsyncCommand}">
 					<MenuItem.Icon>
 						<Image Width="16" Height="16" Source="/Assets/Settings.png"/>
                     </MenuItem.Icon>

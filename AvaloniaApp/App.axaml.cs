@@ -32,6 +32,7 @@ namespace AvaloniaApp
                 services.AddSingleton(desktop);
 
                 ConfigureServices(services);
+                ConfigureTransients(services);
 
                 serviceProvider = services.BuildServiceProvider();
 
@@ -51,6 +52,7 @@ namespace AvaloniaApp
 
             services.AddSingleton<MainViewModel>();
 
+            services.AddSingleton<IWindowCreationService, WindowCreationService>();
             services.AddSingleton<IFileLauncherService, FileLauncherService>();
             services.AddSingleton<IThemeChangerService, ThemeChangerService>();
 
@@ -67,6 +69,15 @@ namespace AvaloniaApp
             services.AddSingleton<IMaterialUsageEstimationService, Core.Services.MaterialUsageEstimationService>();
             services.AddSingleton<IPrintModelCacheService, Core.Services.PrintModelCacheService>();
             services.AddSingleton<IPrintModelImportService, Core.Services.PrintModelImportService>();
+        }
+
+        private void ConfigureTransients(IServiceCollection services)
+        {
+            services.AddTransient<ManagePrintersWindow>();
+            services.AddTransient<ManagePrintersWindowViewModel>();
+
+            services.AddTransient<ManageFilamentsWindow>();
+            services.AddTransient<ManageFilamentsWindowViewModel>();
         }
 
         public static void SetTheme(bool useDark)

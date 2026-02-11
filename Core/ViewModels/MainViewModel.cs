@@ -14,6 +14,7 @@ public partial class MainViewModel : ObservableObject
     private readonly IFileLauncherService _fileLauncherService;
     private readonly IFolderSelectionService _folderSelectionService;
     private readonly IThemeChangerService _themeChangerService;
+    private readonly IWindowCreationService _windowCreationService;
 
     private readonly IProjectTreeCoordinationService _projectTreeCoordinationService;
 
@@ -57,19 +58,23 @@ public partial class MainViewModel : ObservableObject
     public IRelayCommand NewProjectTrackerCommand { get; }
     public IAsyncRelayCommand OpenProjectsFolderAsyncCommand { get; }
     public IAsyncRelayCommand SaveProjectsAsyncCommand { get; }
-
+    public IAsyncRelayCommand ManageFilamentsAsyncCommand { get; }
+    public IAsyncRelayCommand ManagePrintersAsyncCommand { get; }
     public IAsyncRelayCommand OpenSelectedPartCommand { get; }
 
-    public MainViewModel(IFileLauncherService fileLauncherService, IFolderSelectionService folderSelectionService, IThemeChangerService themeChangerService, IProjectTreeCoordinationService projectTreeCoordinationService)
+    public MainViewModel(IFileLauncherService fileLauncherService, IFolderSelectionService folderSelectionService, IThemeChangerService themeChangerService, IWindowCreationService windowCreationService, IProjectTreeCoordinationService projectTreeCoordinationService)
     {
         _fileLauncherService = fileLauncherService ?? throw new ArgumentNullException(nameof(fileLauncherService));
         _folderSelectionService = folderSelectionService ?? throw new ArgumentNullException(nameof(folderSelectionService));
         _themeChangerService = themeChangerService ?? throw new ArgumentNullException(nameof(themeChangerService));
+        _windowCreationService = windowCreationService ?? throw new ArgumentNullException(nameof(windowCreationService));
         _projectTreeCoordinationService = projectTreeCoordinationService ?? throw new ArgumentNullException(nameof(projectTreeCoordinationService));
 
         NewProjectTrackerCommand = new AsyncRelayCommand(CreateNewProjectTracker);
         OpenProjectsFolderAsyncCommand = new AsyncRelayCommand(OpenProjectsFolderAsync);
         SaveProjectsAsyncCommand = new AsyncRelayCommand(SaveProjectsAsync);
+        ManageFilamentsAsyncCommand = new AsyncRelayCommand(_windowCreationService.ShowManageFilamentsAsync);
+        ManagePrintersAsyncCommand = new AsyncRelayCommand(_windowCreationService.ShowManagePrintersAsync);
         OpenSelectedPartCommand = new AsyncRelayCommand(OpenProjectPartFileAsync);
     }
 
