@@ -1,13 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Core.Interfaces;
+using ThreeDPrintProjectTracker.Engine.Interfaces;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Core.ViewModels;
+namespace ThreeDPrintProjectTracker.Engine.ViewModels;
 
 public partial class MainViewModel : ObservableObject
 {

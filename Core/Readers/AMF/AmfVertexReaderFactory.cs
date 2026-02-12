@@ -1,6 +1,6 @@
-﻿using Core.Interfaces;
+﻿using ThreeDPrintProjectTracker.Engine.Interfaces;
 
-namespace Core.Readers.AMF
+namespace ThreeDPrintProjectTracker.Engine.Readers.AMF
 {
     public class AmfVertexReaderFactory
     {

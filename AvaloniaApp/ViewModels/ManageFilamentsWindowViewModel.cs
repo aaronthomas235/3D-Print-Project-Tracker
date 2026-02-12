@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AvaloniaApp.ViewModels
+namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
 {
     public class ManageFilamentsWindowViewModel : ViewModelBase
     {

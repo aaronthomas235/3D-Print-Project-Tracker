@@ -2,11 +2,205 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="AvaloniaApp.ManagePrintersWindow"
-        Title="ManagePrintersWindow"
+        mc:Ignorable="d"
+        x:Class="ThreeDPrintProjectTracker.Avalonia.ManagePrintersWindow"
+        Title="Printer Profiles"
+        Width="1000"
+        Height="650"
         WindowStartupLocation="CenterOwner">
 
-    <TextBlock Text="Printer Settings" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <Grid RowDefinitions="Auto,*,Auto"
+          ColumnDefinitions="260,*"
+          Margin="12">
 
+        <!--Header -->
+        <TextBlock Grid.ColumnSpan="2"
+                   Text="Printer Profiles"
+                   FontSize="20"
+                   FontWeight="SemiBold"
+                   Margin="0,0,0,10"/>
+
+        <!--Profile List
+        <Border Grid.Row="1"
+                Padding="8"
+                BorderBrush="#DDD"
+                BorderThickness="1"
+                CornerRadius="6">
+
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top"
+                           Text="Profiles"
+                           FontWeight="SemiBold"
+                           Margin="0,0,0,6"/>
+
+                <ListBox Items="{Binding Profiles}"
+                         SelectedItem="{Binding SelectedProfile}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+        </Border>
+
+        Editor
+        <Border Grid.Row="1"
+                Grid.Column="1"
+                Margin="10,0,0,0"
+                Padding="10"
+                BorderBrush="#DDD"
+                BorderThickness="1"
+                CornerRadius="6">
+
+            <TabControl>
+
+                General
+                <TabItem Header="General">
+                    <ScrollViewer>
+                        <StackPanel Margin="10" Spacing="8">
+                            <TextBlock Text="Profile Name"/>
+                            <TextBox Text="{Binding SelectedProfile.Name}"/>
+
+                            <TextBlock Text="Nozzle Diameter"/>
+                            <TextBox Text="{Binding SelectedProfile.NozzleDiameter}"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                Layers
+                <TabItem Header="Layers">
+                    <ScrollViewer>
+                        <StackPanel Margin="10" Spacing="8">
+
+                            <TextBlock Text="Layer Height"/>
+                            <TextBox Text="{Binding SelectedProfile.LayerHeight}"/>
+
+                            <TextBlock Text="Line Width"/>
+                            <TextBox Text="{Binding SelectedProfile.LineWidth}"/>
+
+                            <TextBlock Text="Initial Layer Height"/>
+                            <TextBox Text="{Binding SelectedProfile.InitialLayerHeight}"/>
+
+                            <TextBlock Text="Initial Layer Line Width"/>
+                            <TextBox Text="{Binding SelectedProfile.InitialLayerLineWidth}"/>
+
+                            <TextBlock Text="Initial Flow General"/>
+                            <TextBox Text="{Binding SelectedProfile.InitialLayerFlowGeneral}"/>
+
+                            <TextBlock Text="Initial Flow Perimeter"/>
+                            <TextBox Text="{Binding SelectedProfile.InitialLayerFlowPerimeter}"/>
+
+                            <TextBlock Text="Initial Flow Infill"/>
+                            <TextBox Text="{Binding SelectedProfile.InitialLayerFlowInfill}"/>
+
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                Speeds
+                <TabItem Header="Speeds">
+                    <ScrollViewer>
+                        <StackPanel Margin="10" Spacing="8">
+
+                            <TextBlock Text="Print Speed General"/>
+                            <TextBox Text="{Binding SelectedProfile.PrintSpeedGeneral}"/>
+
+                            <TextBlock Text="Wall Speed"/>
+                            <TextBox Text="{Binding SelectedProfile.PrintSpeedWall}"/>
+
+                            <TextBlock Text="Infill Speed"/>
+                            <TextBox Text="{Binding SelectedProfile.PrintSpeedInfill}"/>
+
+                            <TextBlock Text="Travel Speed"/>
+                            <TextBox Text="{Binding SelectedProfile.TravelSpeed}"/>
+
+                            <TextBlock Text="Initial Layer Wall Speed"/>
+                            <TextBox Text="{Binding SelectedProfile.InitialLayerPrintSpeedWall}"/>
+
+                            <TextBlock Text="Initial Layer Infill Speed"/>
+                            <TextBox Text="{Binding SelectedProfile.InitialLayerPrintSpeedInfill}"/>
+
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                Geometry
+                <TabItem Header="Geometry">
+                    <ScrollViewer>
+                        <StackPanel Margin="10" Spacing="8">
+
+                            <TextBlock Text="Wall Count"/>
+                            <TextBox Text="{Binding SelectedProfile.WallCount}"/>
+
+                            <TextBlock Text="Infill Density (%)"/>
+                            <TextBox Text="{Binding SelectedProfile.InfillDensity}"/>
+
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                Supports
+                <TabItem Header="Supports">
+                    <ScrollViewer>
+                        <StackPanel Margin="10" Spacing="8">
+
+                            <CheckBox Content="Supports Enabled"
+                                      IsChecked="{Binding SelectedProfile.SupportsEnabled}"/>
+
+                            <TextBlock Text="Support Density"/>
+                            <TextBox Text="{Binding SelectedProfile.SupportDensity}"/>
+
+                            <TextBlock Text="Support Speed"/>
+                            <TextBox Text="{Binding SelectedProfile.PrintSpeedSupport}"/>
+
+                            <TextBlock Text="Support Volume Factor"/>
+                            <TextBox Text="{Binding SelectedProfile.SupportVolumeFactor}"/>
+
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                Advanced
+                <TabItem Header="Advanced">
+                    <ScrollViewer>
+                        <StackPanel Margin="10" Spacing="8">
+
+                            <TextBlock Text="Wall Efficiency"/>
+                            <TextBox Text="{Binding SelectedProfile.WallSpeedEfficiency}"/>
+
+                            <TextBlock Text="Infill Efficiency"/>
+                            <TextBox Text="{Binding SelectedProfile.InfillSpeedEfficiency}"/>
+
+                            <TextBlock Text="Travel Time Factor"/>
+                            <TextBox Text="{Binding SelectedProfile.TravelTimeFactor}"/>
+
+                            <TextBlock Text="Calibration Factor"/>
+                            <TextBox Text="{Binding SelectedProfile.CalibrationFactor}"/>
+
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+            </TabControl>
+
+        </Border>
+
+        Footer
+        <StackPanel Grid.Row="2"
+                    Grid.ColumnSpan="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Spacing="8"
+                    Margin="0,10,0,0">
+
+            <Button Content="New" Command="{Binding NewProfileCommand}"/>
+            <Button Content="Duplicate" Command="{Binding DuplicateProfileCommand}"/>
+            <Button Content="Delete" Command="{Binding DeleteProfileCommand}"/>
+            <Button Content="Save" Command="{Binding SaveCommand}"/>
+            <Button Content="Close" Command="{Binding CloseCommand}"/>
+
+        </StackPanel>-->
+
+    </Grid>
 </Window>

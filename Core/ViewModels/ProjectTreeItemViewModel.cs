@@ -1,14 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Core.Interfaces;
-using Core.Models;
+using ThreeDPrintProjectTracker.Engine.Interfaces;
+using ThreeDPrintProjectTracker.Engine.Models;
 using System;
 using System.Collections.ObjectModel;
-using System.Data.SqlTypes;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Core.ViewModels
+namespace ThreeDPrintProjectTracker.Engine.ViewModels
 {
     public class ProjectTreeItemViewModel : ObservableObject
     {

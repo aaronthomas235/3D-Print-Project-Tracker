@@ -1,12 +1,12 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Core.Interfaces;
+using ThreeDPrintProjectTracker.Engine.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
 
-namespace AvaloniaApp.Services
+namespace ThreeDPrintProjectTracker.Avalonia.Services
 {
     public class WindowCreationService : IWindowCreationService
     {

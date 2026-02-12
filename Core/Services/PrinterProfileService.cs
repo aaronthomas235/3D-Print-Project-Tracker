@@ -1,9 +1,9 @@
-﻿using Core.Interfaces;
-using Core.Models;
+﻿using ThreeDPrintProjectTracker.Engine.Interfaces;
+using ThreeDPrintProjectTracker.Engine.Models;
 using System;
 using System.Collections.Generic;
 
-namespace Core.Services
+namespace ThreeDPrintProjectTracker.Engine.Services
 {
     public class PrinterProfileService : IPrinterProfileService
     {

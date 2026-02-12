@@ -1,4 +1,4 @@
-﻿namespace AvaloniaApp.ViewModels
+﻿namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
 {
     public partial class MainWindowViewModel : ViewModelBase
     {

@@ -1,9 +1,9 @@
-﻿using Core.Interfaces;
-using Core.Models;
-using Core.ViewModels;
+﻿using ThreeDPrintProjectTracker.Engine.Interfaces;
+using ThreeDPrintProjectTracker.Engine.Models;
+using ThreeDPrintProjectTracker.Engine.ViewModels;
 using System;
 
-namespace Core.Factories
+namespace ThreeDPrintProjectTracker.Engine.Factories
 {
     public class ProjectTreeItemViewModelFactory : IProjectTreeItemViewModelFactory
     {

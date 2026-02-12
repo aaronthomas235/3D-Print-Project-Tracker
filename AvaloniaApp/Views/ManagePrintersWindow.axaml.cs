@@ -1,9 +1,9 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using AvaloniaApp.ViewModels;
+using ThreeDPrintProjectTracker.Avalonia.ViewModels;
 
-namespace AvaloniaApp;
+namespace ThreeDPrintProjectTracker.Avalonia;
 
 public partial class ManagePrintersWindow : Window
 {

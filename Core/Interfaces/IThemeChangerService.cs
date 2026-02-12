@@ -1,5 +1,5 @@
 ﻿
-namespace Core.Interfaces
+namespace ThreeDPrintProjectTracker.Engine.Interfaces
 {
     public interface IThemeChangerService
     {

@@ -1,6 +1,6 @@
-﻿using Core.Models;
+﻿using ThreeDPrintProjectTracker.Engine.Models;
 
-namespace Core.Interfaces
+namespace ThreeDPrintProjectTracker.Engine.Interfaces
 {
     public interface IPrintModelImportService
     {

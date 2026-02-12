@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Core.Models
+namespace ThreeDPrintProjectTracker.Engine.Models
 {
     public record PrinterProfile
     {

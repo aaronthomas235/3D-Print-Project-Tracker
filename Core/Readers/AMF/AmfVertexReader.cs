@@ -1,11 +1,11 @@
-﻿using Core.Interfaces;
+﻿using ThreeDPrintProjectTracker.Engine.Interfaces;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Xml;
 
-namespace Core.Readers.AMF
+namespace ThreeDPrintProjectTracker.Engine.Readers.AMF
 {
     public class AmfVertexReader : IVertexReader
     {

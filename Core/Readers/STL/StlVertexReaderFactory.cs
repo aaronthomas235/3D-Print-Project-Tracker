@@ -1,8 +1,8 @@
-﻿using Core.Interfaces;
+﻿using ThreeDPrintProjectTracker.Engine.Interfaces;
 using System;
 using System.IO;
 
-namespace Core.Readers.STL
+namespace ThreeDPrintProjectTracker.Engine.Readers.STL
 {
     public static class StlVertexReaderFactory
     {

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Core.Interfaces
+namespace ThreeDPrintProjectTracker.Engine.Interfaces
 {
     public interface IWindowCreationService
     {

@@ -1,16 +1,11 @@
-﻿using Core.Interfaces;
+﻿using ThreeDPrintProjectTracker.Engine.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Avalonia.Platform.Storage;
-using Avalonia.Controls;
-using System.Runtime.InteropServices;
 using System.Diagnostics;
 
-namespace AvaloniaApp.Services
+namespace ThreeDPrintProjectTracker.Avalonia.Services
 {
     public sealed class FileLauncherService : IFileLauncherService
     {

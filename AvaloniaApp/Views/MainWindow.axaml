@@ -1,10 +1,10 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:vm="using:Core.ViewModels"
+		xmlns:vm="using:ThreeDPrintProjectTracker.Engine.ViewModels"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		mc:Ignorable="d"
-		x:Class="AvaloniaApp.Views.MainWindow"
+		x:Class="ThreeDPrintProjectTracker.Avalonia.Views.MainWindow"
 		x:DataType="vm:MainViewModel"
 		Background="{DynamicResource MainBackgroundBrush}"
 		Icon="/Assets/3D_Print_Project_Tracker.ico"
@@ -16,12 +16,12 @@
 		MinHeight="600">
 
 	<Window.Styles>
-		<StyleInclude Source="avares://AvaloniaApp/Styles/Navigation.axaml"/>
-		<StyleInclude Source="avares://AvaloniaApp/Styles/Treeview.axaml"/>
-		<StyleInclude Source="avares://AvaloniaApp/Styles/Typography.axaml"/>
-		<StyleInclude Source="avares://AvaloniaApp/Styles/Panels.axaml"/>
-        <StyleInclude Source="avares://AvaloniaApp/Styles/Buttons.axaml"/>
-        <StyleInclude Source="avares://AvaloniaApp/Styles/ComboBox.axaml"/>
+		<StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/Navigation.axaml"/>
+		<StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/Treeview.axaml"/>
+		<StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/Typography.axaml"/>
+		<StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/Panels.axaml"/>
+        <StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/Buttons.axaml"/>
+        <StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/ComboBox.axaml"/>
 	</Window.Styles>
 
 	<Grid RowDefinitions="Auto,*">

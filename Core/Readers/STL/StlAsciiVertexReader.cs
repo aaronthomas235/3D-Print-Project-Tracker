@@ -1,11 +1,11 @@
-﻿using Core.Interfaces;
+﻿using ThreeDPrintProjectTracker.Engine.Interfaces;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 
-namespace Core.Readers.STL
+namespace ThreeDPrintProjectTracker.Engine.Readers.STL
 {
     public class StlAsciiVertexReader : IVertexReader
     {

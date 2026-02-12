@@ -1,5 +1,5 @@
 ﻿
-namespace Core.Models
+namespace ThreeDPrintProjectTracker.Engine.Models
 {
     public record MeshDimensions
     {

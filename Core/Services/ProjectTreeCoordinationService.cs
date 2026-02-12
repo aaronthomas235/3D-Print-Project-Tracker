@@ -1,11 +1,11 @@
-﻿using Core.Interfaces;
-using Core.ViewModels;
+﻿using ThreeDPrintProjectTracker.Engine.Interfaces;
+using ThreeDPrintProjectTracker.Engine.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Core.Services
+namespace ThreeDPrintProjectTracker.Engine.Services
 {
     public class ProjectTreeCoordinationService : IProjectTreeCoordinationService
     {

@@ -38,7 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj" />
+    <ProjectReference Include="..\Core\ThreeDPrintProjectTracker.Engine.csproj" />
   </ItemGroup>
 
   <ItemGroup>
