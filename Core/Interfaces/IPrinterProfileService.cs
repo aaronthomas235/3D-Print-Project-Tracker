@@ -12,6 +12,6 @@ namespace ThreeDPrintProjectTracker.Engine.Interfaces
         void AddProfile(PrinterProfile profile);
         void UpdateProfile(PrinterProfile profile);
         bool RemoveProfile(Guid id);
-        IReadOnlyCollection<PrinterProfile> GetAllPrinterProfiles();
+        IEnumerable<PrinterProfile> GetAllPrinterProfiles();
     }
 }

@@ -1,9 +1,12 @@
 <Window xmlns="https://github.com/avaloniaui"
+        xmlns:compilerservices="using:System.Runtime.CompilerServices"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodels="using:ThreeDPrintProjectTracker.Avalonia.ViewModels"
         mc:Ignorable="d"
         x:Class="ThreeDPrintProjectTracker.Avalonia.ManagePrintersWindow"
+        x:DataType="viewmodels:ManagePrintersWindowViewModel"
         Title="Printer Profiles"
         Width="1000"
         Height="650"
@@ -20,7 +23,7 @@
                    FontWeight="SemiBold"
                    Margin="0,0,0,10"/>
 
-        <!--Profile List
+        <!--Profile List-->
         <Border Grid.Row="1"
                 Padding="8"
                 BorderBrush="#DDD"
@@ -33,18 +36,18 @@
                            FontWeight="SemiBold"
                            Margin="0,0,0,6"/>
 
-                <ListBox Items="{Binding Profiles}"
+                <ListBox ItemsSource="{Binding Profiles}"
                          SelectedItem="{Binding SelectedProfile}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Name}" />
+                            <TextBlock Text="{Binding Name}"/>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
             </DockPanel>
         </Border>
 
-        Editor
+        <!--Editor-->
         <Border Grid.Row="1"
                 Grid.Column="1"
                 Margin="10,0,0,0"
@@ -55,20 +58,20 @@
 
             <TabControl>
 
-                General
+                <!--General-->
                 <TabItem Header="General">
                     <ScrollViewer>
                         <StackPanel Margin="10" Spacing="8">
                             <TextBlock Text="Profile Name"/>
-                            <TextBox Text="{Binding SelectedProfile.Name}"/>
+                            <TextBox Text="{Binding Editor.Name, Mode=TwoWay}"/>
 
                             <TextBlock Text="Nozzle Diameter"/>
-                            <TextBox Text="{Binding SelectedProfile.NozzleDiameter}"/>
+                            <TextBox Text="{Binding Editor.NozzleDiameter, Mode=TwoWay}"/>
                         </StackPanel>
                     </ScrollViewer>
                 </TabItem>
 
-                Layers
+                <!--Layers-->
                 <TabItem Header="Layers">
                     <ScrollViewer>
                         <StackPanel Margin="10" Spacing="8">
@@ -98,7 +101,7 @@
                     </ScrollViewer>
                 </TabItem>
 
-                Speeds
+                <!--Speeds-->
                 <TabItem Header="Speeds">
                     <ScrollViewer>
                         <StackPanel Margin="10" Spacing="8">
@@ -125,7 +128,7 @@
                     </ScrollViewer>
                 </TabItem>
 
-                Geometry
+                <!--Geometry-->
                 <TabItem Header="Geometry">
                     <ScrollViewer>
                         <StackPanel Margin="10" Spacing="8">
@@ -140,7 +143,7 @@
                     </ScrollViewer>
                 </TabItem>
 
-                Supports
+                <!--Supports-->
                 <TabItem Header="Supports">
                     <ScrollViewer>
                         <StackPanel Margin="10" Spacing="8">
@@ -161,7 +164,7 @@
                     </ScrollViewer>
                 </TabItem>
 
-                Advanced
+                <!--Advanced-->
                 <TabItem Header="Advanced">
                     <ScrollViewer>
                         <StackPanel Margin="10" Spacing="8">
@@ -186,7 +189,7 @@
 
         </Border>
 
-        Footer
+        <!--Footer-->
         <StackPanel Grid.Row="2"
                     Grid.ColumnSpan="2"
                     Orientation="Horizontal"
@@ -198,9 +201,8 @@
             <Button Content="Duplicate" Command="{Binding DuplicateProfileCommand}"/>
             <Button Content="Delete" Command="{Binding DeleteProfileCommand}"/>
             <Button Content="Save" Command="{Binding SaveCommand}"/>
-            <Button Content="Close" Command="{Binding CloseCommand}"/>
 
-        </StackPanel>-->
+        </StackPanel>
 
     </Grid>
 </Window>
