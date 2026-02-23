@@ -1,11 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ThreeDPrintProjectTracker.Engine.Interfaces;
 using ThreeDPrintProjectTracker.Engine.Models;
 
@@ -50,7 +47,7 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
             var itemVm = new PrinterProfileItemViewModel(record);
             Profiles.Add(itemVm);
 
-            SelectedProfile = itemVm; // now the type matches
+            SelectedProfile = itemVm;
         }
 
 
@@ -92,11 +89,10 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
         {
             if (SelectedProfile == null || Editor == null) return;
 
-            var updatedRecord = Editor.ApplyChanges();
-            _printerProfileService.UpdateProfile(updatedRecord);
+            Editor.ApplyChanges();
+            _printerProfileService.UpdateProfile(Editor.Model);
 
-            // Update the item VM with the new record
-            SelectedProfile.UpdateFromModel(updatedRecord);
+            SelectedProfile.UpdateFromModel(Editor.Model);
         }
 
 
@@ -105,7 +101,5 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
         {
             Editor = value == null ? null : new PrinterProfileEditorViewModel(value.Model);
         }
-
-
     }
 }

@@ -16,6 +16,16 @@
         <Setter Property="BorderBrush" Value="{DynamicResource PanelBorderBrush}"/>
     </Style>
 
+    <!-- Navigation Panel -->
+    <Style Selector="Border.PanelNavigation">
+        <Setter Property="CornerRadius" Value="6"/>
+        <Setter Property="Padding" Value="8"/>
+        <Setter Property="Margin" Value="10"/>
+        <Setter Property="Background" Value="{DynamicResource PanelBackgroundBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource PanelBorderBrush}"/>
+    </Style>
+
     <!-- Divider -->
     <Style Selector="Border.Divider">
         <Setter Property="Height" Value="1"/>
