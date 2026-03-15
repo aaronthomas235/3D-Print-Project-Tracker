@@ -7,9 +7,16 @@ namespace ThreeDPrintProjectTracker.Avalonia;
 
 public partial class ManageFilamentsWindow : Window
 {
-    public ManageFilamentsWindow(ManageFilamentsWindowViewModel vm)
+    // Required for XAML loader + designer
+    public ManageFilamentsWindow()
     {
         InitializeComponent();
+    }
+
+    // Used by DI
+    public ManageFilamentsWindow(ManageFilamentsWindowViewModel vm)
+        : this()
+    {
         DataContext = vm;
     }
 }

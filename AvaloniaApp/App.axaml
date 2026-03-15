@@ -10,11 +10,23 @@
   
     <Application.Styles>
         <FluentTheme />
+
+        <StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/Navigation.axaml"/>
+        <StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/Images.axaml"/>
+		<StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/Treeview.axaml"/>
+		<StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/Typography.axaml"/>
+		<StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/Panels.axaml"/>
+        <StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/Buttons.axaml"/>
+        <StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/ComboBox.axaml"/>
+
     </Application.Styles>
 
     <Application.Resources>
 		<ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+
+                <ResourceInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/DesignTokens.axaml" />
+
                 <ResourceInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Themes/ColoursLight.axaml" />
                 <ResourceInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Themes/ColoursDark.axaml" />
             </ResourceDictionary.MergedDictionaries>

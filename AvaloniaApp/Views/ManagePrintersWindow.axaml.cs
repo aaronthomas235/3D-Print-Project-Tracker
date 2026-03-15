@@ -7,9 +7,14 @@ namespace ThreeDPrintProjectTracker.Avalonia;
 
 public partial class ManagePrintersWindow : Window
 {
-    public ManagePrintersWindow(ManagePrintersWindowViewModel vm)
+    public ManagePrintersWindow()
     {
         InitializeComponent();
+    }
+
+    public ManagePrintersWindow(ManagePrintersWindowViewModel vm)
+        : this()
+    {
         DataContext = vm;
     }
 }

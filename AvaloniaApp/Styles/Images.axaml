@@ -1,0 +1,14 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!-- Add Styles Here -->
+  <Style Selector="Image.MenuIcon">
+      <Setter Property="Width" Value="{DynamicResource Scale.4}"/>
+      <Setter Property="Height" Value="{DynamicResource Scale.4}"/>
+  </Style>
+
+  <Style Selector="Image.ActionButtonIcon">
+      <Setter Property="Width" Value="{DynamicResource Scale.4}"/>
+      <Setter Property="Height" Value="{DynamicResource Scale.4}"/>	  
+  </Style>
+</Styles>

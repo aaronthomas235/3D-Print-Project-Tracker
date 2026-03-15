@@ -16,16 +16,8 @@
         MinWidth="1000"
         MinHeight="650">
 
-    <Window.Styles>
-		<StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/Navigation.axaml"/>
-		<StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/Treeview.axaml"/>
-		<StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/Typography.axaml"/>
-		<StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/Panels.axaml"/>
-        <StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/Buttons.axaml"/>
-        <StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/ComboBox.axaml"/>
-	</Window.Styles>
-
-    <Grid RowDefinitions="Auto,*," ColumnDefinitions="260,*" Margin="12">
+    <Border Classes="PanelContainer">
+        <Grid RowDefinitions="Auto,*," ColumnDefinitions="260,*">
 
         <!--Header -->
         <Label Grid.ColumnSpan="2" Classes="SectionHeader" Content="Printer Profiles"/>
@@ -34,30 +26,29 @@
         <Border Grid.Row="1" Classes="PanelNavigation">
 
             <DockPanel>
-                <Grid DockPanel.Dock="Top" ColumnDefinitions="*,Auto,Auto,Auto,Auto" Margin="0">
+                <Grid DockPanel.Dock="Top" ColumnDefinitions="*,Auto,Auto,Auto,Auto">
                     <TextBlock DockPanel.Dock="Top" Classes="SectionHeader" Text="Profiles"/>
 
-                    <Button Grid.Column="1" Width="28" Height="28" Command="{Binding NewProfileCommand}">
-                        <Image Width="16" Height="16" Source="avares://ThreeDPrintProjectTracker.Avalonia/Assets/Document-Add-White.png"/>
+                    <Button Grid.Column="1" Classes="ActionButton" Command="{Binding NewProfileCommand}">
+                        <Image Classes="ActionButtonIcon" Source="avares://ThreeDPrintProjectTracker.Avalonia/Assets/Document-Add-White.png"/>
                     </Button>
 
-                    <Button Grid.Column="2" Width="28" Height="28" Command="{Binding DuplicateProfileCommand}">
-                        <Image Width="16" Height="16" Source="avares://ThreeDPrintProjectTracker.Avalonia/Assets/Document-Copy-White.png"/>
+                    <Button Grid.Column="2" Classes="ActionButton" Command="{Binding DuplicateProfileCommand}">
+                        <Image Classes="ActionButtonIcon" Source="avares://ThreeDPrintProjectTracker.Avalonia/Assets/Document-Copy-White.png"/>
                     </Button>
 
-                    <Button Grid.Column="3" Width="28" Height="28" Command="{Binding DeleteProfileCommand}">
-                        <Image Width="16" Height="16" Source="avares://ThreeDPrintProjectTracker.Avalonia/Assets/Recycle-Bin-White.png"/>
+                    <Button Grid.Column="3" Classes="ActionButton" Command="{Binding DeleteProfileCommand}">
+                        <Image Classes="ActionButtonIcon" Source="avares://ThreeDPrintProjectTracker.Avalonia/Assets/Recycle-Bin-White.png"/>
                     </Button>
                 </Grid>                
 
                 <ListBox ItemsSource="{Binding Profiles}" SelectedItem="{Binding SelectedProfile}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Border Padding="6" CornerRadius="4">
+                            <Border Classes="ProfileListItem">
 								<Grid RowDefinitions="Auto,Auto">
-									<TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="13"/>
-                                    <TextBlock Grid.Row="1" Text="{Binding NozzleDiameter, StringFormat='Nozzle: {0} mm'}"
-                                               FontSize="12" Opacity="0.7"/>
+									<TextBlock Classes="EditorLabel" Text="{Binding Name}" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Grid.Row="1" Classes="BaseText" Text="{Binding NozzleDiameter, StringFormat='Nozzle: {0} mm'}"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>
@@ -224,4 +215,5 @@
             </Grid>
         </Border>
     </Grid>
+    </Border>
 </Window>

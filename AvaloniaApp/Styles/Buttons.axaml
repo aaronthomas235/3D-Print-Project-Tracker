@@ -1,25 +1,20 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <Design.PreviewWith>
-    <Border Padding="20">
-      <!-- Add Controls for Previewer Here -->
-    </Border>
-  </Design.PreviewWith>
 
   <!-- Base Button -->
     <Style Selector="Button.BaseButton">
-        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="Padding" Value="12,6"/>
-        <Setter Property="Margin" Value="0,12,0,0"/>
-        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="Padding" Value="{DynamicResource Padding.3}"/>
+        <Setter Property="Margin" Value="{DynamicResource Margin.2}"/>
+        <Setter Property="CornerRadius" Value="{DynamicResource Radius.1}"/>
     </Style>
 
     <!-- Open Project Button -->
     <Style Selector="Button.OpenProjectButton">
         <Setter Property="Background" Value="{DynamicResource OpenProjectFileBackgroundBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource OpenProjectFileForegroundBrush}"/>
-        <Setter Property="BorderThickness" Value="5"/>
+        <Setter Property="BorderThickness" Value="{DynamicResource Border.Thin}"/>
     </Style>
 
     <!-- Hover -->
@@ -32,5 +27,10 @@
     <Style Selector="Button.OpenProjectButton:pressed">
         <Setter Property="Background" Value="{DynamicResource OpenProjectFilePressedBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+    </Style>
+
+    <Style Selector="Button.ActionButton">
+        <Setter Property="Width" Value="{DynamicResource Scale.5}"/>
+        <Setter Property="Height" Value="{DynamicResource Scale.5}"/>
     </Style>
 </Styles>

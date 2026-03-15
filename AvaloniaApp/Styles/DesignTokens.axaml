@@ -1,0 +1,46 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Spacing -->
+    <x:Double x:Key="Space.1">4</x:Double>
+    <x:Double x:Key="Space.2">8</x:Double>
+    <x:Double x:Key="Space.3">12</x:Double>
+    <x:Double x:Key="Space.4">16</x:Double>
+    <x:Double x:Key="Space.5">24</x:Double>
+    <x:Double x:Key="Space.6">32</x:Double>
+
+    <!-- Scaling -->
+    <x:Double x:Key="Scale.1">4</x:Double>
+    <x:Double x:Key="Scale.2">8</x:Double>
+    <x:Double x:Key="Scale.3">12</x:Double>
+    <x:Double x:Key="Scale.4">16</x:Double>
+    <x:Double x:Key="Scale.5">24</x:Double>
+    <x:Double x:Key="Scale.6">32</x:Double>
+
+    <!-- Font Size -->
+    <x:Double x:Key="FontSize.1">4</x:Double>
+    <x:Double x:Key="FontSize.2">8</x:Double>
+    <x:Double x:Key="FontSize.3">12</x:Double>
+    <x:Double x:Key="FontSize.4">14</x:Double>
+    <x:Double x:Key="FontSize.5">16</x:Double>
+    <x:Double x:Key="FontSize.6">18</x:Double>
+
+    <!-- Radius -->
+    <CornerRadius x:Key="Radius.1">4</CornerRadius>
+    <CornerRadius x:Key="Radius.2">6</CornerRadius>
+    <CornerRadius x:Key="Radius.3">8</CornerRadius>
+
+    <!-- Padding -->
+    <Thickness x:Key="Padding.1">4</Thickness>
+    <Thickness x:Key="Padding.2">8</Thickness>
+    <Thickness x:Key="Padding.3">12</Thickness>
+    
+    <!-- Margin -->
+    <Thickness x:Key="Margin.1">4</Thickness>
+    <Thickness x:Key="Margin.2">8</Thickness>
+    <Thickness x:Key="Margin.3">16</Thickness>
+    
+    <!-- Border -->
+    <Thickness x:Key="Border.Thin">1</Thickness>
+
+</ResourceDictionary>

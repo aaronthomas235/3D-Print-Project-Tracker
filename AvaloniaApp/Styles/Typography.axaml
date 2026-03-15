@@ -1,14 +1,9 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Design.PreviewWith>
-        <Border Padding="20">
-            <!-- Add Controls for Previewer Here -->
-        </Border>
-    </Design.PreviewWith>
 
     <!-- Base Text Style -->
     <Style Selector="TextBlock.BaseText">
-        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontSize" Value="{DynamicResource FontSize.3}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
     </Style>
 
@@ -21,7 +16,7 @@
 
     <!-- Editor Labels -->
     <Style Selector="TextBlock.EditorLabel">
-        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontSize" Value="{DynamicResource FontSize.4}"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
@@ -30,16 +25,16 @@
     <!-- Section Headers -->
     <Style Selector="Label.SectionHeader">
         <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontSize" Value="{DynamicResource FontSize.5}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
-        <Setter Property="Margin" Value="10,8,10,4"/>
+        <Setter Property="Margin" Value="{DynamicResource Margin.2}"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
 
     <!-- Detail Labels -->
     <Style Selector="Label.DetailLabel">
-        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontSize" Value="{DynamicResource FontSize.3}"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
