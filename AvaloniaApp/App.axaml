@@ -17,7 +17,7 @@
 		<StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/Typography.axaml"/>
 		<StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/Panels.axaml"/>
         <StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/Buttons.axaml"/>
-        <StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/ComboBox.axaml"/>
+        <StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/Inputs.axaml"/>
 
     </Application.Styles>
 

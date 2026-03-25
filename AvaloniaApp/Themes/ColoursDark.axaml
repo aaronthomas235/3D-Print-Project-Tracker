@@ -10,10 +10,10 @@
 	<SolidColorBrush x:Key="TreeChevronBrush" Color="#CCCCCC" />					<!-- Light gray for tree view chevrons, maintaining readability -->
 	<SolidColorBrush x:Key="PanelBorderBrush" Color="#2C2C2C" />					<!-- Darker grey for defined panel borders, creating a subtle separation -->
 	<SolidColorBrush x:Key="DividerBrush" Color="#FFFFFF" />						<!-- White divider: clear and clean separation between sections -->
-	<SolidColorBrush x:Key="OpenProjectFileBackgroundBrush" Color="#E6E6E6" />		<!-- Soft light gray: background for open project files, non-distracting -->
-	<SolidColorBrush x:Key="OpenProjectFileForegroundBrush" Color="#1A1A1A" />		<!-- Dark gray for text in open project files, ensuring readability -->
-	<SolidColorBrush x:Key="OpenProjectFileHoverBrush" Color="#2E2E30" />			<!-- Subtle hover effect for opened project files, consistent with other hover states -->
-	<SolidColorBrush x:Key="OpenProjectFilePressedBrush" Color="#007ACC" />			<!-- Bright azure blue for active/opened project file highlight -->
+	<SolidColorBrush x:Key="PrimaryButtonBackgroundBrush" Color="#E6E6E6" />		<!-- Soft light gray: background for open project files, non-distracting -->
+	<SolidColorBrush x:Key="PrimaryButtonForegroundBrush" Color="#1A1A1A" />		<!-- Dark gray for text in open project files, ensuring readability -->
+	<SolidColorBrush x:Key="PrimaryButtonFileHoverBrush" Color="#DCDCDC" />			<!-- Subtle hover effect for opened project files, consistent with other hover states -->
+	<SolidColorBrush x:Key="PrimaryButtonFilePressedBrush" Color="#CFCFCF" />			<!-- Bright azure blue for active/opened project file highlight -->
 	<SolidColorBrush x:Key="ComboBoxDropDownGlyphForeground" Color="#CCCCCC"/>
 
 </ResourceDictionary>

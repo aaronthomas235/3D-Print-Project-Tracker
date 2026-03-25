@@ -12,7 +12,13 @@
 
     <!-- TreeView CheckBox -->
     <Style Selector="TreeView.ProjectTree CheckBox:unchecked /template/ Border#NormalRectangle">
-        <Setter Property="Margin" Value="{DynamicResource Margin.1}"/>
+        <Setter Property="Margin" Value="{DynamicResource Margin.Control}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource CheckBoxBorderBrush}" />
     </Style>
+
+    <Style Selector="StackPanel.TreeViewItemRow">
+        <Setter Property="Orientation" Value="Horizontal"/>
+        <Setter Property="Spacing" Value="{DynamicResource Gap.TreeViewItemRow}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+</Style>
 </Styles>

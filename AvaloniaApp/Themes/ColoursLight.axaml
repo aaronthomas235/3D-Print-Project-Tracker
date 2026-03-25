@@ -10,10 +10,10 @@
 	<SolidColorBrush x:Key="TreeChevronBrush" Color="#2C3E50" />					<!-- Same dark slate for tree view chevrons, consistent UI theme -->
 	<SolidColorBrush x:Key="PanelBorderBrush" Color="#2C2C2C" />					<!-- Darker grey for borders around panels, more defined edges -->
 	<SolidColorBrush x:Key="DividerBrush" Color="#000000" />						<!-- Black for strong visual division, often used in dividers -->
-	<SolidColorBrush x:Key="OpenProjectFileBackgroundBrush" Color="#2C3E50" />		<!-- Dark slate for background of opened project files -->
-	<SolidColorBrush x:Key="OpenProjectFileForegroundBrush" Color="#FFFFFF" />		<!-- White color for text/foreground in the opened project files -->
-	<SolidColorBrush x:Key="OpenProjectFileHoverBrush" Color="#DDE2E8" />			<!-- Light hover effect color for opened project files -->
-	<SolidColorBrush x:Key="OpenProjectFilePressedBrush" Color="#2196F3" />			<!-- Blue highlight for active/opened project files -->
+	<SolidColorBrush x:Key="PrimaryButtonBackgroundBrush" Color="#2C3E50" />		<!-- Dark slate for background of opened project files -->
+	<SolidColorBrush x:Key="PrimaryButtonForegroundBrush" Color="#FFFFFF" />		<!-- White color for text/foreground in the opened project files -->
+	<SolidColorBrush x:Key="PrimaryButtonFileHoverBrush" Color="#34495E" />			<!-- Light hover effect color for opened project files -->
+	<SolidColorBrush x:Key="PrimaryButtonFilePressedBrush" Color="#3E5871" />			<!-- Blue highlight for active/opened project files -->
 	<SolidColorBrush x:Key="ComboBoxDropDownGlyphForeground" Color="#2C3E50"/>
 
 </ResourceDictionary>

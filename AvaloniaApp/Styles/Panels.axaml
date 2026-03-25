@@ -3,50 +3,82 @@
 
     <!-- Panel Container -->
     <Style Selector="Grid.PanelContainer">
-		<Setter Property="Margin" Value="{DynamicResource Margin.2}"/>
+		<Setter Property="Margin" Value="{DynamicResource Margin.Section}" />
     </Style>
 
     <Style Selector="Border.PanelContainer">
-		<Setter Property="Margin" Value="{DynamicResource Margin.1}"/>
+		<Setter Property="Margin" Value="{DynamicResource Margin.Section}" />
     </Style>
 
     <!-- Common Panel -->
     <Style Selector="Border.PanelCommon">
-        <Setter Property="CornerRadius" Value="{DynamicResource Radius.2}"/>
-        <Setter Property="Padding" Value="{DynamicResource Padding.3}"/>
-        <Setter Property="Margin" Value="{DynamicResource Margin.2}"/>
-        <Setter Property="Background" Value="{DynamicResource PanelBackgroundBrush}"/>
-        <Setter Property="BorderThickness" Value="{DynamicResource Border.Thin}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource PanelBorderBrush}"/>
+        <Setter Property="CornerRadius" Value="{DynamicResource Radius.Medium}" />
+        <Setter Property="Padding" Value="{DynamicResource Padding.Panel}" />
+        <Setter Property="Margin" Value="{DynamicResource Margin.Section}" />
+        <Setter Property="Background" Value="{DynamicResource PanelBackgroundBrush}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource Border.Thin}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource PanelBorderBrush}" />
     </Style>
 
     <!-- Navigation Panel -->
     <Style Selector="Border.PanelNavigation">
-        <Setter Property="CornerRadius" Value="{DynamicResource Radius.2}"/>
-        <Setter Property="Padding" Value="{DynamicResource Padding.2}"/>
-        <Setter Property="Margin" Value="{DynamicResource Margin.2}"/>
-        <Setter Property="Background" Value="{DynamicResource PanelBackgroundBrush}"/>
-        <Setter Property="BorderThickness" Value="{DynamicResource Border.Thin}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource PanelBorderBrush}"/>
+        <Setter Property="CornerRadius" Value="{DynamicResource Radius.Medium}" />
+        <Setter Property="Padding" Value="{DynamicResource Padding.Panel}" />
+        <Setter Property="Margin" Value="{DynamicResource Margin.Section}" />
+        <Setter Property="Background" Value="{DynamicResource PanelBackgroundBrush}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource Border.Thin}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource PanelBorderBrush}" />
     </Style>
 
     <Style Selector="StackPanel.ThemePanel">
-        <Setter Property="Spacing" Value="{DynamicResource Space.2}"/>
-        <Setter Property="Orientation" Value="Horizontal"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Spacing" Value="{DynamicResource Size.XXS}" />
+        <Setter Property="Orientation" Value="Horizontal" />
+        <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
     <!-- Divider -->
     <Style Selector="Border.Divider">
-        <Setter Property="Height" Value="{DynamicResource Space.1}"/>
-        <Setter Property="Background" Value="{DynamicResource DividerBrush}"/>
-        <Setter Property="Margin" Value="{DynamicResource Margin.3}"/>
+        <Setter Property="Height" Value="{DynamicResource Size.XXS}" />
+        <Setter Property="Background" Value="{DynamicResource DividerBrush}" />
+        <Setter Property="Margin" Value="{DynamicResource Margin.Divider}" />
     </Style>
 
     <!-- Profile List Item -->
     <Style Selector="Border.ProfileListItem">
-        <Setter Property="Padding" Value="{DynamicResource Padding.2}"/>
-        <Setter Property="CornerRadius" Value="{DynamicResource Radius.1}"/>
+        <Setter Property="Padding" Value="{DynamicResource Padding.Control}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource Radius.Small}" />
+    </Style>
+
+    <Style Selector="StackPanel.ToolbarRow">
+        <Setter Property="Orientation" Value="Horizontal" />
+        <Setter Property="Spacing" Value="{DynamicResource Gap.Toolbar}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+
+    <Style Selector="Grid.EditorForm">
+        <Setter Property="Margin" Value="{DynamicResource Margin.Section}" />
+        <Setter Property="RowSpacing" Value="{DynamicResource Gap.FormRow}" />
+    </Style>
+
+    <Style Selector="ScrollViewer.EditorTabScroll">
+        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+    </Style>
+
+    <Style Selector="Border.EditorFooter">
+        <Setter Property="BorderBrush" Value="{DynamicResource PanelBackgroundBrush}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource Border.Thin}" />
+        <Setter Property="Padding" Value="{DynamicResource Padding.Panel}" />
+    </Style>
+
+    <Style Selector="Grid.EditorFooterContainer">
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style Selector="Grid.DetailsGrid">
+        <Setter Property="ColumnSpacing" Value="{DynamicResource Space.M}" />
+        <Setter Property="RowSpacing" Value="{DynamicResource Space.S}" />
     </Style>
 
 </Styles>

@@ -11,209 +11,241 @@
         Icon="/Assets/3D_Print_Project_Tracker.ico"
         Title="Printer Profiles"
         WindowStartupLocation="CenterOwner"
-        Width="1250"
-        Height="650"
-        MinWidth="1000"
-        MinHeight="650">
+        Width="{DynamicResource Window.Editor.Width}"
+        Height="{DynamicResource Window.Editor.Height}"
+        MinWidth="{DynamicResource Window.Editor.MinWidth}"
+        MinHeight="{DynamicResource Window.Editor.MinHeight}">
 
     <Border Classes="PanelContainer">
         <Grid RowDefinitions="Auto,*," ColumnDefinitions="260,*">
 
-        <!--Header -->
-        <Label Grid.ColumnSpan="2" Classes="SectionHeader" Content="Printer Profiles"/>
+        <TextBlock Grid.ColumnSpan="2" Classes="SectionHeader" Text="Printer Profiles"/>
 
-        <!--Profile List-->
         <Border Grid.Row="1" Classes="PanelNavigation">
 
             <DockPanel>
-                <Grid DockPanel.Dock="Top" ColumnDefinitions="*,Auto,Auto,Auto,Auto">
-                    <TextBlock DockPanel.Dock="Top" Classes="SectionHeader" Text="Profiles"/>
 
-                    <Button Grid.Column="1" Classes="ActionButton" Command="{Binding NewProfileCommand}">
-                        <Image Classes="ActionButtonIcon" Source="avares://ThreeDPrintProjectTracker.Avalonia/Assets/Document-Add-White.png"/>
-                    </Button>
+                <Grid DockPanel.Dock="Top" ColumnDefinitions="*,Auto" VerticalAlignment="Center" Margin="{DynamicResource Margin.Section}">
 
-                    <Button Grid.Column="2" Classes="ActionButton" Command="{Binding DuplicateProfileCommand}">
-                        <Image Classes="ActionButtonIcon" Source="avares://ThreeDPrintProjectTracker.Avalonia/Assets/Document-Copy-White.png"/>
-                    </Button>
+                    <TextBlock Grid.Column="0" Classes="PanelHeader" Text="Profiles"/>
 
-                    <Button Grid.Column="3" Classes="ActionButton" Command="{Binding DeleteProfileCommand}">
-                        <Image Classes="ActionButtonIcon" Source="avares://ThreeDPrintProjectTracker.Avalonia/Assets/Recycle-Bin-White.png"/>
-                    </Button>
+                    <StackPanel Grid.Column="1" Classes="ToolbarRow">
+                        <Button Classes="ToolbarButton" Command="{Binding NewProfileCommand}">
+                            <Image Classes="ToolbarButtonIcon" Source="avares://ThreeDPrintProjectTracker.Avalonia/Assets/Document-Add-White.png"/>
+                        </Button>
+                        
+                        <Button Classes="ToolbarButton" Command="{Binding DuplicateProfileCommand}">
+                            <Image Classes="ToolbarButtonIcon" Source="avares://ThreeDPrintProjectTracker.Avalonia/Assets/Document-Copy-White.png"/>
+                        </Button>
+                        
+                        <Button Classes="ToolbarButton" Command="{Binding DeleteProfileCommand}">
+                            <Image Classes="ToolbarButtonIcon" Source="avares://ThreeDPrintProjectTracker.Avalonia/Assets/Recycle-Bin-White.png"/>
+                        </Button>
+
+                    </StackPanel>
+
                 </Grid>                
 
                 <ListBox ItemsSource="{Binding Profiles}" SelectedItem="{Binding SelectedProfile}">
+
                     <ListBox.ItemTemplate>
+
                         <DataTemplate>
+
                             <Border Classes="ProfileListItem">
+
 								<Grid RowDefinitions="Auto,Auto">
+
 									<TextBlock Classes="EditorLabel" Text="{Binding Name}" TextTrimming="CharacterEllipsis"/>
+
                                     <TextBlock Grid.Row="1" Classes="BaseText" Text="{Binding NozzleDiameter, StringFormat='Nozzle: {0} mm'}"/>
                                 </Grid>
+
                             </Border>
+
                         </DataTemplate>
+
                     </ListBox.ItemTemplate>
+
                 </ListBox>
+
             </DockPanel>
+
         </Border>
 
-        <!--Editor-->
         <Border Grid.Row="1" Grid.Column="1" Classes="PanelCommon">
 
             <Grid RowDefinitions="*,Auto">
+
 				<TabControl Grid.Row="0">
 
-                    <!--General-->
                     <TabItem Header="General">
-                        <ScrollViewer>
-                            <Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto,Auto" Margin="10" RowSpacing="8">
+
+                        <ScrollViewer Classes="EditorTabScroll">
+                            <Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto" Classes="EditorForm">
                                 
                                 <TextBlock Grid.Row="0" Classes="EditorLabel" Text="Profile Name"/>
                                 
-                                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Editor.Name, Mode=TwoWay}"/>
+                                <TextBox Grid.Row="0" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.Name, Mode=TwoWay}"/>
                                 
                                 <TextBlock Grid.Row="1" Classes="EditorLabel" Text="Nozzle Diameter"/>
                                 
-                                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Editor.NozzleDiameterOptions}"
+                                <ComboBox Grid.Row="1" Grid.Column="1" Classes="EditorFormInput" ItemsSource="{Binding Editor.NozzleDiameterOptions}"
                                           SelectedItem="{Binding Editor.NozzleDiameter, Mode=TwoWay}" />
                             </Grid>
+
                         </ScrollViewer>
+
                     </TabItem>
                     
-                    <!--Layers-->
                     <TabItem Header="Layers">
-                        <ScrollViewer>
-                            <Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Margin="10" RowSpacing="8">
+
+                        <ScrollViewer Classes="EditorTabScroll">
+
+                            <Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Classes="EditorForm">
                                 
                                 <TextBlock Grid.Row="0" Classes="EditorLabel" Text="Layer Height"/>
-                                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Editor.LayerHeight}"/>
+                                <TextBox Grid.Row="0" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.LayerHeight}"/>
                                 
                                 <TextBlock Grid.Row="1" Classes="EditorLabel" Text="Line Width"/>
-                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Editor.LineWidth}"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.LineWidth}"/>
                                 
                                 <Border Grid.Row="2" Grid.ColumnSpan="2" Classes="Divider"/>
                                 
                                 <TextBlock Grid.Row="3" Classes="EditorLabel" Text="Initial Layer Height"/>
-                                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Editor.InitialLayerHeight}"/>
+                                <TextBox Grid.Row="3" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.InitialLayerHeight}"/>
                                 
                                 <TextBlock Grid.Row="4" Classes="EditorLabel" Text="Initial Layer Line Width"/>
-                                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Editor.InitialLayerLineWidth}"/>
+                                <TextBox Grid.Row="4" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.InitialLayerLineWidth}"/>
                                 
                                 <TextBlock Grid.Row="5" Classes="EditorLabel" Text="Initial Flow General"/>
-                                <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Editor.InitialLayerFlowGeneral}"/>
+                                <TextBox Grid.Row="5" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.InitialLayerFlowGeneral}"/>
                                 
                                 <TextBlock Grid.Row="6" Classes="EditorLabel" Text="Initial Flow Perimeter"/>
-                                <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Editor.InitialLayerFlowPerimeter}"/>
+                                <TextBox Grid.Row="6" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.InitialLayerFlowPerimeter}"/>
                                 
                                 <TextBlock Grid.Row="7" Classes="EditorLabel" Text="Initial Flow Infill"/>
-                                <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Editor.InitialLayerFlowInfill}"/>
+                                <TextBox Grid.Row="7" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.InitialLayerFlowInfill}"/>
+
                             </Grid>
+
                         </ScrollViewer>
+
                     </TabItem>
                     
-                    <!--Speeds-->
                     <TabItem Header="Speeds">
-                        <ScrollViewer>
-                            <Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Margin="10" RowSpacing="8">
+
+                        <ScrollViewer Classes="EditorTabScroll">
+
+                            <Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Classes="EditorForm">
 
                                 <TextBlock Grid.Row="0" Classes="EditorLabel" Text="Print Speed General"/>
-                                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Editor.PrintSpeedGeneral}"/>
+                                <TextBox Grid.Row="0" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.PrintSpeedGeneral}"/>
                                 
                                 <Border Grid.Row="1" Grid.ColumnSpan="2" Classes="Divider"/>
                                 
                                 <TextBlock Grid.Row="2" Classes="EditorLabel" Text="Wall Speed"/>
-                                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Editor.PrintSpeedWall}"/>
+                                <TextBox Grid.Row="2" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.PrintSpeedWall}"/>
                                 
                                 <TextBlock Grid.Row="3" Classes="EditorLabel" Text="Infill Speed"/>
-                                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Editor.PrintSpeedInfill}"/>
+                                <TextBox Grid.Row="3" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.PrintSpeedInfill}"/>
                                 
                                 <TextBlock Grid.Row="4" Classes="EditorLabel" Text="Travel Speed"/>
-                                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Editor.TravelSpeed}"/>
+                                <TextBox Grid.Row="4" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.TravelSpeed}"/>
                                 
                                 <Border Grid.Row="5" Grid.ColumnSpan="2" Classes="Divider"/>
                                 
                                 <TextBlock Grid.Row="6" Classes="EditorLabel" Text="Initial Layer Wall Speed"/>
-                                <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Editor.InitialLayerPrintSpeedWall}"/>
+                                <TextBox Grid.Row="6" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.InitialLayerPrintSpeedWall}"/>
                                 
                                 <TextBlock Grid.Row="7" Classes="EditorLabel" Text="Initial Layer Infill Speed"/>
-                                <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Editor.InitialLayerPrintSpeedInfill}"/>
+                                <TextBox Grid.Row="7" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.InitialLayerPrintSpeedInfill}"/>
+
                             </Grid>
+
                         </ScrollViewer>
+
                     </TabItem>
                     
-                    <!--Geometry-->
                     <TabItem Header="Geometry">
-                        <ScrollViewer>
-                            <Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto,Auto" Margin="10" RowSpacing="8">
+
+                        <ScrollViewer Classes="EditorTabScroll">
+
+                            <Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto,Auto" Classes="EditorForm">
 
                                 <TextBlock Grid.Row="0" Classes="EditorLabel" Text="Wall Count"/>
-                                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Editor.WallCount}"/>
+                                <TextBox Grid.Row="0" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.WallCount}"/>
                                 
                                 <TextBlock Grid.Row="1" Classes="EditorLabel" Text="Infill Density (%)"/>
-                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Editor.InfillDensity}"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.InfillDensity}"/>
+
                             </Grid>
+
                         </ScrollViewer>
+
                     </TabItem>
                     
-                    <!--Supports-->
                     <TabItem Header="Supports">
-                        <ScrollViewer>
-                            <Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="10" RowSpacing="8">
 
-                                <CheckBox Grid.Row="0" Content="Supports Enabled" IsChecked="{Binding Editor.SupportsEnabled}"/>
+                        <ScrollViewer Classes="EditorTabScroll">
+
+                            <Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" Classes="EditorForm">
+
+                                <TextBlock Grid.Row="0" Classes="EditorLabel" Text="Supports Enabled"/>
+                                <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding Editor.SupportsEnabled}"/>
                                 
                                 <TextBlock Grid.Row="1" Classes="EditorLabel" Text="Support Density"/>
-                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Editor.SupportDensity}"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.SupportDensity}"/>
                                 
                                 <TextBlock Grid.Row="2" Classes="EditorLabel" Text="Support Speed"/>
-                                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Editor.PrintSpeedSupport}"/>
+                                <TextBox Grid.Row="2" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.PrintSpeedSupport}"/>
                                 
                                 <TextBlock Grid.Row="3" Classes="EditorLabel" Text="Support Volume Factor"/>
-                                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Editor.SupportVolumeFactor}"/>
+                                <TextBox Grid.Row="3" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.SupportVolumeFactor}"/>
+
                             </Grid>
+
                         </ScrollViewer>
+
                     </TabItem>
                     
-                    <!--Advanced-->
                     <TabItem Header="Advanced">
-                        <ScrollViewer>
-                            <Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="10" RowSpacing="8">
+
+                        <ScrollViewer Classes="EditorTabScroll">
+
+                            <Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" Classes="EditorForm">
 
                                 <TextBlock Grid.Row="0" Classes="EditorLabel" Text="Wall Efficiency"/>
-                                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Editor.WallSpeedEfficiency}"/>
+                                <TextBox Grid.Row="0" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.WallSpeedEfficiency}"/>
                                 
                                 <TextBlock Grid.Row="1" Classes="EditorLabel" Text="Infill Efficiency"/>
-                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Editor.InfillSpeedEfficiency}"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.InfillSpeedEfficiency}"/>
                                 
                                 <TextBlock Grid.Row="2" Classes="EditorLabel" Text="Travel Time Factor"/>
-                                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Editor.TravelTimeFactor}"/>
+                                <TextBox Grid.Row="2" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.TravelTimeFactor}"/>
                                 
                                 <TextBlock Grid.Row="3" Classes="EditorLabel" Text="Calibration Factor"/>
-                                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Editor.CalibrationFactor}"/>
+                                <TextBox Grid.Row="3" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.CalibrationFactor}"/>
+
                             </Grid>
+
                         </ScrollViewer>
+
                     </TabItem>
                     
                 </TabControl>
                 
-                <Border Grid.Row="1" Padding="12" BorderThickness="1" BorderBrush="{DynamicResource PanelBackgroundBrush}">
-                    <Grid ColumnDefinitions="*,Auto" VerticalAlignment="Center">
+                <Border Grid.Row="1" Classes="EditorFooter">
+                    <Grid ColumnDefinitions="*,Auto" Classes="EditorFooterContainer">
+
+                        <TextBlock Classes="SecondaryStatusText" Text="Unsaved changes" IsVisible="{Binding Editor.HasChanges}"/>
                         
-                        <!-- Unsaved changes text -->
-                        <TextBlock Text="Unsaved changes" IsVisible="{Binding Editor.HasChanges}" VerticalAlignment="Center" Opacity="0.6"/>
-                        
-                        <!-- Save button -->
-                        <Button Grid.Column="1" Command="{Binding SaveCommand}" IsEnabled="{Binding Editor.HasChanges}" MinWidth="120" MinHeight="48" Padding="12,6">
-                            
-                            <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
-                                <Image Width="20" Height="20" Source="avares://ThreeDPrintProjectTracker.Avalonia/Assets/Save-File-White.png"/>
-                                <TextBlock Text="Save" VerticalAlignment="Center"/>
-                            </StackPanel>
+                        <Button Grid.Column="1" Command="{Binding SaveCommand}" IsEnabled="{Binding Editor.HasChanges}" Classes="PrimaryButton" Content="Save">
                         </Button>
                     </Grid>
                 </Border>
             </Grid>
         </Border>
-    </Grid>
+        </Grid>
     </Border>
 </Window>
