@@ -1,7 +1,7 @@
-﻿using Core.Models;
-using Core.ViewModels;
+﻿using ThreeDPrintProjectTracker.Engine.Models;
+using ThreeDPrintProjectTracker.Engine.ViewModels;
 
-namespace Core.Interfaces
+namespace ThreeDPrintProjectTracker.Engine.Interfaces
 {
     public interface IProjectTreeItemViewModelFactory
     {

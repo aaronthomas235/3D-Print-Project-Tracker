@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Core.Interfaces
+namespace ThreeDPrintProjectTracker.Engine.Interfaces
 {
     public interface IVertexReader : IEnumerable<(float X, float Y, float Z)>
     {

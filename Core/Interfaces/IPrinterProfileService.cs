@@ -1,8 +1,8 @@
-﻿using Core.Models;
+﻿using ThreeDPrintProjectTracker.Engine.Models;
 using System;
 using System.Collections.Generic;
 
-namespace Core.Interfaces
+namespace ThreeDPrintProjectTracker.Engine.Interfaces
 {
     public interface IPrinterProfileService
     {
@@ -12,6 +12,6 @@ namespace Core.Interfaces
         void AddProfile(PrinterProfile profile);
         void UpdateProfile(PrinterProfile profile);
         bool RemoveProfile(Guid id);
-        IReadOnlyCollection<PrinterProfile> GetAllPrinterProfiles();
+        IEnumerable<PrinterProfile> GetAllPrinterProfiles();
     }
 }

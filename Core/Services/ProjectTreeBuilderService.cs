@@ -1,10 +1,10 @@
-﻿using Core.Interfaces;
-using Core.Models;
+﻿using ThreeDPrintProjectTracker.Engine.Interfaces;
+using ThreeDPrintProjectTracker.Engine.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Core.Services
+namespace ThreeDPrintProjectTracker.Engine.Services
 {
     public class ProjectTreeBuilderService : IProjectTreeBuilderService
     {
@@ -33,7 +33,7 @@ namespace Core.Services
                 var node = new ProjectTreeItem
                 {
                     Title = Path.GetFileName(directory),
-                    Description = directory,
+                    FilePath = directory,
                     IsFile = false,
                     Children = BuildRecursive(directory)
                 };
@@ -51,7 +51,7 @@ namespace Core.Services
                 items.Add(new ProjectTreeItem
                 {
                     Title = Path.GetFileName(file),
-                    Description = file,
+                    FilePath = file,
                     IsFile = true
                 });
             }

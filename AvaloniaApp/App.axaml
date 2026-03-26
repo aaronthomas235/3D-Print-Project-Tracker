@@ -1,7 +1,7 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="AvaloniaApp.App"
-             xmlns:local="using:AvaloniaApp"
+             x:Class="ThreeDPrintProjectTracker.Avalonia.App"
+             xmlns:local="using:ThreeDPrintProjectTracker.Avalonia"
              RequestedThemeVariant="Dark">
 
     <Application.DataTemplates>
@@ -10,13 +10,25 @@
   
     <Application.Styles>
         <FluentTheme />
+
+        <StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/Navigation.axaml"/>
+        <StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/Images.axaml"/>
+		<StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/Treeview.axaml"/>
+		<StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/Typography.axaml"/>
+		<StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/Panels.axaml"/>
+        <StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/Buttons.axaml"/>
+        <StyleInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/Inputs.axaml"/>
+
     </Application.Styles>
 
     <Application.Resources>
 		<ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceInclude Source="avares://AvaloniaApp/Themes/ColoursLight.axaml" />
-                <ResourceInclude Source="avares://AvaloniaApp/Themes/ColoursDark.axaml" />
+
+                <ResourceInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Styles/DesignTokens.axaml" />
+
+                <ResourceInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Themes/ColoursLight.axaml" />
+                <ResourceInclude Source="avares://ThreeDPrintProjectTracker.Avalonia/Themes/ColoursDark.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

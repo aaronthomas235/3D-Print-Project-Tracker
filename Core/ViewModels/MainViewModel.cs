@@ -1,23 +1,31 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Core.Interfaces;
+using ThreeDPrintProjectTracker.Engine.Interfaces;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using ThreeDPrintProjectTracker.Engine.Models;
+using System.Linq;
 
-namespace Core.ViewModels;
+namespace ThreeDPrintProjectTracker.Engine.ViewModels;
 
 public partial class MainViewModel : ObservableObject
 {
     private readonly IFileLauncherService _fileLauncherService;
     private readonly IFolderSelectionService _folderSelectionService;
     private readonly IThemeChangerService _themeChangerService;
+    private readonly IWindowCreationService _windowCreationService;
 
     private readonly IProjectTreeCoordinationService _projectTreeCoordinationService;
+    private readonly IPrinterProfileService _printerProfileService;
 
     public ObservableCollection<ProjectTreeItemViewModel> ProjectTreeItems { get; } = new();
+    public ObservableCollection<PrinterProfile> PrinterProfiles { get; } = new();
+
+    [ObservableProperty]
+    private PrinterProfile? selectedPrinterProfile;
 
     private ProjectTreeItemViewModel? _clickedProjectTreeItem;
     public ProjectTreeItemViewModel? ClickedProjectTreeItem
@@ -57,19 +65,29 @@ public partial class MainViewModel : ObservableObject
     public IRelayCommand NewProjectTrackerCommand { get; }
     public IAsyncRelayCommand OpenProjectsFolderAsyncCommand { get; }
     public IAsyncRelayCommand SaveProjectsAsyncCommand { get; }
+    public IAsyncRelayCommand ManageFilamentsAsyncCommand { get; }
+    public IAsyncRelayCommand ManagePrintersAsyncCommand { get; }
     public IAsyncRelayCommand OpenSelectedPartCommand { get; }
 
-    public MainViewModel(IFileLauncherService fileLauncherService, IFolderSelectionService folderSelectionService, IThemeChangerService themeChangerService, IProjectTreeCoordinationService projectTreeCoordinationService)
+    public MainViewModel(IFileLauncherService fileLauncherService, IFolderSelectionService folderSelectionService,
+        IThemeChangerService themeChangerService, IWindowCreationService windowCreationService,
+        IProjectTreeCoordinationService projectTreeCoordinationService, IPrinterProfileService printerProfileService)
     {
         _fileLauncherService = fileLauncherService ?? throw new ArgumentNullException(nameof(fileLauncherService));
         _folderSelectionService = folderSelectionService ?? throw new ArgumentNullException(nameof(folderSelectionService));
         _themeChangerService = themeChangerService ?? throw new ArgumentNullException(nameof(themeChangerService));
+        _windowCreationService = windowCreationService ?? throw new ArgumentNullException(nameof(windowCreationService));
         _projectTreeCoordinationService = projectTreeCoordinationService ?? throw new ArgumentNullException(nameof(projectTreeCoordinationService));
+        _printerProfileService = printerProfileService ?? throw new ArgumentNullException(nameof(printerProfileService));
 
         NewProjectTrackerCommand = new AsyncRelayCommand(CreateNewProjectTracker);
         OpenProjectsFolderAsyncCommand = new AsyncRelayCommand(OpenProjectsFolderAsync);
         SaveProjectsAsyncCommand = new AsyncRelayCommand(SaveProjectsAsync);
+        ManageFilamentsAsyncCommand = new AsyncRelayCommand(ShowManageFilamentsAsync);
+        ManagePrintersAsyncCommand = new AsyncRelayCommand(ShowManagePrintersAsync);
         OpenSelectedPartCommand = new AsyncRelayCommand(OpenProjectPartFileAsync);
+
+        ReloadProfiles();
     }
 
     private async Task HandleClickedProjectTreeItemChangedAsync()
@@ -143,6 +161,18 @@ public partial class MainViewModel : ObservableObject
         await _projectTreeCoordinationService.SaveProjectsAsync(ProjectsRootFolder, ProjectTreeItems);
     }
 
+    private async Task ShowManageFilamentsAsync()
+    {
+        await _windowCreationService.ShowManageFilamentsAsync();
+    }
+
+    private async Task ShowManagePrintersAsync()
+    {
+        await _windowCreationService.ShowManagePrintersAsync();
+
+        ReloadProfiles();
+    }
+
     private async Task OpenProjectPartFileAsync()
     {
         if (ClickedProjectTreeItem == null || !ClickedProjectTreeItem.IsFile)
@@ -150,7 +180,7 @@ public partial class MainViewModel : ObservableObject
             return;
         }
 
-        await _fileLauncherService.OpenFileAsync(ClickedProjectTreeItem.Description);
+        await _fileLauncherService.OpenFileAsync(ClickedProjectTreeItem.FilePath);
     }
 
     private CancellationToken BeginNewSelection()
@@ -167,5 +197,20 @@ public partial class MainViewModel : ObservableObject
         var items = await _projectTreeCoordinationService.LoadProjectsAsync(ProjectsRootFolder!);
         foreach (var item in items)
             ProjectTreeItems.Add(item);
+    }
+
+    private void ReloadProfiles()
+    {
+        var currentProfileId = SelectedPrinterProfile?.Id;
+
+        PrinterProfiles.Clear();
+
+        foreach (var profile in _printerProfileService.GetAllPrinterProfiles())
+        {
+            PrinterProfiles.Add(profile);
+        }
+
+        SelectedPrinterProfile = PrinterProfiles.FirstOrDefault(p => p.Id == currentProfileId) ?? PrinterProfiles.FirstOrDefault();
+
     }
 }

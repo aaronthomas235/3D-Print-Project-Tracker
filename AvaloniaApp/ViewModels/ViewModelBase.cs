@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace AvaloniaApp.ViewModels
+namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
 {
     public class ViewModelBase : ObservableObject
     {

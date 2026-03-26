@@ -1,6 +1,6 @@
-﻿using Core.Interfaces;
+﻿using ThreeDPrintProjectTracker.Engine.Interfaces;
 
-namespace Core.Readers._3MF
+namespace ThreeDPrintProjectTracker.Engine.Readers._3MF
 {
     public class MfVertexReaderFactory
     {

@@ -1,10 +1,5 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Design.PreviewWith>
-        <Border Padding="20">
-            <!-- Add Controls for Previewer Here -->
-        </Border>
-    </Design.PreviewWith>
 
     <!-- TreeView Chevron -->
     <Style Selector="TreeView.ProjectTree TreeViewItem /template/ ToggleButton#PART_ExpandCollapseChevron Path">
@@ -17,7 +12,13 @@
 
     <!-- TreeView CheckBox -->
     <Style Selector="TreeView.ProjectTree CheckBox:unchecked /template/ Border#NormalRectangle">
-        <Setter Property="Margin" Value="4"/>
+        <Setter Property="Margin" Value="{DynamicResource Margin.Control}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource CheckBoxBorderBrush}" />
     </Style>
+
+    <Style Selector="StackPanel.TreeViewItemRow">
+        <Setter Property="Orientation" Value="Horizontal"/>
+        <Setter Property="Spacing" Value="{DynamicResource Gap.TreeViewItemRow}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+</Style>
 </Styles>

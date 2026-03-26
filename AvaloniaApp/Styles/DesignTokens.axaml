@@ -1,0 +1,128 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ========================= -->
+    <!-- PRIMITIVE TOKENS -->
+    <!-- ========================= -->
+
+    <!-- Spacing (for margin, padding, gaps) -->
+    <x:Double x:Key="Primitive.Space.1">4</x:Double>
+    <x:Double x:Key="Primitive.Space.2">8</x:Double>
+    <x:Double x:Key="Primitive.Space.3">12</x:Double>
+    <x:Double x:Key="Primitive.Space.4">16</x:Double>
+    <x:Double x:Key="Primitive.Space.5">24</x:Double>
+    <x:Double x:Key="Primitive.Space.6">32</x:Double>
+
+    <!-- Sizes (for widths, heights, icons, etc.) -->
+    <x:Double x:Key="Primitive.Size.1">24</x:Double>
+    <x:Double x:Key="Primitive.Size.2">32</x:Double>
+    <x:Double x:Key="Primitive.Size.3">40</x:Double>
+    <x:Double x:Key="Primitive.Size.4">48</x:Double>
+    <x:Double x:Key="Primitive.Size.5">80</x:Double>
+    <x:Double x:Key="Primitive.Size.6">120</x:Double>
+    <x:Double x:Key="Primitive.Size.7">160</x:Double>
+    <x:Double x:Key="Primitive.Size.8">320</x:Double>
+
+    <!-- ========================= -->
+    <!-- SEMANTIC TOKENS -->
+    <!-- ========================= -->
+
+    <!-- Spacing (for margin, padding, gaps) -->
+    <x:Double x:Key="Space.XS">4</x:Double>
+    <x:Double x:Key="Space.S">8</x:Double>
+    <x:Double x:Key="Space.M">12</x:Double>
+    <x:Double x:Key="Space.L">16</x:Double>
+    <x:Double x:Key="Space.XL">24</x:Double>
+    <x:Double x:Key="Space.XXL">32</x:Double>
+
+    <!-- Sizes (for widths, heights, icons, etc.) -->
+    <x:Double x:Key="Size.XXS">24</x:Double>
+    <x:Double x:Key="Size.XS">32</x:Double>
+    <x:Double x:Key="Size.S">40</x:Double>
+    <x:Double x:Key="Size.M">48</x:Double>
+    <x:Double x:Key="Size.L">80</x:Double>
+    <x:Double x:Key="Size.XL">120</x:Double>
+    <x:Double x:Key="Size.XXL">160</x:Double>
+    <x:Double x:Key="Size.XXXL">320</x:Double>
+
+
+    <!-- Font Sizes -->
+    <x:Double x:Key="FontSize.Body">13</x:Double>
+    <x:Double x:Key="FontSize.Label">14</x:Double>
+    <x:Double x:Key="FontSize.Section">16</x:Double>
+    <x:Double x:Key="FontSize.Title">18</x:Double>
+
+    <!-- Icons -->
+    <x:Double x:Key="Size.Icon.XS">8</x:Double>
+    <x:Double x:Key="Size.Icon.S">16</x:Double>
+    <x:Double x:Key="Size.Icon.M">20</x:Double>
+    <x:Double x:Key="Size.Icon.L">24</x:Double>
+    <x:Double x:Key="Size.Icon.XL">32</x:Double>
+
+    <!-- Corner Radius -->
+    <CornerRadius x:Key="Radius.Small">4</CornerRadius>
+    <CornerRadius x:Key="Radius.Medium">6</CornerRadius>
+    <CornerRadius x:Key="Radius.Large">8</CornerRadius>
+
+    <!-- Border Thickness -->
+    <Thickness x:Key="Border.None">0</Thickness>
+    <Thickness x:Key="Border.Thin">1</Thickness>
+    <Thickness x:Key="Border.Thick">2</Thickness>
+
+    <!-- Opacity -->
+    <x:Double x:Key="Opacity.Subtle">0.2</x:Double>
+    <x:Double x:Key="Opacity.Muted">0.4</x:Double>
+    <x:Double x:Key="Opacity.Secondary">0.6</x:Double>
+    <x:Double x:Key="Opacity.Strong">0.8</x:Double>
+    <x:Double x:Key="Opacity.Full">1.0</x:Double>
+
+    <!-- Main Window -->
+    <x:Double x:Key="Window.Main.Width">750</x:Double>
+    <x:Double x:Key="Window.Main.Height">500</x:Double>
+    <x:Double x:Key="Window.Main.MinWidth">600</x:Double>
+    <x:Double x:Key="Window.Main.MinHeight">600</x:Double>
+
+    <!-- Editor Window -->
+    <x:Double x:Key="Window.Editor.Width">1250</x:Double>
+    <x:Double x:Key="Window.Editor.Height">650</x:Double>
+    <x:Double x:Key="Window.Editor.MinWidth">1000</x:Double>
+    <x:Double x:Key="Window.Editor.MinHeight">650</x:Double>
+
+    <!-- Panel Widths -->
+    <x:Double x:Key="Width.NavigationPanel">280</x:Double>
+    <x:Double x:Key="Width.FormLabel">200</x:Double>
+    <x:Double x:Key="Width.FormInputCompact">160</x:Double>
+    <x:Double x:Key="Width.FormInput">320</x:Double>
+    <x:Double x:Key="Width.Button.Primary">120</x:Double>
+    <x:Double x:Key="Width.Button.Toolbar">32</x:Double>
+
+    <!-- Heights -->
+    <x:Double x:Key="Height.Button.Primary">48</x:Double>
+    <x:Double x:Key="Height.Button.Toolbar">32</x:Double>
+    <x:Double x:Key="Height.Input">36</x:Double>
+
+    <!-- Gaps -->
+    <x:Double x:Key="Gap.FormRow">8</x:Double>
+    <x:Double x:Key="Gap.Toolbar">8</x:Double>
+    <x:Double x:Key="Gap.ButtonContentRow">8</x:Double>
+    <x:Double x:Key="Gap.TreeViewItemRow">8</x:Double>
+
+    <!-- Padding -->
+    <Thickness x:Key="Padding.None">0</Thickness>
+    <Thickness x:Key="Padding.ControlCompact">8</Thickness>
+    <Thickness x:Key="Padding.Control">12</Thickness>
+    <Thickness x:Key="Padding.FormSection">12</Thickness>
+    <Thickness x:Key="Padding.Panel">16</Thickness>
+    <Thickness x:Key="Padding.Divider">16</Thickness>
+
+    <!-- Margin -->
+    <Thickness x:Key="Margin.Control">8</Thickness>
+    <Thickness x:Key="Margin.Section">12</Thickness>
+    <Thickness x:Key="Margin.Divider">8</Thickness>
+
+    <!-- Form Layout -->
+    <Thickness x:Key="Padding.FormRow">8</Thickness>
+    <x:Double x:Key="RowSpacing.FormRow">6</x:Double>
+    <x:Double x:Key="ColumnSpacing.FormColumn">12</x:Double>
+
+</ResourceDictionary>

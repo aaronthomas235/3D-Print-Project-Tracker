@@ -1,8 +1,8 @@
-﻿using Core.Interfaces;
+﻿using ThreeDPrintProjectTracker.Engine.Interfaces;
 using System;
 using System.Collections.Generic;
 
-namespace Core.Services
+namespace ThreeDPrintProjectTracker.Engine.Services
 {
     public class SupportedFileFormatsService : ISupportedFileFormatsService
     {

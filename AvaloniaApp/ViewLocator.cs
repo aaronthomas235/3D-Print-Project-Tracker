@@ -1,9 +1,9 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using AvaloniaApp.ViewModels;
+using ThreeDPrintProjectTracker.Avalonia.ViewModels;
 using System;
 
-namespace AvaloniaApp
+namespace ThreeDPrintProjectTracker.Avalonia
 {
     public class ViewLocator : IDataTemplate
     {

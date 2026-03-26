@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Avalonia;
-using Core.Interfaces;
+using ThreeDPrintProjectTracker.Engine.Interfaces;
 
-namespace AvaloniaApp.Services
+namespace ThreeDPrintProjectTracker.Avalonia.Services
 {
     public class ThemeChangerService : IThemeChangerService
     {

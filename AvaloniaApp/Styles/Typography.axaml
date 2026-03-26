@@ -1,14 +1,9 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Design.PreviewWith>
-        <Border Padding="20">
-            <!-- Add Controls for Previewer Here -->
-        </Border>
-    </Design.PreviewWith>
 
     <!-- Base Text Style -->
     <Style Selector="TextBlock.BaseText">
-        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontSize" Value="{DynamicResource FontSize.Body}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
     </Style>
 
@@ -19,19 +14,41 @@
         <Setter Property="TextAlignment" Value="Right"/>
     </Style>
 
-    <!-- Section Headers -->
-    <Style Selector="Label.SectionHeader">
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="FontSize" Value="16"/>
+    <Style Selector="TextBlock.SecondaryStatusText">
+        <Setter Property="FontSize" Value="{DynamicResource FontSize.Body}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
-        <Setter Property="Margin" Value="10,8,10,4"/>
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Opacity" Value="{DynamicResource Opacity.Secondary}" />
+    </Style>
+
+    <!-- Editor Labels -->
+    <Style Selector="TextBlock.EditorLabel">
+        <Setter Property="FontSize" Value="{DynamicResource FontSize.Label}"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <!-- Section Headers -->
+    <Style Selector="TextBlock.SectionHeader">
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="{DynamicResource FontSize.Section}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+        <Setter Property="Margin" Value="{DynamicResource Margin.Control}"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
 
+    <Style Selector="TextBlock.PanelHeader">
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="{DynamicResource FontSize.Section}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
     <!-- Detail Labels -->
-    <Style Selector="Label.DetailLabel">
-        <Setter Property="FontSize" Value="12"/>
+    <Style Selector="TextBlock.DetailLabel">
+        <Setter Property="FontSize" Value="{DynamicResource FontSize.Label}"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
         <Setter Property="VerticalAlignment" Value="Center"/>

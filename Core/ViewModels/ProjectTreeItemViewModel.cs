@@ -1,14 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Core.Interfaces;
-using Core.Models;
+using ThreeDPrintProjectTracker.Engine.Interfaces;
+using ThreeDPrintProjectTracker.Engine.Models;
 using System;
 using System.Collections.ObjectModel;
-using System.Data.SqlTypes;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Core.ViewModels
+namespace ThreeDPrintProjectTracker.Engine.ViewModels
 {
     public class ProjectTreeItemViewModel : ObservableObject
     {
@@ -28,10 +27,10 @@ namespace Core.ViewModels
             set => SetProperty(_model.Title, value, v => _model.Title = v);
         }
 
-        public string Description
+        public string FilePath
         {
-            get => _model.Description;
-            set => SetProperty(_model.Description, value, v => _model.Description = v);
+            get => _model.FilePath;
+            set => SetProperty(_model.FilePath, value, v => _model.FilePath = v);
         }
 
         private string? _dimensions;
@@ -150,7 +149,7 @@ namespace Core.ViewModels
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var model = await _printModelCacheService.GetPrintModelAsync(Description);
+            var model = await _printModelCacheService.GetPrintModelAsync(FilePath);
             var profile = ResolvePrinterProfile();
 
             await Task.WhenAll(
@@ -192,7 +191,7 @@ namespace Core.ViewModels
             return new ProjectTreeItem
             {
                 Title = Title,
-                Description = Description,
+                FilePath = FilePath,
                 IsFile = IsFile,
                 AssignedPrinterProfileId = AssignedPrinterProfileId,
                 Children = Children.Select(c => c.ToModel()).ToList()

@@ -1,25 +1,20 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <Design.PreviewWith>
-    <Border Padding="20">
-      <!-- Add Controls for Previewer Here -->
-    </Border>
-  </Design.PreviewWith>
 
     <!-- Navigation Menu -->
     <Style Selector="Menu.NavMenu">
         <Setter Property="Background" Value="{DynamicResource NavigationBarBackgroundBrush}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
-        <Setter Property="BorderThickness" Value="0 0 0 1"/>
-        <Setter Property="FontSize" Value="13"/>
-        <Setter Property="Padding" Value="8,4"/>
+        <Setter Property="BorderThickness" Value="{DynamicResource Border.Thin}"/>
+        <Setter Property="FontSize" Value="{DynamicResource FontSize.Body}"/>
+        <Setter Property="Padding" Value="{DynamicResource Padding.Section}"/>
     </Style>
 
     <!-- Navigation Menu Items -->
     <Style Selector="MenuItem.NavMenuItem">
         <Setter Property="Background" Value="{DynamicResource NavigationBarBackgroundBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
-        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontSize" Value="{DynamicResource FontSize.Body}"/>
     </Style>
 
     <Style Selector="MenuItem.NavMenuItem:pointerover">
@@ -36,7 +31,7 @@
     <Style Selector="Menu.NavSubMenuItem">
         <Setter Property="Background" Value="{DynamicResource NavigationBarBackgroundBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
-        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="FontSize" Value="{DynamicResource FontSize.Body}"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="Cursor" Value="Hand"/>
     </Style>

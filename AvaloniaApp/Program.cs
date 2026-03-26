@@ -1,7 +1,7 @@
 ﻿using Avalonia;
 using System;
 
-namespace AvaloniaApp
+namespace ThreeDPrintProjectTracker.Avalonia
 {
     internal sealed class Program
     {

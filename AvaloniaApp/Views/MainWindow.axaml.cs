@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace AvaloniaApp.Views
+namespace ThreeDPrintProjectTracker.Avalonia.Views
 {
     public partial class MainWindow : Window
     {

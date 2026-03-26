@@ -1,13 +1,13 @@
-﻿using Core.Interfaces;
-using Core.Models;
-using Core.Readers.OBJ;
-using Core.Readers.STL;
+﻿using ThreeDPrintProjectTracker.Engine.Interfaces;
+using ThreeDPrintProjectTracker.Engine.Models;
+using ThreeDPrintProjectTracker.Engine.Readers.OBJ;
+using ThreeDPrintProjectTracker.Engine.Readers.STL;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Core.Services
+namespace ThreeDPrintProjectTracker.Engine.Services
 {
     public class PrintModelImportService : IPrintModelImportService
     {

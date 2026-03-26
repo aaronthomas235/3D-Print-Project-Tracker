@@ -1,6 +1,6 @@
-﻿using Core.Interfaces;
+﻿using ThreeDPrintProjectTracker.Engine.Interfaces;
 
-namespace Core.Readers.OBJ
+namespace ThreeDPrintProjectTracker.Engine.Readers.OBJ
 {
     public static class ObjVertexReaderFactory
     {

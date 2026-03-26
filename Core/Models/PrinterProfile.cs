@@ -1,61 +1,61 @@
 ﻿using System;
 
-namespace Core.Models
+namespace ThreeDPrintProjectTracker.Engine.Models
 {
     public record PrinterProfile
     {
         public Guid Id { get; init; }
-        public required string Name { get; init; }
+        public required string Name { get; set; }
 
         // ───── Hardware ─────
-        public double NozzleDiameter { get; init; }
+        public double NozzleDiameter { get; set; }
 
         // ───── Normal layers ─────
-        public double LayerHeight { get; init; }
-        public double LineWidth { get; init; }
+        public double LayerHeight { get; set; }
+        public double LineWidth { get; set; }
 
         // ───── Initial layer ─────
-        public double InitialLayerHeight { get; init; }
-        public double InitialLayerLineWidth { get; init; }
+        public double InitialLayerHeight { get; set; }
+        public double InitialLayerLineWidth { get; set; }
 
-        public double InitialLayerFlowGeneral { get; init; }
-        public double InitialLayerFlowPerimeter { get; init; }
-        public double InitialLayerFlowInfill { get; init; }
+        public double InitialLayerFlowGeneral { get; set; }
+        public double InitialLayerFlowPerimeter { get; set; }
+        public double InitialLayerFlowInfill { get; set; }
 
         // ───── Flow multipliers (percent, 100 = nominal) ─────
-        public double FlowPercentGeneral { get; init; }
-        public double FlowPercentPerimeter { get; init; }
-        public double FlowPercentInfill { get; init; }
+        public double FlowPercentGeneral { get; set; }
+        public double FlowPercentPerimeter { get; set; }
+        public double FlowPercentInfill { get; set; }
 
         // ───── Speeds (mm/s) ─────
-        public double PrintSpeedGeneral { get; init; }
-        public double PrintSpeedWall { get; init; }
-        public double PrintSpeedInfill { get; init; }
-        public double TravelSpeed { get; init; }
+        public double PrintSpeedGeneral { get; set; }
+        public double PrintSpeedWall { get; set; }
+        public double PrintSpeedInfill { get; set; }
+        public double TravelSpeed { get; set; }
 
-        public double InitialLayerPrintSpeedWall { get; init; }
-        public double InitialLayerPrintSpeedInfill { get; init; }
-        public double InitialLayerPrintSpeedGeneral { get; init; }
-        public double InitialLayerTravelSpeed { get; init; }
+        public double InitialLayerPrintSpeedWall { get; set; }
+        public double InitialLayerPrintSpeedInfill { get; set; }
+        public double InitialLayerPrintSpeedGeneral { get; set; }
+        public double InitialLayerTravelSpeed { get; set; }
 
         // ───── Inefficiency / calibration factors ─────
-        public double WallSpeedEfficiency { get; init; }
-        public double InfillSpeedEfficiency { get; init; }
+        public double WallSpeedEfficiency { get; set; }
+        public double InfillSpeedEfficiency { get; set; }
 
         // ───── Geometry ─────
-        public int WallCount { get; init; }
-        public double InfillDensity { get; init; }
+        public int WallCount { get; set; }
+        public double InfillDensity { get; set; }
 
         // ───── Supports ─────
-        public bool SupportsEnabled { get; init; }
-        public double SupportDensity { get; init; }
-        public double SupportVolumeFactor { get; init; }
-        public double PrintSpeedSupport { get; init; }
-        public double SupportSpeedEfficiency { get; init; }
-        public double SupportTravelFactor { get; init; }
+        public bool SupportsEnabled { get; set; }
+        public double SupportDensity { get; set; }
+        public double SupportVolumeFactor { get; set; }
+        public double PrintSpeedSupport { get; set; }
+        public double SupportSpeedEfficiency { get; set; }
+        public double SupportTravelFactor { get; set; }
 
         // ───── Time calibration ─────
-        public double TravelTimeFactor { get; init; }
-        public double CalibrationFactor { get; init; }
+        public double TravelTimeFactor { get; set; }
+        public double CalibrationFactor { get; set; }
     }
 }

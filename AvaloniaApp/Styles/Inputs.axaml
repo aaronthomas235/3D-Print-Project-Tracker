@@ -1,0 +1,51 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Style Selector="ComboBox.FormInput">
+    
+    <Setter Property="Width" Value="{DynamicResource Width.FormInputCompact}"/>
+    <Setter Property="Height" Value="{DynamicResource Height.Input}"/>
+    <Setter Property="MaxWidth" Value="{DynamicResource Width.FormInput}"/>
+    <Setter Property="Padding" Value="{DynamicResource Padding.ControlCompact}"/>
+    <Setter Property="Margin" Value="{DynamicResource Margin.Control}"/>
+    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+    <Setter Property="VerticalContentAlignment" Value="Top"/>
+
+    <Setter Property="Background" Value="{DynamicResource PanelBackgroundBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+    <Setter Property="BorderThickness" Value="{DynamicResource Border.Thin}"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius.Small}"/>
+
+    <Setter Property="FontSize" Value="{DynamicResource FontSize.Body}"/>
+    <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+  </Style>
+  
+  <Style Selector="ComboBoxItem">
+      <Setter Property="Background" Value="{DynamicResource PanelBackgroundBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+      <Setter Property="Padding" Value="{DynamicResource Padding.Control}"/>
+  </Style>
+    
+  <Style Selector="ComboBoxItem:pointerover">
+      <Setter Property="Background" Value="{DynamicResource PointerOverBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+  </Style>
+  
+  <Style Selector="ComboBoxItem:selected">
+      <Setter Property="Background" Value="{DynamicResource PrimaryButtonFilePressedBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+  </Style>
+
+  <Style Selector="TextBox.EditorFormInput">
+      <Setter Property="Width" Value="{DynamicResource Width.FormInput}" />
+      <Setter Property="HorizontalAlignment" Value="Left" />
+  </Style>
+
+  <Style Selector="ComboBox.EditorFormInput">
+	  <Setter Property="Width" Value="{DynamicResource Width.FormInput}" />
+      <Setter Property="HorizontalAlignment" Value="Left" />
+      <Setter Property="VerticalAlignment" Value="Top" />
+  </Style>
+
+</Styles>

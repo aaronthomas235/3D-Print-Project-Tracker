@@ -1,16 +1,22 @@
-﻿using Core.Interfaces;
-using Core.Models;
+﻿using ThreeDPrintProjectTracker.Engine.Interfaces;
+using ThreeDPrintProjectTracker.Engine.Models;
 using System;
 using System.Collections.Generic;
 
-namespace Core.Services
+namespace ThreeDPrintProjectTracker.Engine.Services
 {
     public class PrinterProfileService : IPrinterProfileService
     {
         private readonly Dictionary<Guid, PrinterProfile> _profiles;
+
+        public event Action? ProfilesChanged;
+
+        private readonly Guid _defaultProfileId;
         public PrinterProfileService()
         {
             var defaultProfile = ReferencePrinterProfile.Default;
+            _defaultProfileId = defaultProfile.Id;
+
             _profiles = new Dictionary<Guid, PrinterProfile>()
             {
                 [defaultProfile.Id] = defaultProfile,
@@ -19,7 +25,7 @@ namespace Core.Services
 
         public PrinterProfile GetDefault()
         {
-            return _profiles[Guid.Empty];
+            return _profiles[_defaultProfileId];
         }
 
         public PrinterProfile? GetPrinterProfileById(Guid id)
@@ -36,6 +42,7 @@ namespace Core.Services
             }
 
             _profiles[profile.Id] = profile;
+            ProfilesChanged?.Invoke();
         }
 
         public void UpdateProfile(PrinterProfile profile)
@@ -44,6 +51,9 @@ namespace Core.Services
             {
                 throw new KeyNotFoundException($"Profile with ID {profile.Id} not found.");
             }
+
+            _profiles[profile.Id] = profile;
+            ProfilesChanged?.Invoke();
         }
 
         public bool RemoveProfile(Guid id)
@@ -53,12 +63,13 @@ namespace Core.Services
                 throw new InvalidOperationException("Cannot remove default/reference profile.");
             }
 
-            return _profiles.Remove(id);
+            var removed = _profiles.Remove(id);
+            if (removed)
+                ProfilesChanged?.Invoke();
+
+            return removed;
         }
 
-        public IReadOnlyCollection<PrinterProfile> GetAllPrinterProfiles()
-        {
-            return _profiles.Values;
-        }
+        public IEnumerable<PrinterProfile> GetAllPrinterProfiles() => _profiles.Values;
     }
 }

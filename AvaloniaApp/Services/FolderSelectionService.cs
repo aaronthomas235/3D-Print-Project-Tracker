@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Platform.Storage;
-using Core.Interfaces;
+using ThreeDPrintProjectTracker.Engine.Interfaces;
 
-namespace AvaloniaApp.Services
+namespace ThreeDPrintProjectTracker.Avalonia.Services
 {
     public class FolderSelectionService : IFolderSelectionService
     {
