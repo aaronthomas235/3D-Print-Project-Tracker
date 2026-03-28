@@ -1,5 +1,6 @@
 ﻿using System;
 using Avalonia;
+using Avalonia.Styling;
 using ThreeDPrintProjectTracker.Engine.Interfaces;
 
 namespace ThreeDPrintProjectTracker.Avalonia.Services
@@ -10,7 +11,8 @@ namespace ThreeDPrintProjectTracker.Avalonia.Services
         {
             if (Application.Current is App app)
             {
-                App.SetTheme(useDarkTheme);
+                app.RequestedThemeVariant = useDarkTheme ? ThemeVariant.Dark : ThemeVariant.Light;
+                //App.SetTheme(useDarkTheme);
             }
         }
     }

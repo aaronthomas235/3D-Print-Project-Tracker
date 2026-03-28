@@ -52,14 +52,7 @@
             </MenuItem>
 
             <MenuItem Classes="NavMenuItem" Header="_Preferences">
-                <MenuItem>
-                    <MenuItem.Header>
-                        <StackPanel Classes="ThemePanel">
-                            <TextBlock Text="Dark Mode"/>
-                            <ToggleSwitch IsChecked="{Binding IsUsingDarkTheme}"/>
-                        </StackPanel>
-                    </MenuItem.Header>
-                </MenuItem>
+                <MenuItem Classes="NavSubMenuItem" Header="_Dark Mode" ToggleType="CheckBox" IsChecked="{Binding IsUsingDarkTheme, Mode=TwoWay}" />
             </MenuItem>
         </Menu>
 
