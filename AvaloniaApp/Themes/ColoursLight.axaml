@@ -1,19 +1,19 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-	<SolidColorBrush x:Key="MainBackgroundBrush" Color="#F5F7FA" />					<!-- Soft off-white, low glare for a calm background -->
-	<SolidColorBrush x:Key="NavigationBarBackgroundBrush" Color="#D0D3D8" />		<!-- Slightly darker grey for a subtle separation of the navigation bar -->
-	<SolidColorBrush x:Key="PanelBackgroundBrush" Color="#E3E7ED" />				<!-- Light grey for panel backgrounds, clean and unobtrusive -->
-	<SolidColorBrush x:Key="BorderBrush" Color="#B0BEC5" />							<!-- Muted steel color for borders, adds subtle contrast -->
-	<SolidColorBrush x:Key="TextBrush" Color="#2C3E50" />							<!-- Dark slate color for text, ensuring readability -->
-	<SolidColorBrush x:Key="PointerOverBrush" Color="#DDE2E8" />					<!-- Light highlight color for when an element is hovered over -->
-	<SolidColorBrush x:Key="PointerPressedBrush" Color="#2196F3" />					<!-- Bright blue for active elements, draws attention to interactions -->
-	<SolidColorBrush x:Key="CheckBoxBorderBrush" Color="#2C3E50" />					<!-- Dark slate color for checkbox borders, matches text color -->
-	<SolidColorBrush x:Key="TreeChevronBrush" Color="#2C3E50" />					<!-- Same dark slate for tree view chevrons, consistent UI theme -->
-	<SolidColorBrush x:Key="PanelBorderBrush" Color="#2C2C2C" />					<!-- Darker grey for borders around panels, more defined edges -->
-	<SolidColorBrush x:Key="DividerBrush" Color="#000000" />						<!-- Black for strong visual division, often used in dividers -->
-	<SolidColorBrush x:Key="PrimaryButtonBackgroundBrush" Color="#2C3E50" />		<!-- Dark slate for background of opened project files -->
-	<SolidColorBrush x:Key="PrimaryButtonForegroundBrush" Color="#FFFFFF" />		<!-- White color for text/foreground in the opened project files -->
-	<SolidColorBrush x:Key="PrimaryButtonFileHoverBrush" Color="#34495E" />			<!-- Light hover effect color for opened project files -->
-	<SolidColorBrush x:Key="PrimaryButtonFilePressedBrush" Color="#3E5871" />			<!-- Blue highlight for active/opened project files -->
-	<SolidColorBrush x:Key="ComboBoxDropDownGlyphForeground" Color="#2C3E50"/>
+	<SolidColorBrush x:Key="MainBackgroundBrush" Color="#F8F9FB" />              <!-- Soft neutral white: low visual fatigue, clean overall workspace background -->
+	<SolidColorBrush x:Key="NavigationBarBackgroundBrush" Color="#E9EDF2" />     <!-- Light cool grey: subtle separation for top navigation without strong contrast -->
+	<SolidColorBrush x:Key="PanelBackgroundBrush" Color="#FFFFFF" />              <!-- Pure white: establishes panels as primary content surfaces -->
+	<SolidColorBrush x:Key="BorderBrush" Color="#D6DCE5" />                       <!-- Soft grey-blue border: gentle structure without harsh edges -->
+	<SolidColorBrush x:Key="TextBrush" Color="#243447" />                         <!-- Deep slate blue: strong readability with softer tone than pure black -->
+	<SolidColorBrush x:Key="PointerOverBrush" Color="#EEF3F8" />                  <!-- Very light blue-grey hover: modern interaction feedback without distraction -->
+	<SolidColorBrush x:Key="PointerPressedBrush" Color="#DCE6F2" />               <!-- Slightly deeper hover state: clear pressed feedback while remaining calm -->
+	<SolidColorBrush x:Key="CheckBoxBorderBrush" Color="#243447" />               <!-- Matches primary text color for consistency and clear checkbox visibility -->
+	<SolidColorBrush x:Key="TreeChevronBrush" Color="#243447" />                  <!-- Same slate tone: keeps tree controls visually aligned with text hierarchy -->
+	<SolidColorBrush x:Key="PanelBorderBrush" Color="#D6DCE5" />                  <!-- Matches general border tone to unify panel framing -->
+	<SolidColorBrush x:Key="DividerBrush" Color="#C8D1DC" />                      <!-- Mid-light divider: visible section separation without dominating layout -->
+	<SolidColorBrush x:Key="PrimaryButtonBackgroundBrush" Color="#5B6B7C" />      <!-- Muted steel blue: stable action color suitable for productivity UI -->
+	<SolidColorBrush x:Key="PrimaryButtonForegroundBrush" Color="#FFFFFF" />      <!-- White text ensures strong contrast on darker button surfaces -->
+	<SolidColorBrush x:Key="PrimaryButtonFileHoverBrush" Color="#506070" />       <!-- Slightly darker button hover: subtle interaction confirmation -->
+	<SolidColorBrush x:Key="PrimaryButtonFilePressedBrush" Color="#445261" />     <!-- Deeper pressed state: gives tactile feedback without becoming too heavy -->
+	<SolidColorBrush x:Key="ComboBoxDropDownGlyphForeground" Color="#243447" />   <!-- Matches primary text tone so dropdown indicators remain clear, consistent, and visually integrated -->
 
 </ResourceDictionary>
