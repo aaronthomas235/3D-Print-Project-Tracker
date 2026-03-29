@@ -32,7 +32,12 @@
     <Style Selector="Button.ToolbarButton">
 		<Setter Property="Width" Value="{DynamicResource Width.Button.Toolbar}" />
         <Setter Property="Height" Value="{DynamicResource Height.Button.Toolbar}" />
-        <Setter Property="Padding" Value="{DynamicResource Padding.None}" />
+
+        <Setter Property="MinWidth" Value="{DynamicResource Width.Zero}" />
+        <Setter Property="MinHeight" Value="{DynamicResource Height.Zero}" />
+
+        <Setter Property="Padding" Value="{DynamicResource Padding.Button.Toolbar}" />
+
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="{DynamicResource Border.None}" />
         <Setter Property="CornerRadius" Value="{DynamicResource Radius.Small}" />

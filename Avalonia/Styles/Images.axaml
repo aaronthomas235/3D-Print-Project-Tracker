@@ -13,8 +13,8 @@
   </Style>
 
   <Style Selector="Image.ToolbarButtonIcon">
-      <Setter Property="Width" Value="{DynamicResource Size.Icon.M}"/>
-      <Setter Property="Height" Value="{DynamicResource Size.Icon.M}"/>	  
+      <Setter Property="Width" Value="{DynamicResource Size.Icon.S}"/>
+      <Setter Property="Height" Value="{DynamicResource Size.Icon.S}"/>	  
   </Style>
 
 </Styles>

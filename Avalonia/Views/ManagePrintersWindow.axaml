@@ -25,11 +25,13 @@
 
             <DockPanel>
 
-                <Grid DockPanel.Dock="Top" ColumnDefinitions="*,Auto" VerticalAlignment="Center" Margin="{DynamicResource Margin.Section}">
+                <Grid DockPanel.Dock="Top" ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center" Margin="{DynamicResource Margin.Section}">
 
                     <TextBlock Grid.Column="0" Classes="PanelHeader" Text="Profiles"/>
 
-                    <StackPanel Grid.Column="1" Classes="ToolbarRow">
+                    <Border Grid.Column="1" />
+
+                    <StackPanel Grid.Column="2" Classes="ToolbarRow">
                         <Button Classes="ToolbarButton" Command="{Binding NewProfileCommand}">
                             <Image Classes="ToolbarButtonIcon" Source="avares://ThreeDPrintProjectTracker.Avalonia/Assets/Document-Add-White.png"/>
                         </Button>
