@@ -1,7 +1,7 @@
 ﻿using ThreeDPrintProjectTracker.Engine.Interfaces;
-using ThreeDPrintProjectTracker.Engine.Models;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using ThreeDPrintProjectTracker.Engine.Models.Printing;
 
 namespace ThreeDPrintProjectTracker.Engine.Services
 {

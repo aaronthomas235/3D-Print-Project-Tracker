@@ -1,4 +1,4 @@
-﻿using ThreeDPrintProjectTracker.Engine.Models;
+﻿using ThreeDPrintProjectTracker.Engine.Models.Projects;
 using ThreeDPrintProjectTracker.Engine.ViewModels;
 
 namespace ThreeDPrintProjectTracker.Engine.Interfaces

@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
-using ThreeDPrintProjectTracker.Engine.Models;
+using ThreeDPrintProjectTracker.Engine.Models.Printing;
 
 namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
 {

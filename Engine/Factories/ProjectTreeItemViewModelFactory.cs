@@ -1,7 +1,7 @@
 ﻿using ThreeDPrintProjectTracker.Engine.Interfaces;
-using ThreeDPrintProjectTracker.Engine.Models;
 using ThreeDPrintProjectTracker.Engine.ViewModels;
 using System;
+using ThreeDPrintProjectTracker.Engine.Models.Projects;
 
 namespace ThreeDPrintProjectTracker.Engine.Factories
 {

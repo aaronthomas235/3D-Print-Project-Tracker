@@ -1,11 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using ThreeDPrintProjectTracker.Engine.Interfaces;
-using ThreeDPrintProjectTracker.Engine.Models;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ThreeDPrintProjectTracker.Engine.Models.Printing;
+using ThreeDPrintProjectTracker.Engine.Models.Projects;
 
 namespace ThreeDPrintProjectTracker.Engine.ViewModels
 {
@@ -202,10 +203,10 @@ namespace ThreeDPrintProjectTracker.Engine.ViewModels
         {
             if (AssignedPrinterProfileId == Guid.Empty)
             {
-                return ReferencePrinterProfile.Default;
+                return DefaultPrinterProfiles.Default;
             }
 
-            return _printerProfileService.GetPrinterProfileById(AssignedPrinterProfileId) ?? ReferencePrinterProfile.Default;
+            return _printerProfileService.GetPrinterProfileById(AssignedPrinterProfileId) ?? DefaultPrinterProfiles.Default;
         }
 
         private static string FormatPrintTimeToString(TimeSpan printTime)

@@ -1,11 +1,12 @@
 ﻿using ThreeDPrintProjectTracker.Engine.Interfaces;
-using ThreeDPrintProjectTracker.Engine.Models;
 using ThreeDPrintProjectTracker.Engine.Readers.OBJ;
 using ThreeDPrintProjectTracker.Engine.Readers.STL;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using ThreeDPrintProjectTracker.Engine.Models.Printing;
+using ThreeDPrintProjectTracker.Engine.Models.Geometry;
 
 namespace ThreeDPrintProjectTracker.Engine.Services
 {

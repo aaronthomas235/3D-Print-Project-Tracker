@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace ThreeDPrintProjectTracker.Engine.Models
+namespace ThreeDPrintProjectTracker.Engine.Models.Printing
 {
-    public static class ReferencePrinterProfile
+    public static class DefaultPrinterProfiles
     {
         public static PrinterProfile Default => new()
         {

@@ -1,5 +1,6 @@
-﻿using ThreeDPrintProjectTracker.Engine.Models;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using ThreeDPrintProjectTracker.Engine.Models.Printing;
+using ThreeDPrintProjectTracker.Engine.Models.Geometry;
 
 namespace ThreeDPrintProjectTracker.Engine.Interfaces
 {

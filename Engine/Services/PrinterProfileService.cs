@@ -1,7 +1,7 @@
 ﻿using ThreeDPrintProjectTracker.Engine.Interfaces;
-using ThreeDPrintProjectTracker.Engine.Models;
 using System;
 using System.Collections.Generic;
+using ThreeDPrintProjectTracker.Engine.Models.Printing;
 
 namespace ThreeDPrintProjectTracker.Engine.Services
 {
@@ -14,7 +14,7 @@ namespace ThreeDPrintProjectTracker.Engine.Services
         private readonly Guid _defaultProfileId;
         public PrinterProfileService()
         {
-            var defaultProfile = ReferencePrinterProfile.Default;
+            var defaultProfile = DefaultPrinterProfiles.Default;
             _defaultProfileId = defaultProfile.Id;
 
             _profiles = new Dictionary<Guid, PrinterProfile>()

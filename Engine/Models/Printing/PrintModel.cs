@@ -1,5 +1,6 @@
-﻿
-namespace ThreeDPrintProjectTracker.Engine.Models
+﻿using ThreeDPrintProjectTracker.Engine.Models.Geometry;
+
+namespace ThreeDPrintProjectTracker.Engine.Models.Printing
 {
     public sealed class PrintModel
     {

@@ -1,6 +1,6 @@
-﻿using ThreeDPrintProjectTracker.Engine.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using ThreeDPrintProjectTracker.Engine.Models.Printing;
 
 namespace ThreeDPrintProjectTracker.Engine.Interfaces
 {

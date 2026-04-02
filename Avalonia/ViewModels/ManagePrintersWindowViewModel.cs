@@ -4,7 +4,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using ThreeDPrintProjectTracker.Engine.Interfaces;
-using ThreeDPrintProjectTracker.Engine.Models;
+using ThreeDPrintProjectTracker.Engine.Models.Printing;
 
 namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
 {
@@ -36,7 +36,7 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
         [RelayCommand]
         private void NewProfile()
         {
-            var record = ReferencePrinterProfile.Default with
+            var record = DefaultPrinterProfiles.Default with
             {
                 Id = Guid.NewGuid(),
                 Name = "New Printer"

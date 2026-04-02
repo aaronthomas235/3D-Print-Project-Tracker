@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ThreeDPrintProjectTracker.Engine.Models
+namespace ThreeDPrintProjectTracker.Engine.Models.Projects
 {
     public class ProjectTreeItem
     {
