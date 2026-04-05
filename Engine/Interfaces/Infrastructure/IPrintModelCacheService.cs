@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using ThreeDPrintProjectTracker.Engine.Models.Printing;
 
-namespace ThreeDPrintProjectTracker.Engine.Interfaces
+namespace ThreeDPrintProjectTracker.Engine.Interfaces.Infrastructure
 {
     public interface IPrintModelCacheService
     {

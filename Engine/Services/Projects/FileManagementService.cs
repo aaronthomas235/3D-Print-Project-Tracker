@@ -1,13 +1,13 @@
-﻿using ThreeDPrintProjectTracker.Engine.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using ThreeDPrintProjectTracker.Engine.Models.Projects;
+using ThreeDPrintProjectTracker.Engine.Interfaces.Projects;
 
-namespace ThreeDPrintProjectTracker.Engine.Services
+namespace ThreeDPrintProjectTracker.Engine.Services.Projects
 {
     public class FileManagementService : IFileManagementService
     {

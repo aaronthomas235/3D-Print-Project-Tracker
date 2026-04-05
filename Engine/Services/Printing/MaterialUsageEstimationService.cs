@@ -1,9 +1,9 @@
-﻿using ThreeDPrintProjectTracker.Engine.Interfaces;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using ThreeDPrintProjectTracker.Engine.Models.Printing;
+using ThreeDPrintProjectTracker.Engine.Interfaces.Printing;
 
-namespace ThreeDPrintProjectTracker.Engine.Services
+namespace ThreeDPrintProjectTracker.Engine.Services.Printing
 {
     public class MaterialUsageEstimationService : IMaterialUsageEstimationService
     {

@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using ThreeDPrintProjectTracker.Engine.Models.Printing;
 using ThreeDPrintProjectTracker.Engine.Models.Geometry;
+using ThreeDPrintProjectTracker.Engine.Interfaces.Models;
 
 namespace ThreeDPrintProjectTracker.Engine.Services
 {

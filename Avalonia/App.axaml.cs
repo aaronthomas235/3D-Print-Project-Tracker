@@ -11,6 +11,15 @@ using ThreeDPrintProjectTracker.Engine.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Reflection;
+using ThreeDPrintProjectTracker.Engine.Services.Projects;
+using ThreeDPrintProjectTracker.Engine.Services.Printing;
+using ThreeDPrintProjectTracker.Engine.Services.Models;
+using ThreeDPrintProjectTracker.Engine.Services.Infrastructure;
+using ThreeDPrintProjectTracker.Engine.Interfaces.Printing;
+using ThreeDPrintProjectTracker.Engine.Interfaces.Projects;
+using ThreeDPrintProjectTracker.Engine.Interfaces.Models;
+using ThreeDPrintProjectTracker.Engine.Interfaces.Infrastructure;
+using ThreeDPrintProjectTracker.Engine.Interfaces.UI;
 
 namespace ThreeDPrintProjectTracker.Avalonia
 {
@@ -61,13 +70,13 @@ namespace ThreeDPrintProjectTracker.Avalonia
             services.AddSingleton<IProjectTreeCoordinationService, ThreeDPrintProjectTracker.Engine.Services.ProjectTreeCoordinationService>();
             services.AddSingleton<IProjectTreeBuilderService, ThreeDPrintProjectTracker.Engine.Services.ProjectTreeBuilderService>();
             services.AddSingleton<IProjectTreeItemViewModelFactory, ThreeDPrintProjectTracker.Engine.Factories.ProjectTreeItemViewModelFactory>();
-            services.AddSingleton<IFileManagementService, ThreeDPrintProjectTracker.Engine.Services.FileManagementService>();
+            services.AddSingleton<IFileManagementService, FileManagementService>();
             services.AddSingleton<ISupportedFileFormatsService, ThreeDPrintProjectTracker.Engine.Services.SupportedFileFormatsService>();
-            services.AddSingleton<IPrinterProfileService, ThreeDPrintProjectTracker.Engine.Services.PrinterProfileService>();
+            services.AddSingleton<IPrinterProfileService, PrinterProfileService>();
             services.AddSingleton<IPrintTimeEstimationService, ThreeDPrintProjectTracker.Engine.Services.PrintTimeEstimationService>();
-            services.AddSingleton<IMeshAnalyserService, ThreeDPrintProjectTracker.Engine.Services.MeshAnalyserService>();
-            services.AddSingleton<IMaterialUsageEstimationService, ThreeDPrintProjectTracker.Engine.Services.MaterialUsageEstimationService>();
-            services.AddSingleton<IPrintModelCacheService, ThreeDPrintProjectTracker.Engine.Services.PrintModelCacheService>();
+            services.AddSingleton<IMeshAnalyserService, MeshAnalyserService>();
+            services.AddSingleton<IMaterialUsageEstimationService, MaterialUsageEstimationService>();
+            services.AddSingleton<IPrintModelCacheService, PrintModelCacheService>();
             services.AddSingleton<IPrintModelImportService, ThreeDPrintProjectTracker.Engine.Services.PrintModelImportService>();
         }
 

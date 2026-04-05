@@ -1,9 +1,9 @@
-﻿using ThreeDPrintProjectTracker.Engine.Interfaces;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ThreeDPrintProjectTracker.Engine.Models.Printing;
 using ThreeDPrintProjectTracker.Engine.Models.Geometry;
+using ThreeDPrintProjectTracker.Engine.Interfaces.Models;
 
-namespace ThreeDPrintProjectTracker.Engine.Services
+namespace ThreeDPrintProjectTracker.Engine.Services.Models
 {
     public class MeshAnalyserService : IMeshAnalyserService
     {

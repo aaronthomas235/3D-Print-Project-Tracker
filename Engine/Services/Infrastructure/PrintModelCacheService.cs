@@ -1,9 +1,10 @@
-﻿using ThreeDPrintProjectTracker.Engine.Interfaces;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using ThreeDPrintProjectTracker.Engine.Models.Printing;
+using ThreeDPrintProjectTracker.Engine.Interfaces.Models;
+using ThreeDPrintProjectTracker.Engine.Interfaces.Infrastructure;
 
-namespace ThreeDPrintProjectTracker.Engine.Services
+namespace ThreeDPrintProjectTracker.Engine.Services.Infrastructure
 {
     public class PrintModelCacheService : IPrintModelCacheService
     {

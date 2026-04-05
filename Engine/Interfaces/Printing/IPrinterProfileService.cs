@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using ThreeDPrintProjectTracker.Engine.Models.Printing;
 
-namespace ThreeDPrintProjectTracker.Engine.Interfaces
+namespace ThreeDPrintProjectTracker.Engine.Interfaces.Printing
 {
     public interface IPrinterProfileService
     {
@@ -12,6 +12,6 @@ namespace ThreeDPrintProjectTracker.Engine.Interfaces
         void AddProfile(PrinterProfile profile);
         void UpdateProfile(PrinterProfile profile);
         bool RemoveProfile(Guid id);
-        IEnumerable<PrinterProfile> GetAllPrinterProfiles();
+        IReadOnlyCollection<PrinterProfile> GetAllPrinterProfiles();
     }
 }

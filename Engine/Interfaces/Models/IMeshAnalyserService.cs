@@ -2,7 +2,7 @@
 using ThreeDPrintProjectTracker.Engine.Models.Printing;
 using ThreeDPrintProjectTracker.Engine.Models.Geometry;
 
-namespace ThreeDPrintProjectTracker.Engine.Interfaces
+namespace ThreeDPrintProjectTracker.Engine.Interfaces.Models
 {
     public interface IMeshAnalyserService
     {

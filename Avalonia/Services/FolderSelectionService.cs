@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Platform.Storage;
-using ThreeDPrintProjectTracker.Engine.Interfaces;
+using ThreeDPrintProjectTracker.Engine.Interfaces.UI;
 
 namespace ThreeDPrintProjectTracker.Avalonia.Services
 {

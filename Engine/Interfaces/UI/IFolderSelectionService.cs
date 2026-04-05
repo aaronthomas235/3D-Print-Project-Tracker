@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace ThreeDPrintProjectTracker.Engine.Interfaces
+namespace ThreeDPrintProjectTracker.Engine.Interfaces.UI
 {
     public interface IFolderSelectionService
     {

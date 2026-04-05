@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using ThreeDPrintProjectTracker.Engine.Models.Projects;
+using ThreeDPrintProjectTracker.Engine.Interfaces.Projects;
 
 namespace ThreeDPrintProjectTracker.Engine.Services
 {

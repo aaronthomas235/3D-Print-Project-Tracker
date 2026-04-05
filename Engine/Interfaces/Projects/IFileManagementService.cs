@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using ThreeDPrintProjectTracker.Engine.Models.Projects;
 
-namespace ThreeDPrintProjectTracker.Engine.Interfaces
+namespace ThreeDPrintProjectTracker.Engine.Interfaces.Projects
 {
     public interface IFileManagementService
     {

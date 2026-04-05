@@ -8,6 +8,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
 using ThreeDPrintProjectTracker.Engine.Models.Printing;
+using ThreeDPrintProjectTracker.Engine.Interfaces.Printing;
+using ThreeDPrintProjectTracker.Engine.Interfaces.UI;
 
 namespace ThreeDPrintProjectTracker.Engine.ViewModels;
 

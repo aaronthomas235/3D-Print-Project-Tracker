@@ -18,9 +18,7 @@
 		<PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Models\Materials\" />
+	  <Folder Include="Interfaces\Materials\" />
 	  <Folder Include="Services\Materials\" />
-	  <Folder Include="Services\Projects\" />
-	  <Folder Include="Services\Printing\" />
 	</ItemGroup>
 </Project>
