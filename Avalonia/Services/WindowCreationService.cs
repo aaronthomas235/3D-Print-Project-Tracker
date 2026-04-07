@@ -11,31 +11,29 @@ namespace ThreeDPrintProjectTracker.Avalonia.Services
     public class WindowCreationService : IWindowCreationService
     {
         private readonly IServiceProvider _services;
+        private readonly IClassicDesktopStyleApplicationLifetime _lifetime;
 
-        public WindowCreationService(IServiceProvider services)
+        public WindowCreationService(IServiceProvider services, IClassicDesktopStyleApplicationLifetime lifetime)
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
+            _lifetime = lifetime ?? throw new ArgumentNullException(nameof(lifetime));
         }
 
         private Window GetMainWindow()
         {
-            return (Application.Current!.ApplicationLifetime
-                as IClassicDesktopStyleApplicationLifetime)!
-                .MainWindow!;
+            return _lifetime.MainWindow!;
         }
 
-        public async Task ShowManagePrintersAsync()
+        private async Task ShowDialogAsync<TWindow>() where TWindow : Window
         {
-            var window = _services.GetRequiredService<ManagePrintersWindow>();
+            var window = _services.GetRequiredService<TWindow>();
             window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
             await window.ShowDialog(GetMainWindow());
         }
 
-        public async Task ShowManageFilamentsAsync()
-        {
-            var window = _services.GetRequiredService<ManageFilamentsWindow>();
-            window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            await window.ShowDialog(GetMainWindow());
-        }
+        public async Task ShowManagePrintersAsync() => await ShowDialogAsync<ManagePrintersWindow>();
+
+        public async Task ShowManageFilamentsAsync() => await ShowDialogAsync<ManageFilamentsWindow>();
     }
 }

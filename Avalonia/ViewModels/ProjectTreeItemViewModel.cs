@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using ThreeDPrintProjectTracker.Engine.Interfaces;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -11,12 +10,11 @@ using ThreeDPrintProjectTracker.Engine.Interfaces.Printing;
 using ThreeDPrintProjectTracker.Engine.Interfaces.Models;
 using ThreeDPrintProjectTracker.Engine.Interfaces.Infrastructure;
 
-namespace ThreeDPrintProjectTracker.Engine.ViewModels
+namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
 {
     public class ProjectTreeItemViewModel : ObservableObject
     {
         private readonly ProjectTreeItem _model;
-        private readonly IProjectTreeItemViewModelFactory _projectTreeItemViewModelFactory;
         private readonly IPrintModelCacheService _printModelCacheService;
         private readonly IMeshAnalyserService _meshAnalyserService;
         private readonly IPrintTimeEstimationService _printTimeEstimationService;
@@ -123,19 +121,18 @@ namespace ThreeDPrintProjectTracker.Engine.ViewModels
             }
         }
 
-        public ProjectTreeItemViewModel(ProjectTreeItem model, IProjectTreeItemViewModelFactory projectTreeItemViewModelFactory, IPrintModelCacheService printModelCacheService,
+        public ProjectTreeItemViewModel(ProjectTreeItem model, IPrintModelCacheService printModelCacheService,
             IMeshAnalyserService meshAnalyserService, IPrintTimeEstimationService printTimeEstimationService,
             IMaterialUsageEstimationService materialUsageEstimationService, IPrinterProfileService printerProfileService)
         {
             _model = model ?? throw new ArgumentNullException(nameof(model));
-            _projectTreeItemViewModelFactory = projectTreeItemViewModelFactory ?? throw new ArgumentNullException(nameof(projectTreeItemViewModelFactory));
             _printModelCacheService = printModelCacheService ?? throw new ArgumentNullException(nameof(printModelCacheService));
             _meshAnalyserService = meshAnalyserService ?? throw new ArgumentNullException(nameof(meshAnalyserService));
             _printTimeEstimationService = printTimeEstimationService ?? throw new ArgumentNullException(nameof(printTimeEstimationService));
             _materialUsageEstimationService = materialUsageEstimationService ?? throw new ArgumentNullException(nameof(materialUsageEstimationService));
             _printerProfileService = printerProfileService ?? throw new ArgumentNullException(nameof(printerProfileService));
 
-            Children = new ObservableCollection<ProjectTreeItemViewModel>(_model.Children.Select(childModel => _projectTreeItemViewModelFactory.Create(childModel)));
+            Children = new ObservableCollection<ProjectTreeItemViewModel>(_model.Children.Select(CreateChild));
         }
 
         public void ClearAnalysis()
@@ -188,6 +185,20 @@ namespace ThreeDPrintProjectTracker.Engine.ViewModels
 
             cancellationToken.ThrowIfCancellationRequested();
             MaterialUsage = $"{materialEstimate.WeightGrams:F0} g";
+        }
+
+        private ProjectTreeItemViewModel CreateChild(ProjectTreeItem model)
+        {
+            return new ProjectTreeItemViewModel(model, _printModelCacheService, _meshAnalyserService, _printTimeEstimationService, _materialUsageEstimationService, _printerProfileService);
+        }
+
+        public void CollapseAll()
+        {
+            IsExpanded = false;
+            foreach (var child in Children)
+            {
+                child.CollapseAll();
+            }
         }
 
         public ProjectTreeItem ToModel()
