@@ -19,6 +19,10 @@ using ThreeDPrintProjectTracker.Engine.Interfaces.Models;
 using ThreeDPrintProjectTracker.Engine.Interfaces.Infrastructure;
 using ThreeDPrintProjectTracker.Engine.Interfaces.UI;
 using ThreeDPrintProjectTracker.Avalonia.Interfaces;
+using ThreeDPrintProjectTracker.Engine.Interfaces.Analysis;
+using ThreeDPrintProjectTracker.Engine.Services.Analysis;
+using ThreeDPrintProjectTracker.Engine.Services;
+using ThreeDPrintProjectTracker.Avalonia.Factories;
 
 namespace ThreeDPrintProjectTracker.Avalonia
 {
@@ -58,20 +62,20 @@ namespace ThreeDPrintProjectTracker.Avalonia
             services.AddSingleton<IWindowCreationService, WindowCreationService>();
             services.AddSingleton<IFileLauncherService, FileLauncherService>();
             services.AddSingleton<IThemeChangerService, ThemeChangerService>();
+            services.AddSingleton<IFolderSelectionService, FolderSelectionService>();
 
-            services.AddSingleton<IFolderSelectionService>(sp => new FolderSelectionService(sp.GetRequiredService<MainWindow>()));
-
-            services.AddSingleton<IProjectTreeCoordinationService, Engine.Services.ProjectTreeCoordinationService>();
-            services.AddSingleton<IProjectTreeBuilderService, Engine.Services.ProjectTreeBuilderService>();
-            services.AddSingleton<IProjectTreeItemViewModelFactory, Factories.ProjectTreeItemViewModelFactory>();
+            services.AddSingleton<IPrintItemAnalysisService, ProjectItemAnalysisService>();
+            services.AddSingleton<IProjectTreeCoordinationService, ProjectTreeCoordinationService>();
+            services.AddSingleton<IProjectTreeBuilderService, ProjectTreeBuilderService>();
+            services.AddSingleton<IProjectTreeItemViewModelFactory, ProjectTreeItemViewModelFactory>();
             services.AddSingleton<IFileManagementService, FileManagementService>();
-            services.AddSingleton<ISupportedFileFormatsService, Engine.Services.SupportedFileFormatsService>();
+            services.AddSingleton<ISupportedFileFormatsService, SupportedFileFormatsService>();
             services.AddSingleton<IPrinterProfileService, PrinterProfileService>();
-            services.AddSingleton<IPrintTimeEstimationService, Engine.Services.PrintTimeEstimationService>();
+            services.AddSingleton<IPrintTimeEstimationService, PrintTimeEstimationService>();
             services.AddSingleton<IMeshAnalyserService, MeshAnalyserService>();
             services.AddSingleton<IMaterialUsageEstimationService, MaterialUsageEstimationService>();
             services.AddSingleton<IPrintModelCacheService, PrintModelCacheService>();
-            services.AddSingleton<IPrintModelImportService, Engine.Services.PrintModelImportService>();
+            services.AddSingleton<IPrintModelImportService, PrintModelImportService>();
         }
 
         private void ConfigureTransients(IServiceCollection services)

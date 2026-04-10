@@ -1,93 +1,58 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ThreeDPrintProjectTracker.Engine.Interfaces.Analysis;
+using ThreeDPrintProjectTracker.Engine.Models.Geometry;
 using ThreeDPrintProjectTracker.Engine.Models.Printing;
 using ThreeDPrintProjectTracker.Engine.Models.Projects;
-using ThreeDPrintProjectTracker.Engine.Interfaces.Printing;
-using ThreeDPrintProjectTracker.Engine.Interfaces.Models;
-using ThreeDPrintProjectTracker.Engine.Interfaces.Infrastructure;
 
 namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
 {
-    public class ProjectTreeItemViewModel : ObservableObject
+    public partial class ProjectTreeItemViewModel : ObservableObject
     {
+        private readonly ProjectTreeItemViewModel? _parent;
         private readonly ProjectTreeItem _model;
-        private readonly IPrintModelCacheService _printModelCacheService;
-        private readonly IMeshAnalyserService _meshAnalyserService;
-        private readonly IPrintTimeEstimationService _printTimeEstimationService;
-        private readonly IMaterialUsageEstimationService _materialUsageEstimationService;
-        private readonly IPrinterProfileService _printerProfileService;
+        private readonly IPrintItemAnalysisService _analysisService;
 
         public ObservableCollection<ProjectTreeItemViewModel> Children { get; }
 
-        public string Title
-        {
-            get => _model.Title;
-            set => SetProperty(_model.Title, value, v => _model.Title = v);
-        }
+        public string Title => _model.Title;
+        public string FilePath => _model.FilePath;
 
-        public string FilePath
-        {
-            get => _model.FilePath;
-            set => SetProperty(_model.FilePath, value, v => _model.FilePath = v);
-        }
+        [ObservableProperty]
+        private bool isExpanded;
 
-        private string? _dimensions;
-        public string? Dimensions
-        {
-            get
-            {
-                if (!IsAnalysable)
-                {
-                    return null;
-                }
+        [ObservableProperty]
+        private bool isCompleted;
 
-                return _dimensions ?? "Measuring Dimensions...";
-            }
-            private set
-            {
-                SetProperty(ref _dimensions, value);
-            }
-        }
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(DimensionsDisplay))]
+        private MeshDimensions? dimensions;
 
-        private string? _printTime;
-        public string? PrintTime
-        {
-            get
-            {
-                if (!IsAnalysable)
-                {
-                    return null; 
-                }
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(PrintTimeDisplay))]
+        private TimeSpan? printTime;
 
-                return _printTime ?? "Estimating Print Time...";
-            }
-            private set
-            {
-                SetProperty(ref _printTime, value);
-            }
-        }
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(MaterialUsageDisplay))]
+        private MaterialEstimate? materialUsage;
 
-        private string? _materialUsage;
-        public string? MaterialUsage
-        {
-            get
-            {
-                if (!IsAnalysable)
-                {
-                    return null;
-                }
 
-                return _materialUsage ?? "Estimating Material Usage...";
-            }
-            private set
-            {
-                SetProperty(ref _materialUsage, value);
-            }
-        }
+        public string? DimensionsDisplay => Dimensions is null
+            ? (IsAnalysable ? "Measuring Dimensions..." : null)
+            : $"{Dimensions.Width:F1} x {Dimensions.Height:F1} x {Dimensions.Depth:F1} mm";
+
+        public string? PrintTimeDisplay => PrintTime is null
+        ? (IsAnalysable ? "Estimating Print Time..." : null)
+        : FormatPrintTime(PrintTime.Value);
+
+        public string? MaterialUsageDisplay => MaterialUsage is null
+        ? (IsAnalysable ? "Estimating Material Usage..." : null)
+        : $"{MaterialUsage.WeightGrams:F0} g";
 
         public bool IsFile => _model.IsFile;
         private bool IsAnalysable => IsFile;
@@ -98,98 +63,47 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
             set => SetProperty(_model.AssignedPrinterProfileId, value, v => _model.AssignedPrinterProfileId = v);
         }
 
-        private bool _isExpanded;
-        public bool IsExpanded
-        {
-            get => _isExpanded;
-            set => SetProperty(ref _isExpanded, value);
-        }
+        
 
-        private bool _isCompleted;
-        public bool IsCompleted
-        {
-            get => _isCompleted;
-            set
-            {
-                if (SetProperty(ref _isCompleted, value))
-                {
-                    foreach (var child in Children)
-                    {
-                        child.IsCompleted = value;
-                    }
-                }
-            }
-        }
+        private int _analysisVersion;
 
-        public ProjectTreeItemViewModel(ProjectTreeItem model, IPrintModelCacheService printModelCacheService,
-            IMeshAnalyserService meshAnalyserService, IPrintTimeEstimationService printTimeEstimationService,
-            IMaterialUsageEstimationService materialUsageEstimationService, IPrinterProfileService printerProfileService)
+        public ProjectTreeItemViewModel(ProjectTreeItem model, IPrintItemAnalysisService analysisService, ProjectTreeItemViewModel? parent)
         {
+            _parent = parent;
             _model = model ?? throw new ArgumentNullException(nameof(model));
-            _printModelCacheService = printModelCacheService ?? throw new ArgumentNullException(nameof(printModelCacheService));
-            _meshAnalyserService = meshAnalyserService ?? throw new ArgumentNullException(nameof(meshAnalyserService));
-            _printTimeEstimationService = printTimeEstimationService ?? throw new ArgumentNullException(nameof(printTimeEstimationService));
-            _materialUsageEstimationService = materialUsageEstimationService ?? throw new ArgumentNullException(nameof(materialUsageEstimationService));
-            _printerProfileService = printerProfileService ?? throw new ArgumentNullException(nameof(printerProfileService));
+            _analysisService = analysisService ?? throw new ArgumentNullException(nameof(analysisService));
 
-            Children = new ObservableCollection<ProjectTreeItemViewModel>(_model.Children.Select(CreateChild));
+            Children = new ObservableCollection<ProjectTreeItemViewModel>();
         }
 
         public void ClearAnalysis()
         {
-            _dimensions = null;
-            _printTime = null;
-            _materialUsage = null;
-
-            OnPropertyChanged(nameof(Dimensions));
-            OnPropertyChanged(nameof(PrintTime));
-            OnPropertyChanged(nameof(MaterialUsage));
+            Dimensions = null;
+            PrintTime = null;
+            MaterialUsage = null;
         }
 
         public async Task LoadAnalysisAsync(CancellationToken cancellationToken)
         {
-            cancellationToken.ThrowIfCancellationRequested();
+            if (!IsAnalysable)
+            {
+                return;
+            }
 
-            var model = await _printModelCacheService.GetPrintModelAsync(FilePath);
-            var profile = ResolvePrinterProfile();
+            var version = ++_analysisVersion;
 
-            await Task.WhenAll(
-                LoadDimensionsAsync(model, cancellationToken),
-                LoadPrintTimeAsync(model, profile, cancellationToken),
-                LoadMaterialUsageAsync(model, profile, cancellationToken)
-            );
-        }
+            ClearAnalysis();
 
-        private async Task LoadDimensionsAsync(PrintModel model, CancellationToken cancellationToken)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            var dimensions = await _meshAnalyserService.AnalyseMesh(model);
+            var result = await _analysisService.AnalyseAsync(FilePath, AssignedPrinterProfileId, cancellationToken);
 
-            cancellationToken.ThrowIfCancellationRequested();
-            Dimensions = $"{dimensions.Width:F1} x {dimensions.Height:F1} x {dimensions.Depth:F1} mm";
-        }
+            if (version != _analysisVersion)
+            {
+                return;
+            }
 
-        private async Task LoadPrintTimeAsync(PrintModel model, PrinterProfile profile, CancellationToken cancellationToken)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            TimeSpan printTime = await _printTimeEstimationService.EstimatePrintTimeAsync(model, profile);
-
-            cancellationToken.ThrowIfCancellationRequested();
-            PrintTime = FormatPrintTimeToString(printTime);
-        }
-
-        private async Task LoadMaterialUsageAsync(PrintModel model, PrinterProfile profile, CancellationToken cancellationToken)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            MaterialEstimate materialEstimate = await _materialUsageEstimationService.EstimateAsync(model, profile);
-
-            cancellationToken.ThrowIfCancellationRequested();
-            MaterialUsage = $"{materialEstimate.WeightGrams:F0} g";
-        }
-
-        private ProjectTreeItemViewModel CreateChild(ProjectTreeItem model)
-        {
-            return new ProjectTreeItemViewModel(model, _printModelCacheService, _meshAnalyserService, _printTimeEstimationService, _materialUsageEstimationService, _printerProfileService);
+            Dimensions = result.Dimensions;
+            PrintTime = result.PrintTime;
+            MaterialUsage = result.MaterialUsage;
         }
 
         public void CollapseAll()
@@ -201,7 +115,7 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
             }
         }
 
-        public ProjectTreeItem ToModel()
+        public ProjectTreeItem ToModelRecursive()
         {
             return new ProjectTreeItem
             {
@@ -209,41 +123,64 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
                 FilePath = FilePath,
                 IsFile = IsFile,
                 AssignedPrinterProfileId = AssignedPrinterProfileId,
-                Children = Children.Select(c => c.ToModel()).ToList()
+                Children = Children.Select(c => c.ToModelRecursive()).ToList()
             };
         }
 
-        private PrinterProfile ResolvePrinterProfile()
+        private static string FormatPrintTime(TimeSpan time)
         {
-            if (AssignedPrinterProfileId == Guid.Empty)
-            {
-                return DefaultPrinterProfiles.Default;
-            }
-
-            return _printerProfileService.GetPrinterProfileById(AssignedPrinterProfileId) ?? DefaultPrinterProfiles.Default;
-        }
-
-        private static string FormatPrintTimeToString(TimeSpan printTime)
-        {
-            var totalMinutes = (int)Math.Round(printTime.TotalMinutes);
-            if (totalMinutes < 0)
-            {
-                totalMinutes = 0;
-            }
+            var totalMinutes = (int)Math.Round(time.TotalMinutes);
 
             var days = totalMinutes / (24 * 60);
             var hours = (totalMinutes % (24 * 60)) / 60;
             var minutes = totalMinutes % 60;
 
+            var parts = new List<string>();
+
             if (days > 0)
             {
-                return $"{days} d {hours} h {minutes} min";
+                parts.Add($"{days} d");
             }
-            else if (days <= 0 && hours > 0)
+
+            if (hours > 0)
             {
-                return $"{hours} h {minutes} min";
+                parts.Add($"{hours} h");
             }
-            return $"{minutes} min";
+
+            if (minutes > 0 || parts.Count == 0)
+            {
+                parts.Add($"{minutes} min");
+            }
+
+            return string.Join(" ", parts);
+        }
+
+        partial void OnIsCompletedChanged(bool value)
+        {
+            foreach (var child in Children)
+            {
+                if (child.IsCompleted != value)
+                {
+                    child.IsCompleted = value;
+                }
+            }
+
+            _parent?.UpdateCompletionFromChildren();
+        }
+
+        private void UpdateCompletionFromChildren()
+        {
+            if (Children.Count == 0)
+            {
+                return;
+            }
+
+            var allCompleted = Children.All(c => c.IsCompleted);
+
+            if (IsCompleted != allCompleted)
+            {
+                IsCompleted = allCompleted;
+            }
         }
     }
 }

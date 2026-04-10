@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Controls;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
@@ -65,8 +66,8 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
 
         private CancellationTokenSource? _selectionCancellationTokenSource;
 
-        public IRelayCommand NewProjectTrackerCommand { get; }
-        public IAsyncRelayCommand OpenProjectsFolderAsyncCommand { get; }
+        public IRelayCommand<Window> NewProjectTrackerCommand { get; }
+        public IAsyncRelayCommand<Window> OpenProjectsFolderAsyncCommand { get; }
         public IAsyncRelayCommand SaveProjectsAsyncCommand { get; }
         public IAsyncRelayCommand ManageFilamentsAsyncCommand { get; }
         public IAsyncRelayCommand ManagePrintersAsyncCommand { get; }
@@ -84,8 +85,8 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
             _projectTreeCoordinationService = projectTreeCoordinationService ?? throw new ArgumentNullException(nameof(projectTreeCoordinationService));
             _printerProfileService = printerProfileService ?? throw new ArgumentNullException(nameof(printerProfileService));
 
-            NewProjectTrackerCommand = new AsyncRelayCommand(CreateNewProjectTracker);
-            OpenProjectsFolderAsyncCommand = new AsyncRelayCommand(OpenProjectsFolderAsync);
+            NewProjectTrackerCommand = new AsyncRelayCommand<Window>(CreateNewProjectTracker);
+            OpenProjectsFolderAsyncCommand = new AsyncRelayCommand<Window>(OpenProjectsFolderAsync);
             SaveProjectsAsyncCommand = new AsyncRelayCommand(SaveProjectsAsync);
             ManageFilamentsAsyncCommand = new AsyncRelayCommand(ShowManageFilamentsAsync);
             ManagePrintersAsyncCommand = new AsyncRelayCommand(ShowManagePrintersAsync);
@@ -127,9 +128,15 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
             await clickedItem.LoadAnalysisAsync(cancellationToken);
         }
 
-        private async Task CreateNewProjectTracker()
+        private async Task CreateNewProjectTracker(Window? window)
         {
-            var folder = await _folderSelectionService.SelectFolderAsync();
+            if (window is null)
+            {
+                return;
+            }
+
+            var folder = await _folderSelectionService.SelectFolderAsync(window);
+
             if (string.IsNullOrWhiteSpace(folder))
             {
                 return;
@@ -140,11 +147,16 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
             await LoadProjectsAsync();
         }
 
-        private async Task OpenProjectsFolderAsync()
+        private async Task OpenProjectsFolderAsync(Window? window)
         {
+            if (window is null)
+            {
+                return;
+            }
+
             if (string.IsNullOrWhiteSpace(ProjectsRootFolder))
             {
-                ProjectsRootFolder = await _folderSelectionService.SelectFolderAsync();
+                ProjectsRootFolder = await _folderSelectionService.SelectFolderAsync(window);
 
                 if (string.IsNullOrWhiteSpace(ProjectsRootFolder))
                 {
@@ -163,7 +175,7 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
             }
 
             var models = ProjectTreeItems
-                .Select(vm => vm.ToModel())
+                .Select(vm => vm.ToModelRecursive())
                 .ToList();
 
             await _projectTreeCoordinationService.SaveProjectsAsync(ProjectsRootFolder, models);

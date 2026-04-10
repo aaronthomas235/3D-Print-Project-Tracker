@@ -20,13 +20,13 @@
 
         <Menu Classes="NavMenu">
             <MenuItem Classes="NavMenuItem" Header="_File">
-                <MenuItem Classes="NavSubMenuItem" Header="_New" Command="{Binding NewProjectTrackerCommand}">
+                <MenuItem Classes="NavSubMenuItem" Header="_New" Command="{Binding NewProjectTrackerCommand}" CommandParameter="{Binding $parent[Window]}">
                     <MenuItem.Icon>
                         <Image Classes="MenuIcon" Source="/Assets/New-File.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
 
-                <MenuItem Classes="NavSubMenuItem" Header="_Open" Command="{Binding OpenProjectsFolderAsyncCommand}">
+                <MenuItem Classes="NavSubMenuItem" Header="_Open" Command="{Binding OpenProjectsFolderAsyncCommand}" CommandParameter="{Binding $parent[Window]}">
                     <MenuItem.Icon>
                         <Image Classes="MenuIcon" Source="/Assets/Open-Folder.png"/>
                     </MenuItem.Icon>
@@ -98,13 +98,13 @@
                     <TextBlock Grid.Column="1" Grid.Row="1" Classes="BaseText DetailNumericContent" Text="{Binding ClickedProjectTreeItem.Title}"/>
                     
                     <TextBlock Grid.Column="0" Grid.Row="2" Classes="DetailLabel" Text="Dimensions (mm)"/>
-                    <TextBlock Grid.Column="1" Grid.Row="2" Classes="BaseText DetailNumericContent" Text="{Binding ClickedProjectTreeItem.Dimensions}"/>
+                    <TextBlock Grid.Column="1" Grid.Row="2" Classes="BaseText DetailNumericContent" Text="{Binding ClickedProjectTreeItem.DimensionsDisplay}"/>
 
                     <TextBlock Grid.Column="0" Grid.Row="3" Classes="DetailLabel" Text="Print Time"/>
-                    <TextBlock Grid.Column="1" Grid.Row="3" Classes="BaseText DetailNumericContent" Text="{Binding ClickedProjectTreeItem.PrintTime}"/>
+                    <TextBlock Grid.Column="1" Grid.Row="3" Classes="BaseText DetailNumericContent" Text="{Binding ClickedProjectTreeItem.PrintTimeDisplay}"/>
 
                     <TextBlock Grid.Column="0" Grid.Row="4" Classes="DetailLabel" Text="Material Usage"/>
-                    <TextBlock Grid.Column="1" Grid.Row="4" Classes="BaseText DetailNumericContent" Text="{Binding ClickedProjectTreeItem.MaterialUsage}"/>
+                    <TextBlock Grid.Column="1" Grid.Row="4" Classes="BaseText DetailNumericContent" Text="{Binding ClickedProjectTreeItem.MaterialUsageDisplay}"/>
                     
                     <Border Grid.ColumnSpan="2" Grid.Row="5" Classes="Divider"/>
 

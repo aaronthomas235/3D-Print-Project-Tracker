@@ -1,20 +1,14 @@
-﻿using System.Threading.Tasks;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
+using Avalonia.Data;
 using Avalonia.Platform.Storage;
-using ThreeDPrintProjectTracker.Engine.Interfaces.UI;
+using System.Threading.Tasks;
+using ThreeDPrintProjectTracker.Avalonia.Interfaces;
 
 namespace ThreeDPrintProjectTracker.Avalonia.Services
 {
     public class FolderSelectionService : IFolderSelectionService
     {
-        private readonly Window _windowInstance;
-
-        public FolderSelectionService(Window window)
-        {
-            _windowInstance = window;
-        }
-
-        public async Task<string?> SelectFolderAsync()
+        public async Task<string?> SelectFolderAsync(Window parent)
         {
             var folderSelectionOptions = new FolderPickerOpenOptions
             {
@@ -22,8 +16,11 @@ namespace ThreeDPrintProjectTracker.Avalonia.Services
                 AllowMultiple = false
             };
 
-            var selectionResult = await _windowInstance.StorageProvider.OpenFolderPickerAsync(folderSelectionOptions);
-            return selectionResult.Count >0 ? selectionResult[0].Path.LocalPath : null;
+            var result = await parent.StorageProvider.OpenFolderPickerAsync(folderSelectionOptions);
+
+            return result.Count > 0
+                ? result[0].Path.LocalPath
+                : null;
         }
     }
 }

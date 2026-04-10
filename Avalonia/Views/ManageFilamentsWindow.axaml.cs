@@ -5,9 +5,13 @@ namespace ThreeDPrintProjectTracker.Avalonia;
 
 public partial class ManageFilamentsWindow : Window
 {
-    public ManageFilamentsWindow(ManageFilamentsWindowViewModel vm)
+    public ManageFilamentsWindow()
     {
         InitializeComponent();
+    }
+
+    public ManageFilamentsWindow(ManageFilamentsWindowViewModel vm) : this()
+    {
         DataContext = vm;
     }
 }

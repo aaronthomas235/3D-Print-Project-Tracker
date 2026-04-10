@@ -1,46 +1,42 @@
-﻿using ThreeDPrintProjectTracker.Engine.Interfaces;
-using System;
-using ThreeDPrintProjectTracker.Engine.Models.Projects;
-using ThreeDPrintProjectTracker.Engine.Interfaces.Printing;
-using ThreeDPrintProjectTracker.Engine.Interfaces.Models;
-using ThreeDPrintProjectTracker.Engine.Interfaces.Infrastructure;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using ThreeDPrintProjectTracker.Avalonia.Interfaces;
 using ThreeDPrintProjectTracker.Avalonia.ViewModels;
+using ThreeDPrintProjectTracker.Engine.Interfaces;
+using ThreeDPrintProjectTracker.Engine.Interfaces.Analysis;
+using ThreeDPrintProjectTracker.Engine.Interfaces.Infrastructure;
+using ThreeDPrintProjectTracker.Engine.Interfaces.Models;
+using ThreeDPrintProjectTracker.Engine.Interfaces.Printing;
+using ThreeDPrintProjectTracker.Engine.Models.Projects;
 
 namespace ThreeDPrintProjectTracker.Avalonia.Factories
 {
     public class ProjectTreeItemViewModelFactory : IProjectTreeItemViewModelFactory
     {
-        private readonly IPrintModelCacheService _printModelCacheService;
-        private readonly IMeshAnalyserService _meshAnalyserService;
-        private readonly IPrintTimeEstimationService _printTimeEstimationService;
-        private readonly IMaterialUsageEstimationService _materialUsageEstimationService;
-        private readonly IPrinterProfileService _printerProfileService;
+        private readonly IPrintItemAnalysisService _printItemAnalysisService;
 
-        public ProjectTreeItemViewModelFactory(
-            IPrintModelCacheService printModelCacheService,
-            IMeshAnalyserService meshAnalyserService,
-            IPrintTimeEstimationService printTimeEstimationService,
-            IMaterialUsageEstimationService materialUsageEstimationService,
-            IPrinterProfileService printerProfileService)
+        public ProjectTreeItemViewModelFactory(IPrintItemAnalysisService printItemAnalysisService)
         {
-            _printModelCacheService = printModelCacheService;
-            _meshAnalyserService = meshAnalyserService;
-            _printTimeEstimationService = printTimeEstimationService;
-            _materialUsageEstimationService = materialUsageEstimationService;
-            _printerProfileService = printerProfileService;
+            _printItemAnalysisService = printItemAnalysisService;
         }
 
         public ProjectTreeItemViewModel Create(ProjectTreeItem model)
         {
-            return new ProjectTreeItemViewModel(
-                model,
-                _printModelCacheService,
-                _meshAnalyserService,
-                _printTimeEstimationService,
-                _materialUsageEstimationService,
-                _printerProfileService
-            );
+            return Create(model, null);
+        }
+
+        private ProjectTreeItemViewModel Create(ProjectTreeItem model, ProjectTreeItemViewModel? parent)
+        {
+            var vm = new ProjectTreeItemViewModel(model, _printItemAnalysisService, parent);
+
+            foreach (var childModel in model.Children)
+            {
+                var childVm = Create(childModel, vm);
+                vm.Children.Add(childVm);
+            }
+
+            return vm;
         }
     }
 }
