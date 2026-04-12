@@ -14,7 +14,7 @@ namespace ThreeDPrintProjectTracker.Engine.Models.Materials
         public required double HubDiameterMm { get; init; }
         public required double WidthMm { get; init; }
         public required double EmptyWeightGrams { get; init; }
-        public required MaterialDefinition Material { get; set; }
+        public required MaterialDefinition Material { get; init; }
         public double RemainingWeightGrams { get; set; }
     }
 }

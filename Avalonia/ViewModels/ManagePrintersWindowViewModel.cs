@@ -31,8 +31,7 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
 
             SelectedProfile = Profiles.FirstOrDefault();
         }
-
-
+        
         [RelayCommand]
         private void NewProfile()
         {
@@ -49,8 +48,7 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
 
             SelectedProfile = itemVm;
         }
-
-
+        
         [RelayCommand]
         private void DuplicateProfile()
         {
@@ -69,8 +67,7 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
 
             SelectedProfile = itemVm;
         }
-
-
+        
         [RelayCommand]
         private void DeleteProfile()
         {
@@ -82,8 +79,7 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
                 SelectedProfile = Profiles.FirstOrDefault(p => p.Model.Id != Guid.Empty) ?? Profiles.FirstOrDefault();
             }
         }
-
-
+        
         [RelayCommand]
         private void Save()
         {
@@ -94,8 +90,6 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
 
             SelectedProfile.UpdateFromModel(Editor.Model);
         }
-
-
 
         partial void OnSelectedProfileChanged(PrinterProfileItemViewModel? value)
         {

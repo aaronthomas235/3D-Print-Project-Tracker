@@ -8,6 +8,7 @@ namespace ThreeDPrintProjectTracker.Engine.Models.Materials
 {
     public record MaterialDefinition
     {
+        public Guid Id { get; init; }
         public required string Name { get; init; }
         public required string MaterialType { get; init; }
         public double Diameter { get; init; }

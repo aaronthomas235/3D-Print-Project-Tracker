@@ -13,6 +13,12 @@
         MinWidth="{DynamicResource Window.Editor.MinWidth}"
         MinHeight="{DynamicResource Window.Editor.MinHeight}">
 
+    <!-- TODO:
+    1. Bind Spools to List
+    2. Bind Selected Spool to Editor
+    3. Bind Materials to a Combobox
+    -->
+
     <Border Classes="PanelContainer">
         <Grid RowDefinitions="Auto,*," ColumnDefinitions="260,*">
 
