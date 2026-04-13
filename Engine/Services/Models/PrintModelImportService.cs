@@ -45,7 +45,7 @@ namespace ThreeDPrintProjectTracker.Engine.Services
 
         private static PrintModel ObjImport(string filePath)
         {
-            IVertexReader vertexReader = ObjVertexReaderFactory.Create(filePath);
+            IVertexReader vertexReader = WavefrontObjVertexReaderFactory.Create(filePath);
             return BuildPrintModel(vertexReader);
         }
 
