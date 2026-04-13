@@ -2,8 +2,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodels="using:ThreeDPrintProjectTracker.Avalonia.ViewModels"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ThreeDPrintProjectTracker.Avalonia.ManageFilamentsWindow"
+        x:DataType="viewmodels:ManageFilamentsWindowViewModel"
         Background="{DynamicResource MainBackgroundBrush}"
         Icon="/Assets/3D_Print_Project_Tracker.ico"
         Title="Manage Filaments"
@@ -14,8 +16,6 @@
         MinHeight="{DynamicResource Window.Editor.MinHeight}">
 
     <!-- TODO:
-    1. Bind Spools to List
-    2. Bind Selected Spool to Editor
     3. Bind Materials to a Combobox
     -->
 
@@ -35,15 +35,15 @@
                     <Border Grid.Column="1" />
 
                     <StackPanel Grid.Column="2" Classes="ToolbarRow">
-                        <Button Classes="ToolbarButton">
+                        <Button Classes="ToolbarButton" Command="{Binding NewSpoolCommand}">
                             <Image Classes="ToolbarButtonIcon" Source="avares://ThreeDPrintProjectTracker.Avalonia/Assets/Document-Add-White.png"/>
                         </Button>
                         
-                        <Button Classes="ToolbarButton">
+                        <Button Classes="ToolbarButton" Command="{Binding DuplicateSpoolCommand}">
                             <Image Classes="ToolbarButtonIcon" Source="avares://ThreeDPrintProjectTracker.Avalonia/Assets/Document-Copy-White.png"/>
                         </Button>
                         
-                        <Button Classes="ToolbarButton">
+                        <Button Classes="ToolbarButton" Command="{Binding DeleteSpoolCommand}">
                             <Image Classes="ToolbarButtonIcon" Source="avares://ThreeDPrintProjectTracker.Avalonia/Assets/Recycle-Bin-White.png"/>
                         </Button>
 
@@ -51,7 +51,7 @@
 
                 </Grid>                
 
-                <ListBox>
+                <ListBox ItemsSource="{Binding Spools}" SelectedItem="{Binding SelectedSpool}">
 
                     <ListBox.ItemTemplate>
 
@@ -61,9 +61,9 @@
 
 								<Grid RowDefinitions="Auto,Auto">
 
-									<TextBlock Classes="EditorLabel" Text="" TextTrimming="CharacterEllipsis"/>
+									<TextBlock Classes="EditorLabel" Text="{Binding Name}" TextTrimming="CharacterEllipsis"/>
 
-                                    <TextBlock Grid.Row="1" Classes="BaseText" Text=""/>
+                                    <TextBlock Grid.Row="1" Classes="BaseText" Text="{Binding RemainingWeightGrams, StringFormat='Weight: {0} g'}"/>
                                 </Grid>
 
                             </Border>
@@ -84,22 +84,16 @@
 
 				<TabControl Grid.Row="0">
 
-                    <TabItem Header="General">
+                    <TabItem Header="Overview">
 
                         <ScrollViewer Classes="EditorTabScroll">
                             <Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto" Classes="EditorForm">
 
-                            </Grid>
-
-                        </ScrollViewer>
-
-                    </TabItem>
-                    
-                    <TabItem Header="Usage/Compatibility">
-
-                        <ScrollViewer Classes="EditorTabScroll">
-
-                            <Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Classes="EditorForm">
+                                <TextBlock Grid.Row="0" Classes="EditorLabel" Text="Spool Name"/>
+                                <TextBox Grid.Row="0" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.Name, Mode=TwoWay}"/>
+                                
+                                <TextBlock Grid.Row="1" Classes="EditorLabel" Text="Remaining (g)"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.RemainingWeightGrams, Mode=TwoWay}"/>
 
                             </Grid>
 
@@ -112,9 +106,9 @@
                 <Border Grid.Row="1" Classes="EditorFooter">
                     <Grid ColumnDefinitions="*,Auto" Classes="EditorFooterContainer">
 
-                        <TextBlock Classes="SecondaryStatusText" Text="Unsaved changes" IsVisible="True"/>
+                        <TextBlock Classes="SecondaryStatusText" Text="Unsaved changes" IsVisible="{Binding Editor.HasChanges}"/>
                         
-                        <Button Grid.Column="1" IsEnabled="False" Classes="PrimaryButton" Content="Save">
+                        <Button Grid.Column="1" Command="{Binding SaveCommand}" IsEnabled="{Binding Editor.HasChanges}" Classes="PrimaryButton" Content="Save">
                         </Button>
                     </Grid>
                 </Border>

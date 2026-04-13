@@ -40,16 +40,8 @@
             </MenuItem>
 
             <MenuItem Classes="NavMenuItem" Header="_Tools">
-				<MenuItem Classes="NavSubMenuItem" Header="_Manage Printers" Command="{Binding ManagePrintersAsyncCommand}">
-					<MenuItem.Icon>
-						<Image Classes="MenuIcon" Source="/Assets/Manage-Printers.png"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Classes="NavSubMenuItem" Header="_Manage Filaments" Command="{Binding ManageFilamentsAsyncCommand}">
-					<MenuItem.Icon>
-						<Image Classes="MenuIcon" Source="/Assets/Manage-Filament.png"/>
-                    </MenuItem.Icon>
-                </MenuItem>
+				<MenuItem Classes="NavSubMenuItem" Header="_Manage Printers" Command="{Binding ManagePrintersAsyncCommand}" />
+                <MenuItem Classes="NavSubMenuItem" Header="_Manage Filaments" Command="{Binding ManageFilamentsAsyncCommand}" />
             </MenuItem>
 
             <MenuItem Classes="NavMenuItem" Header="_Preferences">

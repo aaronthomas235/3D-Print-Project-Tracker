@@ -10,7 +10,7 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
 
         public string Name => Model.Name;
         public string MaterialName => Model.Material.Name;
-        public double RemainingWeight => Model.RemainingWeightGrams;
+        public double RemainingWeightGrams => Model.RemainingWeightGrams;
 
         public SpoolItemViewModel(Spool model)
         {

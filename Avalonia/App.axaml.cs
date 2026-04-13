@@ -23,6 +23,8 @@ using ThreeDPrintProjectTracker.Engine.Interfaces.Analysis;
 using ThreeDPrintProjectTracker.Engine.Services.Analysis;
 using ThreeDPrintProjectTracker.Engine.Services;
 using ThreeDPrintProjectTracker.Avalonia.Factories;
+using ThreeDPrintProjectTracker.Engine.Interfaces.Materials;
+using ThreeDPrintProjectTracker.Engine.Services.Materials;
 
 namespace ThreeDPrintProjectTracker.Avalonia
 {
@@ -76,6 +78,8 @@ namespace ThreeDPrintProjectTracker.Avalonia
             services.AddSingleton<IMaterialUsageEstimationService, MaterialUsageEstimationService>();
             services.AddSingleton<IPrintModelCacheService, PrintModelCacheService>();
             services.AddSingleton<IPrintModelImportService, PrintModelImportService>();
+            services.AddSingleton<ISpoolService, SpoolService>();
+            services.AddSingleton<IMaterialService, MaterialService>();
         }
 
         private void ConfigureTransients(IServiceCollection services)
