@@ -87,18 +87,45 @@
                     <TabItem Header="Overview">
 
                         <ScrollViewer Classes="EditorTabScroll">
-                            <Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto" Classes="EditorForm">
-
+                            <Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto,Auto,Auto" Classes="EditorForm">
+                               
                                 <TextBlock Grid.Row="0" Classes="EditorLabel" Text="Spool Name"/>
                                 <TextBox Grid.Row="0" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.Name, Mode=TwoWay}"/>
                                 
-                                <TextBlock Grid.Row="1" Classes="EditorLabel" Text="Remaining (g)"/>
-                                <TextBox Grid.Row="1" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.RemainingWeightGrams, Mode=TwoWay}"/>
+                                <TextBlock Grid.Row="1" Classes="EditorLabel" Text="Material"/>
+                                <ComboBox Grid.Row="1" Grid.Column="1" Classes="EditorFormInput" ItemsSource="{Binding Editor.Materials}" SelectedItem="{Binding Editor.SelectedMaterial, Mode=TwoWay}" DisplayMemberBinding="{Binding Name}"/>
+                                
+                                <TextBlock Grid.Row="2" Classes="EditorLabel" Text="Material Info"/>
+                                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Spacing="12">
+                                    
+                                    <TextBlock Classes="EditorValue" Text="{Binding Editor.SelectedMaterial.MaterialType}"/>
+                                    
+                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                        <Border Width="12" Height="12" CornerRadius="6" Background="{Binding Editor.SelectedMaterial.Color}"/>
+                                        <TextBlock Classes="EditorValue" Text="{Binding Editor.SelectedMaterial.Color}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                                
+                                <TextBlock Grid.Row="3" Classes="EditorLabel" Text="Remaining (g)"/>
+                                <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" Spacing="8">
 
+                                    <NumericUpDown Width="150" Classes="EditorFormInput" Increment="1" FormatString="F0" Minimum="0" Text="{Binding Editor.RemainingWeightGrams, Mode=TwoWay}"/>
+
+                                    <Slider Width="150" Minimum="0" Maximum="1000" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding Editor.RemainingWeightGrams, Mode=TwoWay}"/>
+                                </StackPanel>
+                            
                             </Grid>
 
                         </ScrollViewer>
 
+                    </TabItem>
+
+                    <TabItem Header="Spool Specs">
+						
+                    </TabItem>
+
+                    <TabItem Header="Material Details">
+						
                     </TabItem>
                     
                 </TabControl>

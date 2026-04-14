@@ -12,33 +12,33 @@ namespace ThreeDPrintProjectTracker.Engine.Models.Materials
         {
             Id = Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
             Name = "Generic PLA",
-            MaterialType = "PLA",
+            MaterialType = MaterialType.PLA,
             Diameter = 1.75,
             Density = 1.24,
             Tolerance = 0.02,
-            Color = "Generic"
+            Color = "White"
         };
 
         public static MaterialDefinition Abs => new()
         {
             Id = Guid.Parse("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
             Name = "Generic ABS",
-            MaterialType = "ABS",
+            MaterialType = MaterialType.ABS,
             Diameter = 1.75,
             Density = 1.04,
             Tolerance = 0.03,
-            Color = "Generic"
+            Color = "White"
         };
 
         public static MaterialDefinition Tpu => new()
         {
             Id = Guid.Parse("cccccccc-cccc-cccc-cccc-cccccccccccc"),
             Name = "Generic TPU",
-            MaterialType = "TPU",
+            MaterialType = MaterialType.TPU,
             Diameter = 1.75,
             Density = 1.20,
             Tolerance = 0.05,
-            Color = "Generic"
+            Color = "White"
         };
     }
 }

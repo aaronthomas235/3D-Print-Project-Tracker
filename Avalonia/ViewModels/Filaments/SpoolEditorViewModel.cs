@@ -13,7 +13,7 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
     public partial class SpoolEditorViewModel :ObservableObject
     {
         [ObservableProperty]
-        private Spool _model;
+        private Spool _model = default!;
 
         // ───── General ─────
         [ObservableProperty] private string name = string.Empty;
@@ -35,15 +35,9 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
         public SpoolEditorViewModel(Spool model, IReadOnlyList<MaterialDefinition> materials)
         {
             Model = model ?? throw new ArgumentNullException(nameof(model));
-            Materials = materials;
+            Materials = materials ?? throw new ArgumentNullException(nameof(model));
 
             LoadFromModel(model);
-
-            PropertyChanged += (_, e) =>
-            {
-                if (e.PropertyName != nameof(HasChanges))
-                    OnPropertyChanged(nameof(HasChanges));
-            };
         }
 
         private void LoadFromModel(Spool model)
@@ -67,10 +61,19 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
             WidthMm != Model.WidthMm ||
             EmptyWeightGrams != Model.EmptyWeightGrams ||
             RemainingWeightGrams != Model.RemainingWeightGrams ||
-            SelectedMaterial != Model.Material;
+            SelectedMaterial?.Id != Model.Material.Id;
+
+        public double RemainingPercentage => (RemainingWeightGrams + EmptyWeightGrams) == 0
+            ? 0
+            : RemainingWeightGrams / (RemainingWeightGrams + EmptyWeightGrams);
 
         public void ApplyChanges()
         {
+            if (SelectedMaterial == null)
+            {
+                throw new InvalidOperationException("Material must be selected.");
+            }
+
             Model = Model with
             {
                 Name = Name,
@@ -79,8 +82,29 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
                 WidthMm = WidthMm,
                 EmptyWeightGrams = EmptyWeightGrams,
                 RemainingWeightGrams = RemainingWeightGrams,
-                Material = SelectedMaterial!
+                Material = SelectedMaterial
             };
         }
+
+        private void NotifyChanged()
+        {
+            OnPropertyChanged(nameof(HasChanges));
+        }
+
+        partial void OnNameChanged(string value) => NotifyChanged();
+        partial void OnOuterDiameterMmChanged(double value) => NotifyChanged();
+        partial void OnHubDiameterMmChanged(double value) => NotifyChanged();
+        partial void OnWidthMmChanged(double value) => NotifyChanged();
+        partial void OnEmptyWeightGramsChanged(double value) => NotifyChanged();
+        partial void OnRemainingWeightGramsChanged(double value)
+        {
+            var rounded = Math.Round(value);
+
+            if (rounded != value)
+                RemainingWeightGrams = rounded;
+
+            NotifyChanged();
+        }
+        partial void OnSelectedMaterialChanged(MaterialDefinition? value) => NotifyChanged();
     }
 }
