@@ -2,7 +2,7 @@
 using System;
 using ThreeDPrintProjectTracker.Engine.Models.Materials;
 
-namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
+namespace ThreeDPrintProjectTracker.Avalonia.ViewModels.Filaments
 {
     public partial class SpoolItemViewModel : ObservableObject
     {

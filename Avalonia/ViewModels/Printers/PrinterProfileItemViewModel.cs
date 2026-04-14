@@ -2,7 +2,7 @@
 using System;
 using ThreeDPrintProjectTracker.Engine.Models.Printing;
 
-namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
+namespace ThreeDPrintProjectTracker.Avalonia.ViewModels.Printers
 {
     public partial class PrinterProfileItemViewModel : ObservableObject
     {

@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using ThreeDPrintProjectTracker.Avalonia.ViewModels.Filaments;
 using ThreeDPrintProjectTracker.Engine.Interfaces.Materials;
 using ThreeDPrintProjectTracker.Engine.Models.Materials;
 
