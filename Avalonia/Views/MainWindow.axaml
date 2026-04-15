@@ -84,6 +84,8 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
+					
+					
 
 
                     <TextBlock Grid.Column="0" Grid.Row="1" Classes="DetailLabel" Text="Name"/>

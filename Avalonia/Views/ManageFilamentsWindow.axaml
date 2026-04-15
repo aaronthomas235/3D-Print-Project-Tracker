@@ -15,10 +15,6 @@
         MinWidth="{DynamicResource Window.Editor.MinWidth}"
         MinHeight="{DynamicResource Window.Editor.MinHeight}">
 
-    <!-- TODO:
-    3. Bind Materials to a Combobox
-    -->
-
     <Border Classes="PanelContainer">
         <Grid RowDefinitions="Auto,*," ColumnDefinitions="260,*">
 
@@ -121,11 +117,59 @@
                     </TabItem>
 
                     <TabItem Header="Spool Specs">
+                        <ScrollViewer Classes="EditorTabScroll">
+                            <Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto,Auto,Auto" Classes="EditorForm">
+                               
+                                <TextBlock Grid.Row="0" Classes="EditorLabel" Text="Outer Diameter (mm)"/>
+                                <TextBox Grid.Row="0" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.OuterDiameterMm, Mode=TwoWay}"/>
+                                
+                                <TextBlock Grid.Row="1" Classes="EditorLabel" Text="Hub Diameter (mm)"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.HubDiameterMm, Mode=TwoWay}"/>
+
+                                <TextBlock Grid.Row="2" Classes="EditorLabel" Text="Width (mm)"/>
+                                <TextBox Grid.Row="2" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.WidthMm, Mode=TwoWay}"/>
+                                
+                                <TextBlock Grid.Row="3" Classes="EditorLabel" Text="Empty Weight (g)"/>
+                                <TextBox Grid.Row="3" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.EmptyWeightGrams, Mode=TwoWay}"/>
+                            
+                            </Grid>
+
+                        </ScrollViewer>
 						
                     </TabItem>
 
                     <TabItem Header="Material Details">
-						
+						<ScrollViewer Classes="EditorTabScroll">
+                            <Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" Classes="EditorForm">
+                               
+                                <TextBlock Grid.Row="0" Classes="EditorLabel" Text="Name"/>
+                                <TextBlock Grid.Row="0" Grid.Column="1" Classes="EditorLabel" Text="{Binding Editor.SelectedMaterial.Name}"/>
+                                
+                                <TextBlock Grid.Row="1" Classes="EditorLabel" Text="Material Type"/>
+                                <TextBlock Grid.Row="1" Grid.Column="1" Classes="EditorLabel" Text="{Binding Editor.SelectedMaterial.MaterialType}"/>
+
+                                <TextBlock Grid.Row="2" Classes="EditorLabel" Text="Diameter (mm)"/>
+                                <TextBlock Grid.Row="2" Grid.Column="1" Classes="EditorLabel" Text="{Binding Editor.SelectedMaterial.Diameter}"/>
+                                
+                                <TextBlock Grid.Row="3" Classes="EditorLabel" Text="Density"/>
+                                <TextBlock Grid.Row="3" Grid.Column="1" Classes="EditorLabel" Text="{Binding Editor.SelectedMaterial.Density}"/>
+
+                                <TextBlock Grid.Row="4" Classes="EditorLabel" Text="Tolerances (+/-)"/>
+                                <TextBlock Grid.Row="4" Grid.Column="1" Classes="EditorLabel" Text="{Binding Editor.SelectedMaterial.Tolerance}"/>
+
+                                <StackPanel Grid.Row="5" Grid.Column="1" Spacing="4">
+                                    <!-- Type -->
+                                    <TextBlock Classes="EditorValue" Text="{Binding Editor.SelectedMaterial.MaterialType}"/>
+                                    <!-- Color -->
+                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                        <Border Width="14" Height="14" CornerRadius="7" Background="{Binding Editor.SelectedMaterial.Color}" BorderBrush="#888" BorderThickness="1"/>
+                                        <TextBlock Classes="EditorValue" Text="{Binding Editor.SelectedMaterial.Color}"/>
+                                    </StackPanel>
+                                </StackPanel>
+
+                            </Grid>
+
+                        </ScrollViewer>
                     </TabItem>
                     
                 </TabControl>
