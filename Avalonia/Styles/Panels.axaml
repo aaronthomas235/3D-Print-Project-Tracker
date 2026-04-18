@@ -56,6 +56,27 @@
         <Setter Property="HorizontalAlignment" Value="Right" />
     </Style>
 
+    <Style Selector="StackPanel.InputGroup">
+		<Setter Property="Spacing" Value="{DynamicResource Space.XS}" />
+        <Setter Property="Orientation" Value="Horizontal" />
+    </Style>
+
+    <Style Selector="StackPanel.MaterialDisplay">
+        <Setter Property="Spacing" Value="{DynamicResource Space.M}" />
+        <Setter Property="Orientation" Value="Horizontal" />
+    </Style>
+
+    <Style Selector="StackPanel.ColourDisplay">
+		<Setter Property="Spacing" Value="{DynamicResource Space.S}" />
+        <Setter Property="Orientation" Value="Horizontal" />
+    </Style>
+
+    <Style Selector="Border.ColourSwatch">
+        <Setter Property="Width" Value="{DynamicResource Size.ColourSwatch}" />
+        <Setter Property="Height" Value="{DynamicResource Size.ColourSwatch}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource Radius.Medium}" />
+    </Style>
+
     <Style Selector="Grid.EditorForm">
         <Setter Property="Margin" Value="{DynamicResource Margin.Section}" />
         <Setter Property="RowSpacing" Value="{DynamicResource Gap.FormRow}" />

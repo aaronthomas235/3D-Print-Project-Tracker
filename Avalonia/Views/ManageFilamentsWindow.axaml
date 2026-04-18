@@ -1,191 +1,194 @@
 <Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:viewmodels="using:ThreeDPrintProjectTracker.Avalonia.ViewModels"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="ThreeDPrintProjectTracker.Avalonia.ManageFilamentsWindow"
-        x:DataType="viewmodels:ManageFilamentsWindowViewModel"
-        Background="{DynamicResource MainBackgroundBrush}"
-        Icon="/Assets/3D_Print_Project_Tracker.ico"
-        Title="Manage Filaments"
-        WindowStartupLocation="CenterOwner"
-        Width="{DynamicResource Window.Editor.Width}"
-        Height="{DynamicResource Window.Editor.Height}"
-        MinWidth="{DynamicResource Window.Editor.MinWidth}"
-        MinHeight="{DynamicResource Window.Editor.MinHeight}">
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:viewmodels="using:ThreeDPrintProjectTracker.Avalonia.ViewModels"
+		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		x:Class="ThreeDPrintProjectTracker.Avalonia.ManageFilamentsWindow"
+		x:DataType="viewmodels:ManageFilamentsWindowViewModel"
+		Background="{DynamicResource MainBackgroundBrush}"
+		Icon="/Assets/3D_Print_Project_Tracker.ico"
+		Title="Manage Filaments"
+		WindowStartupLocation="CenterOwner"
+		Width="{DynamicResource Window.Editor.Width}"
+		Height="{DynamicResource Window.Editor.Height}"
+		MinWidth="{DynamicResource Window.Editor.MinWidth}"
+		MinHeight="{DynamicResource Window.Editor.MinHeight}">
 
-    <Border Classes="PanelContainer">
-        <Grid RowDefinitions="Auto,*," ColumnDefinitions="260,*">
+	<Border Classes="PanelContainer">
+		<Grid RowDefinitions="Auto,*," ColumnDefinitions="260,*">
 
-        <TextBlock Grid.ColumnSpan="2" Classes="SectionHeader" Text="Inventory"/>
+		<TextBlock Grid.ColumnSpan="2" Classes="SectionHeader" Text="Inventory"/>
 
-        <Border Grid.Row="1" Classes="PanelNavigation">
+		<Border Grid.Row="1" Classes="PanelNavigation">
 
-            <DockPanel>
+			<DockPanel>
 
-                <Grid DockPanel.Dock="Top" ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center" Margin="{DynamicResource Margin.Section}">
+				<Grid DockPanel.Dock="Top" ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center" Margin="{DynamicResource Margin.Section}">
 
-                    <TextBlock Grid.Column="0" Classes="PanelHeader" Text="Filaments"/>
+					<TextBlock Grid.Column="0" Classes="PanelHeader" Text="Filaments"/>
 
-                    <Border Grid.Column="1" />
+					<Border Grid.Column="1" />
 
-                    <StackPanel Grid.Column="2" Classes="ToolbarRow">
-                        <Button Classes="ToolbarButton" Command="{Binding NewSpoolCommand}">
-                            <Image Classes="ToolbarButtonIcon" Source="avares://ThreeDPrintProjectTracker.Avalonia/Assets/Document-Add-White.png"/>
-                        </Button>
-                        
-                        <Button Classes="ToolbarButton" Command="{Binding DuplicateSpoolCommand}">
-                            <Image Classes="ToolbarButtonIcon" Source="avares://ThreeDPrintProjectTracker.Avalonia/Assets/Document-Copy-White.png"/>
-                        </Button>
-                        
-                        <Button Classes="ToolbarButton" Command="{Binding DeleteSpoolCommand}">
-                            <Image Classes="ToolbarButtonIcon" Source="avares://ThreeDPrintProjectTracker.Avalonia/Assets/Recycle-Bin-White.png"/>
-                        </Button>
+					<StackPanel Grid.Column="2" Classes="ToolbarRow">
+						<Button Classes="ToolbarButton" Command="{Binding NewSpoolCommand}">
+							<Image Classes="ToolbarButtonIcon" Source="avares://ThreeDPrintProjectTracker.Avalonia/Assets/Document-Add-White.png"/>
+						</Button>
+						
+						<Button Classes="ToolbarButton" Command="{Binding DuplicateSpoolCommand}">
+							<Image Classes="ToolbarButtonIcon" Source="avares://ThreeDPrintProjectTracker.Avalonia/Assets/Document-Copy-White.png"/>
+						</Button>
+						
+						<Button Classes="ToolbarButton" Command="{Binding DeleteSpoolCommand}">
+							<Image Classes="ToolbarButtonIcon" Source="avares://ThreeDPrintProjectTracker.Avalonia/Assets/Recycle-Bin-White.png"/>
+						</Button>
 
-                    </StackPanel>
+					</StackPanel>
 
-                </Grid>                
+				</Grid>                
 
-                <ListBox ItemsSource="{Binding Spools}" SelectedItem="{Binding SelectedSpool}">
+				<ListBox ItemsSource="{Binding Spools}" SelectedItem="{Binding SelectedSpool}">
 
-                    <ListBox.ItemTemplate>
+					<ListBox.ItemTemplate>
 
-                        <DataTemplate>
+						<DataTemplate>
 
-                            <Border Classes="ProfileListItem">
+							<Border Classes="ProfileListItem">
 
-								<Grid RowDefinitions="Auto,Auto">
+								<Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto">
 
 									<TextBlock Classes="EditorLabel" Text="{Binding Name}" TextTrimming="CharacterEllipsis"/>
 
-                                    <TextBlock Grid.Row="1" Classes="BaseText" Text="{Binding RemainingWeightGrams, StringFormat='Weight: {0} g'}"/>
-                                </Grid>
+									<Border Grid.Column="1" Classes="MaterialTag" Padding="6,2">
+										<TextBlock Classes="EditorValue" Text="{Binding MaterialType}"/>
+									</Border>
 
-                            </Border>
+									<TextBlock Grid.Row="1" Classes="BaseText" Text="{Binding RemainingWeightGrams, StringFormat='Weight: {0} g'}"/>
+								</Grid>
 
-                        </DataTemplate>
+							</Border>
 
-                    </ListBox.ItemTemplate>
+						</DataTemplate>
 
-                </ListBox>
+					</ListBox.ItemTemplate>
 
-            </DockPanel>
+				</ListBox>
 
-        </Border>
+			</DockPanel>
 
-        <Border Grid.Row="1" Grid.Column="1" Classes="PanelCommon">
+		</Border>
 
-            <Grid RowDefinitions="*,Auto">
+		<Border Grid.Row="1" Grid.Column="1" Classes="PanelCommon">
+
+			<Grid RowDefinitions="*,Auto">
 
 				<TabControl Grid.Row="0">
 
-                    <TabItem Header="Overview">
+					<TabItem Header="Overview">
 
-                        <ScrollViewer Classes="EditorTabScroll">
-                            <Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto,Auto,Auto" Classes="EditorForm">
-                               
-                                <TextBlock Grid.Row="0" Classes="EditorLabel" Text="Spool Name"/>
-                                <TextBox Grid.Row="0" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.Name, Mode=TwoWay}"/>
-                                
-                                <TextBlock Grid.Row="1" Classes="EditorLabel" Text="Material"/>
-                                <ComboBox Grid.Row="1" Grid.Column="1" Classes="EditorFormInput" ItemsSource="{Binding Editor.Materials}" SelectedItem="{Binding Editor.SelectedMaterial, Mode=TwoWay}" DisplayMemberBinding="{Binding Name}"/>
-                                
-                                <TextBlock Grid.Row="2" Classes="EditorLabel" Text="Material Info"/>
-                                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Spacing="12">
-                                    
-                                    <TextBlock Classes="EditorValue" Text="{Binding Editor.SelectedMaterial.MaterialType}"/>
-                                    
-                                    <StackPanel Orientation="Horizontal" Spacing="6">
-                                        <Border Width="12" Height="12" CornerRadius="6" Background="{Binding Editor.SelectedMaterial.Color}"/>
-                                        <TextBlock Classes="EditorValue" Text="{Binding Editor.SelectedMaterial.Color}"/>
-                                    </StackPanel>
-                                </StackPanel>
-                                
-                                <TextBlock Grid.Row="3" Classes="EditorLabel" Text="Remaining (g)"/>
-                                <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" Spacing="8">
-
-                                    <NumericUpDown Width="150" Classes="EditorFormInput" Increment="1" FormatString="F0" Minimum="0" Text="{Binding Editor.RemainingWeightGrams, Mode=TwoWay}"/>
-
-                                    <Slider Width="150" Minimum="0" Maximum="1000" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding Editor.RemainingWeightGrams, Mode=TwoWay}"/>
-                                </StackPanel>
-                            
-                            </Grid>
-
-                        </ScrollViewer>
-
-                    </TabItem>
-
-                    <TabItem Header="Spool Specs">
-                        <ScrollViewer Classes="EditorTabScroll">
-                            <Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto,Auto,Auto" Classes="EditorForm">
-                               
-                                <TextBlock Grid.Row="0" Classes="EditorLabel" Text="Outer Diameter (mm)"/>
-                                <TextBox Grid.Row="0" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.OuterDiameterMm, Mode=TwoWay}"/>
-                                
-                                <TextBlock Grid.Row="1" Classes="EditorLabel" Text="Hub Diameter (mm)"/>
-                                <TextBox Grid.Row="1" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.HubDiameterMm, Mode=TwoWay}"/>
-
-                                <TextBlock Grid.Row="2" Classes="EditorLabel" Text="Width (mm)"/>
-                                <TextBox Grid.Row="2" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.WidthMm, Mode=TwoWay}"/>
-                                
-                                <TextBlock Grid.Row="3" Classes="EditorLabel" Text="Empty Weight (g)"/>
-                                <TextBox Grid.Row="3" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.EmptyWeightGrams, Mode=TwoWay}"/>
-                            
-                            </Grid>
-
-                        </ScrollViewer>
-						
-                    </TabItem>
-
-                    <TabItem Header="Material Details">
 						<ScrollViewer Classes="EditorTabScroll">
-                            <Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" Classes="EditorForm">
-                               
-                                <TextBlock Grid.Row="0" Classes="EditorLabel" Text="Name"/>
-                                <TextBlock Grid.Row="0" Grid.Column="1" Classes="EditorLabel" Text="{Binding Editor.SelectedMaterial.Name}"/>
-                                
-                                <TextBlock Grid.Row="1" Classes="EditorLabel" Text="Material Type"/>
-                                <TextBlock Grid.Row="1" Grid.Column="1" Classes="EditorLabel" Text="{Binding Editor.SelectedMaterial.MaterialType}"/>
+							<Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto,Auto,Auto" Classes="EditorForm">
+							   
+								<TextBlock Grid.Row="0" Classes="EditorLabel" Text="Spool Name"/>
+								<TextBox Grid.Row="0" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.Name, Mode=TwoWay}"/>
+								
+								<TextBlock Grid.Row="1" Classes="EditorLabel" Text="Material"/>
+								<ComboBox Grid.Row="1" Grid.Column="1" Classes="EditorFormInput" ItemsSource="{Binding Editor.Materials}" SelectedItem="{Binding Editor.SelectedMaterial, Mode=TwoWay}" DisplayMemberBinding="{Binding Name}"/>
+								
+								<TextBlock Grid.Row="2" Classes="EditorLabel" Text="Material Info"/>
+								<StackPanel Grid.Row="2" Grid.Column="1" Classes="MaterialDisplay">
+									
+									<TextBlock Classes="EditorValue" Text="{Binding Editor.SelectedMaterial.MaterialType}"/>
+									
+									<StackPanel Classes="ColourDisplay">
+										<Border Classes="ColourSwatch" Background="{Binding Editor.SelectedMaterial.Color}"/>
+										<TextBlock Classes="EditorValue" Text="{Binding Editor.SelectedMaterial.Color}"/>
+									</StackPanel>
+								</StackPanel>
+								
+								<TextBlock Grid.Row="3" Classes="EditorLabel" Text="Remaining (g)"/>
+								<StackPanel Grid.Row="3" Grid.Column="1" Classes="InputGroup">
 
-                                <TextBlock Grid.Row="2" Classes="EditorLabel" Text="Diameter (mm)"/>
-                                <TextBlock Grid.Row="2" Grid.Column="1" Classes="EditorLabel" Text="{Binding Editor.SelectedMaterial.Diameter}"/>
-                                
-                                <TextBlock Grid.Row="3" Classes="EditorLabel" Text="Density"/>
-                                <TextBlock Grid.Row="3" Grid.Column="1" Classes="EditorLabel" Text="{Binding Editor.SelectedMaterial.Density}"/>
+									<NumericUpDown Classes="EditorFormInput; RangeInputPrimary" Increment="1" FormatString="F0" Minimum="0" Text="{Binding Editor.RemainingWeightGrams, Mode=TwoWay}"/>
 
-                                <TextBlock Grid.Row="4" Classes="EditorLabel" Text="Tolerances (+/-)"/>
-                                <TextBlock Grid.Row="4" Grid.Column="1" Classes="EditorLabel" Text="{Binding Editor.SelectedMaterial.Tolerance}"/>
+									<Slider Classes="RangeInputSecondary" Minimum="0" Maximum="1000" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding Editor.RemainingWeightGrams, Mode=TwoWay}"/>
+								</StackPanel>
+							
+							</Grid>
 
-                                <StackPanel Grid.Row="5" Grid.Column="1" Spacing="4">
-                                    <!-- Type -->
-                                    <TextBlock Classes="EditorValue" Text="{Binding Editor.SelectedMaterial.MaterialType}"/>
-                                    <!-- Color -->
-                                    <StackPanel Orientation="Horizontal" Spacing="6">
-                                        <Border Width="14" Height="14" CornerRadius="7" Background="{Binding Editor.SelectedMaterial.Color}" BorderBrush="#888" BorderThickness="1"/>
-                                        <TextBlock Classes="EditorValue" Text="{Binding Editor.SelectedMaterial.Color}"/>
-                                    </StackPanel>
-                                </StackPanel>
+						</ScrollViewer>
 
-                            </Grid>
+					</TabItem>
 
-                        </ScrollViewer>
-                    </TabItem>
-                    
-                </TabControl>
-                
-                <Border Grid.Row="1" Classes="EditorFooter">
-                    <Grid ColumnDefinitions="*,Auto" Classes="EditorFooterContainer">
+					<TabItem Header="Spool Specs">
+						<ScrollViewer Classes="EditorTabScroll">
+							<Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto,Auto,Auto" Classes="EditorForm">
+							   
+								<TextBlock Grid.Row="0" Classes="EditorLabel" Text="Outer Diameter (mm)"/>
+								<TextBox Grid.Row="0" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.OuterDiameterMm, Mode=TwoWay}"/>
+								
+								<TextBlock Grid.Row="1" Classes="EditorLabel" Text="Hub Diameter (mm)"/>
+								<TextBox Grid.Row="1" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.HubDiameterMm, Mode=TwoWay}"/>
 
-                        <TextBlock Classes="SecondaryStatusText" Text="Unsaved changes" IsVisible="{Binding Editor.HasChanges}"/>
-                        
-                        <Button Grid.Column="1" Command="{Binding SaveCommand}" IsEnabled="{Binding Editor.HasChanges}" Classes="PrimaryButton" Content="Save">
-                        </Button>
-                    </Grid>
-                </Border>
-            </Grid>
-        </Border>
-        </Grid>
-    </Border>
+								<TextBlock Grid.Row="2" Classes="EditorLabel" Text="Width (mm)"/>
+								<TextBox Grid.Row="2" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.WidthMm, Mode=TwoWay}"/>
+								
+								<TextBlock Grid.Row="3" Classes="EditorLabel" Text="Empty Weight (g)"/>
+								<TextBox Grid.Row="3" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.EmptyWeightGrams, Mode=TwoWay}"/>
+							
+							</Grid>
+
+						</ScrollViewer>
+						
+					</TabItem>
+
+					<TabItem Header="Material Details">
+						<ScrollViewer Classes="EditorTabScroll">
+							<Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" Classes="EditorForm">
+							   
+								<TextBlock Grid.Row="0" Classes="EditorLabel" Text="Name"/>
+								<TextBlock Grid.Row="0" Grid.Column="1" Classes="EditorLabel" Text="{Binding Editor.SelectedMaterial.Name}"/>
+								
+								<TextBlock Grid.Row="1" Classes="EditorLabel" Text="Material Type"/>
+								<TextBlock Grid.Row="1" Grid.Column="1" Classes="EditorLabel" Text="{Binding Editor.SelectedMaterial.MaterialType}"/>
+
+								<TextBlock Grid.Row="2" Classes="EditorLabel" Text="Diameter (mm)"/>
+								<TextBlock Grid.Row="2" Grid.Column="1" Classes="EditorLabel" Text="{Binding Editor.SelectedMaterial.Diameter}"/>
+								
+								<TextBlock Grid.Row="3" Classes="EditorLabel" Text="Density"/>
+								<TextBlock Grid.Row="3" Grid.Column="1" Classes="EditorLabel" Text="{Binding Editor.SelectedMaterial.Density}"/>
+
+								<TextBlock Grid.Row="4" Classes="EditorLabel" Text="Tolerances (+/-)"/>
+								<TextBlock Grid.Row="4" Grid.Column="1" Classes="EditorLabel" Text="{Binding Editor.SelectedMaterial.Tolerance}"/>
+
+								<StackPanel Grid.Row="5" Grid.Column="1" Classes="InputGroup">
+									<TextBlock Classes="EditorValue" Text="{Binding Editor.SelectedMaterial.MaterialType}"/>
+
+									<StackPanel Classes="ColourDisplay">
+										<Border Classes="ColourSwatch" Background="{Binding Editor.SelectedMaterial.Color}"/>
+										<TextBlock Classes="EditorValue" Text="{Binding Editor.SelectedMaterial.Color}"/>
+									</StackPanel>
+								</StackPanel>
+
+							</Grid>
+
+						</ScrollViewer>
+					</TabItem>
+					
+				</TabControl>
+				
+				<Border Grid.Row="1" Classes="EditorFooter">
+					<Grid ColumnDefinitions="*,Auto" Classes="EditorFooterContainer">
+
+						<TextBlock Classes="SecondaryStatusText" Text="Unsaved changes" IsVisible="{Binding Editor.HasChanges}"/>
+						
+						<Button Grid.Column="1" Command="{Binding SaveCommand}" IsEnabled="{Binding Editor.HasChanges}" Classes="PrimaryButton" Content="Save">
+						</Button>
+					</Grid>
+				</Border>
+			</Grid>
+		</Border>
+		</Grid>
+	</Border>
 
 </Window>

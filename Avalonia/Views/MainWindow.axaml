@@ -3,111 +3,111 @@
 		xmlns:vm="using:ThreeDPrintProjectTracker.Avalonia.ViewModels"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:viewmodels="using:ThreeDPrintProjectTracker.Avalonia.ViewModels"
+		xmlns:viewmodels="using:ThreeDPrintProjectTracker.Avalonia.ViewModels"
 		mc:Ignorable="d"
 		x:Class="ThreeDPrintProjectTracker.Avalonia.Views.MainWindow"
 		x:DataType="viewmodels:MainWindowViewModel"
 		Background="{DynamicResource MainBackgroundBrush}"
 		Icon="/Assets/3D_Print_Project_Tracker.ico"
 		Title="3D Print Project Tracker"
-        WindowStartupLocation="CenterScreen"
-        MinWidth="{DynamicResource Window.Main.MinWidth}"
+		WindowStartupLocation="CenterScreen"
+		MinWidth="{DynamicResource Window.Main.MinWidth}"
 		MinHeight="{DynamicResource Window.Main.MinHeight}"
-        Width="{DynamicResource Window.Main.Width}"
-        Height="{DynamicResource Window.Main.Height}">
+		Width="{DynamicResource Window.Main.Width}"
+		Height="{DynamicResource Window.Main.Height}">
 
 	<Grid RowDefinitions="Auto,*">
 
-        <Menu Classes="NavMenu">
-            <MenuItem Classes="NavMenuItem" Header="_File">
-                <MenuItem Classes="NavSubMenuItem" Header="_New" Command="{Binding NewProjectTrackerCommand}" CommandParameter="{Binding $parent[Window]}">
-                    <MenuItem.Icon>
-                        <Image Classes="MenuIcon" Source="/Assets/New-File.png"/>
-                    </MenuItem.Icon>
-                </MenuItem>
+		<Menu Classes="NavMenu">
+			<MenuItem Classes="NavMenuItem" Header="_File">
+				<MenuItem Classes="NavSubMenuItem" Header="_New" Command="{Binding NewProjectTrackerCommand}" CommandParameter="{Binding $parent[Window]}">
+					<MenuItem.Icon>
+						<Image Classes="MenuIcon" Source="/Assets/New-File.png"/>
+					</MenuItem.Icon>
+				</MenuItem>
 
-                <MenuItem Classes="NavSubMenuItem" Header="_Open" Command="{Binding OpenProjectsFolderAsyncCommand}" CommandParameter="{Binding $parent[Window]}">
-                    <MenuItem.Icon>
-                        <Image Classes="MenuIcon" Source="/Assets/Open-Folder.png"/>
-                    </MenuItem.Icon>
-                </MenuItem>
+				<MenuItem Classes="NavSubMenuItem" Header="_Open" Command="{Binding OpenProjectsFolderAsyncCommand}" CommandParameter="{Binding $parent[Window]}">
+					<MenuItem.Icon>
+						<Image Classes="MenuIcon" Source="/Assets/Open-Folder.png"/>
+					</MenuItem.Icon>
+				</MenuItem>
 
-                <MenuItem Classes="NavSubMenuItem" Header="_Save" Command="{Binding SaveProjectsAsyncCommand}">
-                    <MenuItem.Icon>
-                        <Image Classes="MenuIcon" Source="/Assets/Save-File.png"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-            </MenuItem>
+				<MenuItem Classes="NavSubMenuItem" Header="_Save" Command="{Binding SaveProjectsAsyncCommand}">
+					<MenuItem.Icon>
+						<Image Classes="MenuIcon" Source="/Assets/Save-File.png"/>
+					</MenuItem.Icon>
+				</MenuItem>
+			</MenuItem>
 
-            <MenuItem Classes="NavMenuItem" Header="_Tools">
+			<MenuItem Classes="NavMenuItem" Header="_Tools">
 				<MenuItem Classes="NavSubMenuItem" Header="_Manage Printers" Command="{Binding ManagePrintersAsyncCommand}" />
-                <MenuItem Classes="NavSubMenuItem" Header="_Manage Filaments" Command="{Binding ManageFilamentsAsyncCommand}" />
-            </MenuItem>
+				<MenuItem Classes="NavSubMenuItem" Header="_Manage Filaments" Command="{Binding ManageFilamentsAsyncCommand}" />
+			</MenuItem>
 
-            <MenuItem Classes="NavMenuItem" Header="_Preferences">
-                <MenuItem Classes="NavSubMenuItem" Header="_Dark Mode" ToggleType="CheckBox" IsChecked="{Binding IsUsingDarkTheme, Mode=TwoWay}" />
-            </MenuItem>
-        </Menu>
+			<MenuItem Classes="NavMenuItem" Header="_Preferences">
+				<MenuItem Classes="NavSubMenuItem" Header="_Dark Mode" ToggleType="CheckBox" IsChecked="{Binding IsUsingDarkTheme, Mode=TwoWay}" />
+			</MenuItem>
+		</Menu>
 
-        <Grid Grid.Row="1" Classes="PanelContainer" ColumnDefinitions="2*,3*" RowDefinitions="Auto,*">
-            <TextBlock Text="Projects and Parts Viewer" Classes="SectionHeader"/>
+		<Grid Grid.Row="1" Classes="PanelContainer" ColumnDefinitions="2*,3*" RowDefinitions="Auto,*">
+			<TextBlock Text="Projects and Parts Viewer" Classes="SectionHeader"/>
 
-            <Border Grid.Row="1" Classes="PanelCommon">
-                <TreeView ItemsSource="{Binding ProjectTreeItems}" SelectedItem="{Binding ClickedProjectTreeItem, Mode=TwoWay}" Classes="ProjectTree">
-                    <TreeView.DataTemplates>
-                        <TreeDataTemplate DataType="vm:ProjectTreeItemViewModel" ItemsSource="{Binding Children}">
-                            <StackPanel Classes="TreeViewItemRow">
-                                <CheckBox IsChecked="{Binding IsCompleted, Mode=TwoWay}"/>
-                                <TextBlock Classes="BaseText" Text="{Binding Title}" TextTrimming="CharacterEllipsis">
-                                    <ToolTip.Tip>
-                                        <TextBlock Text="{Binding Title}" />
-                                    </ToolTip.Tip>
-                                </TextBlock>
-                            </StackPanel>
-                        </TreeDataTemplate>
-                    </TreeView.DataTemplates>
-                </TreeView>
-            </Border>
+			<Border Grid.Row="1" Classes="PanelCommon">
+				<TreeView ItemsSource="{Binding ProjectTreeItems}" SelectedItem="{Binding ClickedProjectTreeItem, Mode=TwoWay}" Classes="ProjectTree">
+					<TreeView.DataTemplates>
+						<TreeDataTemplate DataType="vm:ProjectTreeItemViewModel" ItemsSource="{Binding Children}">
+							<StackPanel Classes="TreeViewItemRow">
+								<CheckBox IsChecked="{Binding IsCompleted, Mode=TwoWay}"/>
+								<TextBlock Classes="BaseText" Text="{Binding Title}" TextTrimming="CharacterEllipsis">
+									<ToolTip.Tip>
+										<TextBlock Text="{Binding Title}" />
+									</ToolTip.Tip>
+								</TextBlock>
+							</StackPanel>
+						</TreeDataTemplate>
+					</TreeView.DataTemplates>
+				</TreeView>
+			</Border>
 
-            <TextBlock Grid.Column="1" Text="Details" Classes="SectionHeader"/>
+			<TextBlock Grid.Column="1" Text="Details" Classes="SectionHeader"/>
 
-            <Border Grid.Column="1" Grid.Row="1" Classes="PanelCommon">
-                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Classes="DetailsGrid">
+			<Border Grid.Column="1" Grid.Row="1" Classes="PanelCommon">
+				<Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Classes="DetailsGrid">
 
-                    <TextBlock Grid.Column="0" Grid.Row="0" Classes="DetailLabel" Text="Printer Profile"/>
-                    <ComboBox Grid.Column="1" Grid.Row="0" Classes="FormInput"
-                              ItemsSource="{Binding PrinterProfiles}" SelectedItem="{Binding SelectedPrinterProfile}"
-                              PlaceholderText="No Profile Selected">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
+					<TextBlock Grid.Column="0" Grid.Row="0" Classes="DetailLabel" Text="Printer Profile"/>
+					<ComboBox Grid.Column="1" Grid.Row="0" Classes="FormInput"
+							  ItemsSource="{Binding PrinterProfiles}" SelectedItem="{Binding SelectedPrinterProfile}"
+							  PlaceholderText="No Profile Selected">
+						<ComboBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" />
+							</DataTemplate>
+						</ComboBox.ItemTemplate>
+					</ComboBox>
 					
 					
 
 
-                    <TextBlock Grid.Column="0" Grid.Row="1" Classes="DetailLabel" Text="Name"/>
-                    <TextBlock Grid.Column="1" Grid.Row="1" Classes="BaseText DetailNumericContent" Text="{Binding ClickedProjectTreeItem.Title}"/>
-                    
-                    <TextBlock Grid.Column="0" Grid.Row="2" Classes="DetailLabel" Text="Dimensions (mm)"/>
-                    <TextBlock Grid.Column="1" Grid.Row="2" Classes="BaseText DetailNumericContent" Text="{Binding ClickedProjectTreeItem.DimensionsDisplay}"/>
+					<TextBlock Grid.Column="0" Grid.Row="1" Classes="DetailLabel" Text="Name"/>
+					<TextBlock Grid.Column="1" Grid.Row="1" Classes="BaseText DetailNumericContent" Text="{Binding ClickedProjectTreeItem.Title}"/>
+					
+					<TextBlock Grid.Column="0" Grid.Row="2" Classes="DetailLabel" Text="Dimensions (mm)"/>
+					<TextBlock Grid.Column="1" Grid.Row="2" Classes="BaseText DetailNumericContent" Text="{Binding ClickedProjectTreeItem.DimensionsDisplay}"/>
 
-                    <TextBlock Grid.Column="0" Grid.Row="3" Classes="DetailLabel" Text="Print Time"/>
-                    <TextBlock Grid.Column="1" Grid.Row="3" Classes="BaseText DetailNumericContent" Text="{Binding ClickedProjectTreeItem.PrintTimeDisplay}"/>
+					<TextBlock Grid.Column="0" Grid.Row="3" Classes="DetailLabel" Text="Print Time"/>
+					<TextBlock Grid.Column="1" Grid.Row="3" Classes="BaseText DetailNumericContent" Text="{Binding ClickedProjectTreeItem.PrintTimeDisplay}"/>
 
-                    <TextBlock Grid.Column="0" Grid.Row="4" Classes="DetailLabel" Text="Material Usage"/>
-                    <TextBlock Grid.Column="1" Grid.Row="4" Classes="BaseText DetailNumericContent" Text="{Binding ClickedProjectTreeItem.MaterialUsageDisplay}"/>
-                    
-                    <Border Grid.ColumnSpan="2" Grid.Row="5" Classes="Divider"/>
+					<TextBlock Grid.Column="0" Grid.Row="4" Classes="DetailLabel" Text="Material Usage"/>
+					<TextBlock Grid.Column="1" Grid.Row="4" Classes="BaseText DetailNumericContent" Text="{Binding ClickedProjectTreeItem.MaterialUsageDisplay}"/>
+					
+					<Border Grid.ColumnSpan="2" Grid.Row="5" Classes="Divider"/>
 
-                    <Button Grid.Column="1" Grid.Row="7" Classes="PrimaryButton" Content="Open File" Command="{ Binding OpenSelectedPartCommand }" IsEnabled="{Binding ClickedProjectTreeItem.IsFile}"/>
-                </Grid>
-            </Border>
+					<Button Grid.Column="1" Grid.Row="7" Classes="PrimaryButton" Content="Open File" Command="{ Binding OpenSelectedPartCommand }" IsEnabled="{Binding ClickedProjectTreeItem.IsFile}"/>
+				</Grid>
+			</Border>
 
-        </Grid>
+		</Grid>
 
-    </Grid>	
+	</Grid>	
 
 </Window>

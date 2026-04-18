@@ -10,6 +10,9 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels.Filaments
 
         public string Name => Model.Name;
         public string MaterialName => Model.Material.Name;
+
+        public MaterialType MaterialType => Model.Material.MaterialType;
+
         public double RemainingWeightGrams => Model.RemainingWeightGrams;
 
         public SpoolItemViewModel(Spool model)
