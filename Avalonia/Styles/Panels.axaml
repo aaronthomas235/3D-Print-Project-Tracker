@@ -102,4 +102,18 @@
         <Setter Property="RowSpacing" Value="{DynamicResource Space.S}" />
     </Style>
 
+    <Style Selector="Border.ColourSwatchOption">
+        <Setter Property="Width" Value="{DynamicResource Size.XXS}" />
+        <Setter Property="Height" Value="{DynamicResource Size.XXS}" />
+        <Setter Property="Margin" Value="{DynamicResource Margin.CompactControl}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource Radius.Small}" />
+    </Style>
+
+    <Style Selector="Border.SpoolColourSwatch">
+		<Setter Property="Width" Value="{DynamicResource Size.XXXS}" />
+		<Setter Property="Height" Value="{DynamicResource Size.XXXS}" />
+		<Setter Property="Margin" Value="{DynamicResource Margin.Control}" />
+		<Setter Property="CornerRadius" Value="{DynamicResource Radius.Compact}" />
+	</Style>
+
 </Styles>

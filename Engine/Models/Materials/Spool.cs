@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,5 +17,6 @@ namespace ThreeDPrintProjectTracker.Engine.Models.Materials
         public required double EmptyWeightGrams { get; init; }
         public required MaterialDefinition Material { get; init; }
         public double RemainingWeightGrams { get; set; }
+        public Color Colour { get; set; }
     }
 }

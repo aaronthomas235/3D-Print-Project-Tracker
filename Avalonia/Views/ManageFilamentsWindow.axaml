@@ -55,15 +55,21 @@
 
 							<Border Classes="ProfileListItem">
 
-								<Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto">
+								<Grid RowDefinitions="Auto,Auto" ColumnDefinitions="Auto,*,Auto">
 
-									<TextBlock Classes="EditorLabel" Text="{Binding Name}" TextTrimming="CharacterEllipsis"/>
+									<Border Classes="SpoolColourSwatch">
+										<Border.Background>
+											<SolidColorBrush Color="{Binding Colour}" />
+										</Border.Background>
+									</Border>
 
-									<Border Grid.Column="1" Classes="MaterialTag" Padding="6,2">
+									<TextBlock Grid.Column="1" Classes="EditorLabel" Text="{Binding Name}" TextTrimming="CharacterEllipsis"/>
+
+									<Border Grid.Column="2" Classes="MaterialTag">
 										<TextBlock Classes="EditorValue" Text="{Binding MaterialType}"/>
 									</Border>
 
-									<TextBlock Grid.Row="1" Classes="BaseText" Text="{Binding RemainingWeightGrams, StringFormat='Weight: {0} g'}"/>
+									<TextBlock Grid.Row="1" Grid.Column="1" Classes="BaseText" Text="{Binding RemainingWeightGrams, StringFormat='Weight: {0} g'}"/>
 								</Grid>
 
 							</Border>
@@ -99,10 +105,34 @@
 								<StackPanel Grid.Row="2" Grid.Column="1" Classes="MaterialDisplay">
 									
 									<TextBlock Classes="EditorValue" Text="{Binding Editor.SelectedMaterial.MaterialType}"/>
-									
+
 									<StackPanel Classes="ColourDisplay">
-										<Border Classes="ColourSwatch" Background="{Binding Editor.SelectedMaterial.Color}"/>
-										<TextBlock Classes="EditorValue" Text="{Binding Editor.SelectedMaterial.Color}"/>
+										<Button>
+											<Border Classes="ColourSwatch" Background="{Binding Editor.ColourBrush}"/>
+											<Button.Flyout>
+												<Flyout Placement="Bottom">
+													<ListBox Classes="ColourPicker" ItemsSource="{Binding Editor.PresetColours}" SelectedItem="{Binding Editor.Colour, Mode=TwoWay}">
+														<ListBox.ItemsPanel>
+															<ItemsPanelTemplate>
+																<WrapPanel/>
+															</ItemsPanelTemplate>
+														</ListBox.ItemsPanel>
+														
+														<ListBox.ItemTemplate>
+															<DataTemplate>
+																<Border Classes="ColourSwatchOption">
+																	<Border.Background>
+																		<SolidColorBrush Color="{Binding}" />
+																	</Border.Background>
+																</Border>
+															</DataTemplate>
+														</ListBox.ItemTemplate>
+													</ListBox>
+												</Flyout>
+											</Button.Flyout>
+										</Button>
+
+										<TextBlock Classes="EditorValue" Text="{Binding Editor.Colour}"/>
 									</StackPanel>
 								</StackPanel>
 								
@@ -144,7 +174,7 @@
 
 					<TabItem Header="Material Details">
 						<ScrollViewer Classes="EditorTabScroll">
-							<Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" Classes="EditorForm">
+							<Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" Classes="EditorForm">
 							   
 								<TextBlock Grid.Row="0" Classes="EditorLabel" Text="Name"/>
 								<TextBlock Grid.Row="0" Grid.Column="1" Classes="EditorLabel" Text="{Binding Editor.SelectedMaterial.Name}"/>
@@ -160,15 +190,6 @@
 
 								<TextBlock Grid.Row="4" Classes="EditorLabel" Text="Tolerances (+/-)"/>
 								<TextBlock Grid.Row="4" Grid.Column="1" Classes="EditorLabel" Text="{Binding Editor.SelectedMaterial.Tolerance}"/>
-
-								<StackPanel Grid.Row="5" Grid.Column="1" Classes="InputGroup">
-									<TextBlock Classes="EditorValue" Text="{Binding Editor.SelectedMaterial.MaterialType}"/>
-
-									<StackPanel Classes="ColourDisplay">
-										<Border Classes="ColourSwatch" Background="{Binding Editor.SelectedMaterial.Color}"/>
-										<TextBlock Classes="EditorValue" Text="{Binding Editor.SelectedMaterial.Color}"/>
-									</StackPanel>
-								</StackPanel>
 
 							</Grid>
 

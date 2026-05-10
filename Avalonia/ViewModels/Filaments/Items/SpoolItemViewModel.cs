@@ -1,10 +1,8 @@
-﻿using Avalonia.Media;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using ThreeDPrintProjectTracker.Engine.Models.Materials;
-using ThreeDPrintProjectTracker.Avalonia.Services;
 
-namespace ThreeDPrintProjectTracker.Avalonia.ViewModels.Filaments
+namespace ThreeDPrintProjectTracker.Avalonia.ViewModels.Filaments.Items
 {
     public partial class SpoolItemViewModel : ObservableObject
     {
@@ -12,8 +10,8 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels.Filaments
 
         public string Name => Model.Name;
         public string MaterialName => Model.Material.Name;
+
         public MaterialType MaterialType => Model.Material.MaterialType;
-        public Color Colour => Model.Colour.ToAvalonia();
 
         public double RemainingWeightGrams => Model.RemainingWeightGrams;
 

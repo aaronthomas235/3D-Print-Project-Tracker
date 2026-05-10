@@ -15,8 +15,7 @@ namespace ThreeDPrintProjectTracker.Engine.Models.Materials
             MaterialType = MaterialType.PLA,
             Diameter = 1.75,
             Density = 1.24,
-            Tolerance = 0.02,
-            Color = "White"
+            Tolerance = 0.02
         };
 
         public static MaterialDefinition Abs => new()
@@ -26,8 +25,7 @@ namespace ThreeDPrintProjectTracker.Engine.Models.Materials
             MaterialType = MaterialType.ABS,
             Diameter = 1.75,
             Density = 1.04,
-            Tolerance = 0.03,
-            Color = "White"
+            Tolerance = 0.03
         };
 
         public static MaterialDefinition Tpu => new()
@@ -37,8 +35,7 @@ namespace ThreeDPrintProjectTracker.Engine.Models.Materials
             MaterialType = MaterialType.TPU,
             Diameter = 1.75,
             Density = 1.20,
-            Tolerance = 0.05,
-            Color = "White"
+            Tolerance = 0.05
         };
     }
 }

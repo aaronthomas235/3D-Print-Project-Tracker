@@ -36,6 +36,7 @@
     <x:Double x:Key="Space.XXL">32</x:Double>
 
     <!-- Sizes (for widths, heights, icons, etc.) -->
+    <x:Double x:Key="Size.XXXS">12</x:Double>
     <x:Double x:Key="Size.XXS">24</x:Double>
     <x:Double x:Key="Size.XS">32</x:Double>
     <x:Double x:Key="Size.S">40</x:Double>
@@ -63,6 +64,7 @@
     <x:Double x:Key="Size.ColourSwatch">14</x:Double>
 
     <!-- Corner Radius -->
+    <CornerRadius x:Key="Radius.Compact">2</CornerRadius>
     <CornerRadius x:Key="Radius.Small">4</CornerRadius>
     <CornerRadius x:Key="Radius.Medium">6</CornerRadius>
     <CornerRadius x:Key="Radius.Large">8</CornerRadius>
@@ -123,6 +125,7 @@
     <Thickness x:Key="Padding.Divider">16</Thickness>
 
     <!-- Margin -->
+    <Thickness x:Key="Margin.CompactControl">2</Thickness>
     <Thickness x:Key="Margin.Control">8</Thickness>
     <Thickness x:Key="Margin.Section">12</Thickness>
     <Thickness x:Key="Margin.Divider">8</Thickness>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +18,8 @@ namespace ThreeDPrintProjectTracker.Engine.Models.Materials
             WidthMm = 60,
             EmptyWeightGrams = 250,
             RemainingWeightGrams = 1000,
-            Material = DefaultMaterialCatalog.Pla
+            Material = DefaultMaterialCatalog.Pla,
+            Colour = Color.White
         };
     }
 }

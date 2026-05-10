@@ -55,4 +55,8 @@
 		<Setter Property="Width" Value="{DynamicResource Width.RangeInput}" />
 	</Style>
 
+	<Style Selector="ListBox.ColourPicker">
+		<Setter Property="BorderThickness" Value="{DynamicResource Border.None}" />
+	</Style>
+
 </Styles>

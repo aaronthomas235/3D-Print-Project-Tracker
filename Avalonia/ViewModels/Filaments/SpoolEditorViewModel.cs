@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Media;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +8,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using ThreeDPrintProjectTracker.Avalonia.Services;
 using ThreeDPrintProjectTracker.Engine.Models.Materials;
+using DrawingColour = System.Drawing.Color;
 
 namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
 {
@@ -26,6 +30,23 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
 
         // ───── Usage ─────
         [ObservableProperty] private double remainingWeightGrams;
+
+        // ───── Colour ─────
+        [ObservableProperty] private Color colour;
+        public IBrush ColourBrush => new SolidColorBrush(Colour);
+        public IReadOnlyList<Color> PresetColours { get; } = new List<Color>
+        {
+            Colors.White,
+            Colors.Black,
+            Colors.Red,
+            Colors.Green,
+            Colors.Blue,
+            Colors.Yellow,
+            Colors.Orange,
+            Colors.Purple,
+            Colors.Gray,
+            Colors.Brown
+        };
 
         // ───── Material ─────
         [ObservableProperty] private MaterialDefinition? selectedMaterial;
@@ -51,6 +72,8 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
 
             RemainingWeightGrams = model.RemainingWeightGrams;
 
+            Colour = model.Colour.ToAvalonia();
+
             SelectedMaterial = model.Material;
         }
 
@@ -61,7 +84,8 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
             WidthMm != Model.WidthMm ||
             EmptyWeightGrams != Model.EmptyWeightGrams ||
             RemainingWeightGrams != Model.RemainingWeightGrams ||
-            SelectedMaterial?.Id != Model.Material.Id;
+            SelectedMaterial?.Id != Model.Material.Id ||
+            Colour.ToDrawing() != Model.Colour;
 
         public double RemainingPercentage => (RemainingWeightGrams + EmptyWeightGrams) == 0
             ? 0
@@ -82,7 +106,8 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
                 WidthMm = WidthMm,
                 EmptyWeightGrams = EmptyWeightGrams,
                 RemainingWeightGrams = RemainingWeightGrams,
-                Material = SelectedMaterial
+                Material = SelectedMaterial,
+                Colour = Colour.ToDrawing()
             };
         }
 
@@ -103,6 +128,11 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
             if (rounded != value)
                 RemainingWeightGrams = rounded;
 
+            NotifyChanged();
+        }
+        partial void OnColourChanged(Color value)
+        {
+            OnPropertyChanged(nameof(ColourBrush));
             NotifyChanged();
         }
         partial void OnSelectedMaterialChanged(MaterialDefinition? value) => NotifyChanged();

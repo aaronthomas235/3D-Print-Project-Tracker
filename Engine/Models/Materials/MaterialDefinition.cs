@@ -12,7 +12,6 @@ namespace ThreeDPrintProjectTracker.Engine.Models.Materials
         public required string Name { get; init; }
         public required MaterialType MaterialType { get; init; }
         public double Diameter { get; init; }
-        public required string Color { get; init; }
         public double Density { get; init; }
         public double Tolerance { get; init; }
     }
