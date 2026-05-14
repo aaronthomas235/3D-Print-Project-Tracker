@@ -41,7 +41,8 @@
 
 			<MenuItem Classes="NavMenuItem" Header="_Tools">
 				<MenuItem Classes="NavSubMenuItem" Header="_Manage Printers" Command="{Binding ManagePrintersAsyncCommand}" />
-				<MenuItem Classes="NavSubMenuItem" Header="_Manage Filaments" Command="{Binding ManageFilamentsAsyncCommand}" />
+				<MenuItem Classes="NavSubMenuItem" Header="_Manage Filament Spools" Command="{Binding ManageFilamentsAsyncCommand}" />
+				<MenuItem Classes="NavSubMenuItem" Header="_Manage Materials" Command="{Binding ManageMaterialsAsyncCommand}"/>
 			</MenuItem>
 
 			<MenuItem Classes="NavMenuItem" Header="_Preferences">

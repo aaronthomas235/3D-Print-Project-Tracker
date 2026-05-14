@@ -35,5 +35,7 @@ namespace ThreeDPrintProjectTracker.Avalonia.Services
         public async Task ShowManagePrintersAsync() => await ShowDialogAsync<ManagePrintersWindow>();
 
         public async Task ShowManageFilamentsAsync() => await ShowDialogAsync<ManageFilamentsWindow>();
+
+        public async Task ShowManageMaterialsAsync() => await ShowDialogAsync<ManageMaterialsWindow>();
     }
 }

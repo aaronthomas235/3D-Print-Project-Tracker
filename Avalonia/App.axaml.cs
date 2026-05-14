@@ -25,6 +25,7 @@ using ThreeDPrintProjectTracker.Engine.Services;
 using ThreeDPrintProjectTracker.Avalonia.Factories;
 using ThreeDPrintProjectTracker.Engine.Interfaces.Materials;
 using ThreeDPrintProjectTracker.Engine.Services.Materials;
+using ThreeDPrintProjectTracker.Avalonia.ViewModels.Materials;
 
 namespace ThreeDPrintProjectTracker.Avalonia
 {
@@ -89,6 +90,9 @@ namespace ThreeDPrintProjectTracker.Avalonia
 
             services.AddTransient<ManageFilamentsWindow>();
             services.AddTransient<ManageFilamentsWindowViewModel>();
+
+            services.AddTransient<ManageMaterialsWindow>();
+            services.AddTransient<ManageMaterialsWindowViewModel>();
         }
     }
 }

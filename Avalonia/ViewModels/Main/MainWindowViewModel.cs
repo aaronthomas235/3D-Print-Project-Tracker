@@ -70,6 +70,7 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
         public IAsyncRelayCommand<Window> OpenProjectsFolderAsyncCommand { get; }
         public IAsyncRelayCommand SaveProjectsAsyncCommand { get; }
         public IAsyncRelayCommand ManageFilamentsAsyncCommand { get; }
+        public IAsyncRelayCommand ManageMaterialsAsyncCommand { get; }
         public IAsyncRelayCommand ManagePrintersAsyncCommand { get; }
         public IAsyncRelayCommand OpenSelectedPartCommand { get; }
 
@@ -89,6 +90,7 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
             OpenProjectsFolderAsyncCommand = new AsyncRelayCommand<Window>(OpenProjectsFolderAsync);
             SaveProjectsAsyncCommand = new AsyncRelayCommand(SaveProjectsAsync);
             ManageFilamentsAsyncCommand = new AsyncRelayCommand(ShowManageFilamentsAsync);
+            ManageMaterialsAsyncCommand = new AsyncRelayCommand(ShowManageMaterialsAsync);
             ManagePrintersAsyncCommand = new AsyncRelayCommand(ShowManagePrintersAsync);
             OpenSelectedPartCommand = new AsyncRelayCommand(OpenProjectPartFileAsync);
 
@@ -184,6 +186,11 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
         private async Task ShowManageFilamentsAsync()
         {
             await _windowCreationService.ShowManageFilamentsAsync();
+        }
+
+        private async Task ShowManageMaterialsAsync()
+        {
+            await _windowCreationService.ShowManageMaterialsAsync();
         }
 
         private async Task ShowManagePrintersAsync()
