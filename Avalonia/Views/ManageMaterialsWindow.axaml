@@ -1,0 +1,145 @@
+<Window xmlns="https://github.com/avaloniaui"
+		xmlns:compilerservices="using:System.Runtime.CompilerServices"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:viewmodels="using:ThreeDPrintProjectTracker.Avalonia.ViewModels"
+		mc:Ignorable="d"
+		x:Class="ThreeDPrintProjectTracker.Avalonia.ManageMaterialsWindow"
+		x:DataType="viewmodels:ManageMaterialsWindowViewModel"
+		Background="{DynamicResource MainBackgroundBrush}"
+		Icon="/Assets/3D_Print_Project_Tracker.ico"
+		Title="Manage Materials"
+		WindowStartupLocation="CenterOwner"
+		Width="{DynamicResource Window.Editor.Width}"
+		Height="{DynamicResource Window.Editor.Height}"
+		MinWidth="{DynamicResource Window.Editor.MinWidth}"
+		MinHeight="{DynamicResource Window.Editor.MinHeight}">
+
+    <Border Classes="PanelContainer">
+		<Grid RowDefinitions="Auto,*," ColumnDefinitions="260,*">
+			
+			<TextBlock Grid.ColumnSpan="2" Classes="SectionHeader" Text="Materials Inventory"/>
+			
+			<Border Grid.Row="1" Classes="PanelNavigation">
+				
+				<DockPanel>
+					
+					<Grid DockPanel.Dock="Top" ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center" Margin="{DynamicResource Margin.Section}">
+						
+						<TextBlock Grid.Column="0" Classes="PanelHeader" Text="Materials"/>
+						
+						<Border Grid.Column="1" />
+						
+						<StackPanel Grid.Column="2" Classes="ToolbarRow">
+							<Button Classes="ToolbarButton" Command="{Binding NewPrintingMaterialCommand}">
+								<Image Classes="ToolbarButtonIcon" Source="avares://ThreeDPrintProjectTracker.Avalonia/Assets/Document-Add-White.png"/>
+							</Button>
+							
+							<Button Classes="ToolbarButton" Command="{Binding DuplicatePrintingMaterialCommand}">
+								<Image Classes="ToolbarButtonIcon" Source="avares://ThreeDPrintProjectTracker.Avalonia/Assets/Document-Copy-White.png"/>
+							</Button>
+							
+							<Button Classes="ToolbarButton" Command="{Binding DeletePrintingMaterialCommand}">
+								<Image Classes="ToolbarButtonIcon" Source="avares://ThreeDPrintProjectTracker.Avalonia/Assets/Recycle-Bin-White.png"/>
+							</Button>
+						
+						</StackPanel>
+					
+					</Grid>
+					
+					<ListBox ItemsSource="{Binding Materials}" SelectedItem="{Binding SelectedMaterial}">
+
+						<ListBox.ItemTemplate>
+
+							<DataTemplate>
+
+								<Border Classes="ProfileListItem">
+
+									<Grid RowDefinitions="Auto,Auto">
+
+										<TextBlock Classes="EditorLabel" Text="{Binding Name}" TextTrimming="CharacterEllipsis"/>
+
+										<TextBlock Grid.Row="1" Classes="BaseText" Text="{Binding MaterialType}"/>
+
+									</Grid>
+
+								</Border>
+
+							</DataTemplate>
+
+						</ListBox.ItemTemplate>
+
+					</ListBox>
+
+				</DockPanel>
+
+			</Border>
+			
+			<Border Grid.Row="1" Grid.Column="1" Classes="PanelCommon">
+				
+				<Grid RowDefinitions="*,Auto">
+					
+					<TabControl Grid.Row="0">
+						
+						<TabItem Header="General">
+							
+							<ScrollViewer Classes="EditorTabScroll">
+								
+								<Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto" Classes="EditorForm">
+									
+									<TextBlock Grid.Row="0" Classes="EditorLabel" Text="Material Name"/>
+									<TextBox Grid.Row="0" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.Name, Mode=TwoWay}"/>
+									
+									<TextBlock Grid.Row="1" Classes="EditorLabel" Text="Material Type"/>
+									<ComboBox Grid.Row="1" Grid.Column="1" Classes="EditorFormInput" ItemsSource="{Binding Editor.MaterialTypes}" SelectedItem="{Binding Editor.MaterialType}"/>
+								</Grid>
+							
+							</ScrollViewer>
+						
+						</TabItem>
+						
+						<TabItem Header="Physical">
+							
+							<ScrollViewer Classes="EditorTabScroll">
+								
+								<Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto,Auto" Classes="EditorForm">
+									
+									<TextBlock Grid.Row="0" Classes="EditorLabel" Text="Diameter (mm)"/>
+									<TextBox Grid.Row="0" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.Diameter}"/>
+									
+									<TextBlock Grid.Row="1" Classes="EditorLabel" Text="Density (g/cm)"/>
+									<TextBox Grid.Row="1" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.Density}"/>
+
+									<TextBlock Grid.Row="2" Classes="EditorLabel" Text="Tolerance (mm)"/>
+									<TextBox Grid.Row="2" Grid.Column="1" Classes="EditorFormInput" Text="{Binding Editor.Tolerance}"/>
+								
+								</Grid>
+							
+							</ScrollViewer>
+						
+						</TabItem>
+					
+					</TabControl>
+					
+					<Border Grid.Row="1" Classes="EditorFooter">
+						
+						<Grid ColumnDefinitions="*,Auto" Classes="EditorFooterContainer">
+							
+							<TextBlock Classes="SecondaryStatusText" Text="Unsaved changes" IsVisible="{Binding Editor.HasChanges}"/>
+							
+							<Button Grid.Column="1" Command="{Binding SaveCommand}" IsEnabled="{Binding Editor.HasChanges}" Classes="PrimaryButton" Content="Save" />
+						
+						</Grid>
+					
+					</Border>
+				
+				</Grid>
+			
+			</Border>
+		
+		</Grid>
+	
+	</Border>
+
+</Window>

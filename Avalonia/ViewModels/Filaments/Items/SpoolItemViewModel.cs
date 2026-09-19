@@ -1,0 +1,29 @@
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
+using ThreeDPrintProjectTracker.Engine.Models.Materials;
+
+namespace ThreeDPrintProjectTracker.Avalonia.ViewModels.Filaments.Items
+{
+    public partial class SpoolItemViewModel : ObservableObject
+    {
+        public Spool Model { get; set; }
+
+        public string Name => Model.Name;
+        public string MaterialName => Model.Material.Name;
+
+        public MaterialType MaterialType => Model.Material.MaterialType;
+
+        public double RemainingWeightGrams => Model.RemainingWeightGrams;
+
+        public SpoolItemViewModel(Spool model)
+        {
+            Model = model ?? throw new ArgumentNullException(nameof(model));
+        }
+        
+        public void UpdateFromModel(Spool updated)
+        {
+            Model = updated ?? throw new ArgumentNullException(nameof(updated));
+            OnPropertyChanged(string.Empty);
+        }
+    }
+}

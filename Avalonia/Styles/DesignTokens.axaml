@@ -36,6 +36,7 @@
     <x:Double x:Key="Space.XXL">32</x:Double>
 
     <!-- Sizes (for widths, heights, icons, etc.) -->
+    <x:Double x:Key="Size.XXXS">12</x:Double>
     <x:Double x:Key="Size.XXS">24</x:Double>
     <x:Double x:Key="Size.XS">32</x:Double>
     <x:Double x:Key="Size.S">40</x:Double>
@@ -59,7 +60,11 @@
     <x:Double x:Key="Size.Icon.L">24</x:Double>
     <x:Double x:Key="Size.Icon.XL">32</x:Double>
 
+    <!-- Swatches -->
+    <x:Double x:Key="Size.ColourSwatch">14</x:Double>
+
     <!-- Corner Radius -->
+    <CornerRadius x:Key="Radius.Compact">2</CornerRadius>
     <CornerRadius x:Key="Radius.Small">4</CornerRadius>
     <CornerRadius x:Key="Radius.Medium">6</CornerRadius>
     <CornerRadius x:Key="Radius.Large">8</CornerRadius>
@@ -89,26 +94,30 @@
     <x:Double x:Key="Window.Editor.MinHeight">650</x:Double>
 
     <!-- Panel Widths -->
+    <x:Double x:Key="Width.Zero">0</x:Double>
     <x:Double x:Key="Width.NavigationPanel">280</x:Double>
     <x:Double x:Key="Width.FormLabel">200</x:Double>
     <x:Double x:Key="Width.FormInputCompact">160</x:Double>
     <x:Double x:Key="Width.FormInput">320</x:Double>
     <x:Double x:Key="Width.Button.Primary">120</x:Double>
     <x:Double x:Key="Width.Button.Toolbar">32</x:Double>
+    <x:Double x:Key="Width.RangeInput">150</x:Double>
 
     <!-- Heights -->
+    <x:Double x:Key="Height.Zero">0</x:Double>
     <x:Double x:Key="Height.Button.Primary">48</x:Double>
     <x:Double x:Key="Height.Button.Toolbar">32</x:Double>
     <x:Double x:Key="Height.Input">36</x:Double>
 
     <!-- Gaps -->
     <x:Double x:Key="Gap.FormRow">8</x:Double>
-    <x:Double x:Key="Gap.Toolbar">8</x:Double>
+    <x:Double x:Key="Gap.Toolbar">4</x:Double>
     <x:Double x:Key="Gap.ButtonContentRow">8</x:Double>
     <x:Double x:Key="Gap.TreeViewItemRow">8</x:Double>
 
     <!-- Padding -->
     <Thickness x:Key="Padding.None">0</Thickness>
+    <Thickness x:Key="Padding.Button.Toolbar">4</Thickness>
     <Thickness x:Key="Padding.ControlCompact">8</Thickness>
     <Thickness x:Key="Padding.Control">12</Thickness>
     <Thickness x:Key="Padding.FormSection">12</Thickness>
@@ -116,6 +125,7 @@
     <Thickness x:Key="Padding.Divider">16</Thickness>
 
     <!-- Margin -->
+    <Thickness x:Key="Margin.CompactControl">2</Thickness>
     <Thickness x:Key="Margin.Control">8</Thickness>
     <Thickness x:Key="Margin.Section">12</Thickness>
     <Thickness x:Key="Margin.Divider">8</Thickness>

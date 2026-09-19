@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using ThreeDPrintProjectTracker.Avalonia.ViewModels;
 
 namespace ThreeDPrintProjectTracker.Avalonia.Views
 {
@@ -7,6 +8,11 @@ namespace ThreeDPrintProjectTracker.Avalonia.Views
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        public MainWindow(MainWindowViewModel viewModel) : this()
+        {
+            DataContext = viewModel;
         }
     }
 }
