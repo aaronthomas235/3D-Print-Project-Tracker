@@ -15,8 +15,8 @@ namespace ThreeDPrintProjectTracker.Avalonia.ViewModels
         // UI helpers
         public IReadOnlyList<double> NozzleDiameterOptions { get; } = new[]
         {
-        0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.80, 1.00
-    };
+            0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.80, 1.00
+        };
 
         // ───── General ─────
         [ObservableProperty] private string name = string.Empty;

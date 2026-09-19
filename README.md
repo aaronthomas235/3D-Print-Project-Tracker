@@ -4,23 +4,23 @@
 
 ---
 
-## 🚀 Features
+## Features
 
-- 📂 **Tree View Display**: Display a project and a tree of sub-parts.
-- ▶️ **Part Loading**: Load a part directly into your preferred slicer software.
-- 📆 **Print Scheduling**: Plan prints over time and across multiple printers.
-- 🌐 **Cross-platform**: Available for Windows, macOS, and Linux.
-
----
-
-## 🛣️ Roadmap and Upcoming Features
-
-- 📊 **Resource Tracking**: Track filament spools and materials.
-- 💵 **Cost Analysis**: Analyse filament and material costs.
+- **Tree View Display**: Display a project and a tree of sub-parts.
+- **Part Loading**: Load a part directly into your preferred slicer software.
+- **Print Scheduling**: Plan prints over time and across multiple printers.
+- **Cross-platform**: Available for Windows, macOS, and Linux.
 
 ---
 
-📄 License: [MIT](./LICENSE)
+## Roadmap and Upcoming Features
+
+- **Resource Tracking**: Track filament spools and materials.
+- **Cost Analysis**: Analyse filament and material costs.
+
+---
+
+License: [MIT](./LICENSE)
 
 
 ## Created by aaronthomas235

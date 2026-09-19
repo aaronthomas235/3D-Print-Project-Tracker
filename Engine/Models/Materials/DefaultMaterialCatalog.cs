@@ -8,6 +8,8 @@ namespace ThreeDPrintProjectTracker.Engine.Models.Materials
 {
     public class DefaultMaterialCatalog
     {
+        public static MaterialDefinition NewMaterial => Pla;
+
         public static MaterialDefinition Pla => new()
         {
             Id = Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),

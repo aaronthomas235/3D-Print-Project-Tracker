@@ -1,7 +1,5 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
-using ThreeDPrintProjectTracker.Avalonia.ViewModels.Materials;
+using ThreeDPrintProjectTracker.Avalonia.ViewModels;
 
 namespace ThreeDPrintProjectTracker.Avalonia;
 

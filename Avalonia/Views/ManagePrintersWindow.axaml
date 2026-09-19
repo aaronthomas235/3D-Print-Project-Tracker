@@ -242,8 +242,7 @@
 
 						<TextBlock Classes="SecondaryStatusText" Text="Unsaved changes" IsVisible="{Binding Editor.HasChanges}"/>
 						
-						<Button Grid.Column="1" Command="{Binding SaveCommand}" IsEnabled="{Binding Editor.HasChanges}" Classes="PrimaryButton" Content="Save">
-						</Button>
+						<Button Grid.Column="1" Command="{Binding SaveCommand}" IsEnabled="{Binding Editor.HasChanges}" Classes="PrimaryButton" Content="Save" />
 					</Grid>
 				</Border>
 			</Grid>
